@@ -14,4 +14,14 @@
     <string name ="total_monthly_tax"> Skattefradrag denne månden</string>
     <string name="total_yearly_estimate">Estimert årslønn (skattekort)</string>
     <string name="true_earnings">Total inntekt hittil</string>
+
+
+    <!--Create event activity -->
+    <string name="pick_time">Velg klokkelsett</string>
+    <string name="from">Fra</string>
+    <string name="to">Til</string>
+    <string name="break_time">Pausetid</string>
+    <string name="workplace">Arbeidsplass</string>
+    <string name="choose_workplace">Velg jobb</string>
+    <string name="add_workday">Legg til vakt</string>
 </resources>

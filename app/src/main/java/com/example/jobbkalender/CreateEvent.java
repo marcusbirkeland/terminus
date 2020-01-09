@@ -6,17 +6,23 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.jobbkalender.dialogFragments.ChooseWorkplaceDialogFragment;
 import com.example.jobbkalender.dialogFragments.TimePickerDialogFragment;
 
-public class CreateEvent extends AppCompatActivity implements TimePickerDialogFragment.OnInputListener {
+import org.w3c.dom.Text;
+
+public class CreateEvent extends AppCompatActivity implements TimePickerDialogFragment.OnInputListener, ChooseWorkplaceDialogFragment.OnInputListener {
 
     int editTextToChange = 0;
-    TimePickerDialogFragment tp = new TimePickerDialogFragment();
+    TimePickerDialogFragment timePickerDialogFragment = new TimePickerDialogFragment();
+    ChooseWorkplaceDialogFragment chooseWorkplaceDialogFragment = new ChooseWorkplaceDialogFragment();
+
     @Override
-    public void sendInput(String input) {
+    public void sendTime(String input) {
         Log.d("Set time: ", input);
         if(editTextToChange == 1){
             TextView timeInput = findViewById(R.id.timeInputFrom);
@@ -26,9 +32,22 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
             timeInput.setText(input);
         }
     }
-    void showDialog() {
-        tp.show(getSupportFragmentManager(), "Velg tidspunkt:");
+    @Override
+    public void sendWorkplace(String workplace){
+        Log.d("Set workplace:", workplace);
+        TextView t = findViewById(R.id.textViewSelectedWorkplaceCreateEvent);
+        t.setText(workplace);
     }
+
+    void showTimePickerDialog() {
+        timePickerDialogFragment.show(getSupportFragmentManager(), "Pick time:");
+        Log.d("Dialog: ", "Time picker opened");
+    }
+    void showChooseWorkplaceDialog(){
+        chooseWorkplaceDialogFragment.show(getSupportFragmentManager(), "Choose workplace: ");
+        Log.d("Dialog","Choose workplace opened");
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,15 +57,23 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
         timeInputFrom.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                showDialog();
+                showTimePickerDialog();
                 editTextToChange = 1;
             }
         });
         timeInputTo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog();
+                showTimePickerDialog();
                 editTextToChange = 2;
+            }
+        });
+
+        Button addWorkplace = findViewById(R.id.buttonChooseWorkplaceCreateEvent);
+        addWorkplace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showChooseWorkplaceDialog();
             }
         });
     }

@@ -18,7 +18,7 @@ public class TimePickerDialogFragment extends DialogFragment implements TimePick
         // Required empty public constructor
     }
     public interface OnInputListener{
-        void sendInput(String string);
+        void sendTime(String string);
     }
     public OnInputListener mOnInputListener;
 
@@ -43,7 +43,7 @@ public class TimePickerDialogFragment extends DialogFragment implements TimePick
         if (minute == 0)
             minuteStr = "00";
         String time = hourStr + ":" + minuteStr;
-        mOnInputListener.sendInput(time);
+        mOnInputListener.sendTime(time);
     }
 
     @Override
