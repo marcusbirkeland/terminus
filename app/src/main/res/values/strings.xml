@@ -1,0 +1,17 @@
+<resources>
+    <!-- App -->
+    <string name="app_name">Jobbkalender</string>
+    <string name="title_calendar">Kalender</string>
+    <string name="title_earnings">Lønn</string>
+    <string name="title_settings">Innstillinger</string>
+
+    <!--Salary page -->
+    <string name="edit">Endre</string>
+    <string name ="total_yearly_salary_gross">Total lønn i år (brutto)</string>
+    <string name ="total_yearly_salary_net">Total lønn i år (netto)</string>
+    <string name ="total_yearly_taxes">Beregnet totalskatt i år</string>
+    <string name ="total_monthly_salary_net">Beregnet månedslønn denne månden (netto):</string>
+    <string name ="total_monthly_tax"> Skattefradrag denne månden</string>
+    <string name="total_yearly_estimate">Estimert årslønn (skattekort)</string>
+    <string name="true_earnings">Total inntekt hittil</string>
+</resources>
