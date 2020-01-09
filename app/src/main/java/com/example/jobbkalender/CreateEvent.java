@@ -15,6 +15,8 @@ import com.example.jobbkalender.dialogFragments.TimePickerDialogFragment;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
+
 public class CreateEvent extends AppCompatActivity implements TimePickerDialogFragment.OnInputListener, ChooseWorkplaceDialogFragment.OnInputListener {
 
     int editTextToChange = 0;
@@ -40,10 +42,16 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
     }
 
     void showTimePickerDialog() {
+
+        if(timePickerDialogFragment.isAdded())
+            return; // Prevent illegal state
         timePickerDialogFragment.show(getSupportFragmentManager(), "Pick time:");
         Log.d("Dialog: ", "Time picker opened");
     }
     void showChooseWorkplaceDialog(){
+
+        if(chooseWorkplaceDialogFragment.isAdded())
+            return; // Prevent illegal state
         chooseWorkplaceDialogFragment.show(getSupportFragmentManager(), "Choose workplace: ");
         Log.d("Dialog","Choose workplace opened");
     }
