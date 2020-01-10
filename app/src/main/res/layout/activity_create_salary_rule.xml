@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CreateSalaryRuleActivity">
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="16dp"
+        android:text="Lag lønnsregel"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/from"
+        app:layout_constraintStart_toStartOf="@+id/textView15"
+        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
+    <TextView
+        android:id="@+id/timeInputFrom"
+        android:layout_width="117dp"
+        android:layout_height="47dp"
+        android:ems="24"
+        android:text="16:00"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        android:textColor="@color/colorAccent"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/textView17"
+        app:layout_constraintTop_toBottomOf="@+id/textView17" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/to"
+        app:layout_constraintStart_toEndOf="@+id/textView15"
+        app:layout_constraintTop_toTopOf="@+id/textView17" />
+
+    <TextView
+        android:id="@+id/timeInputTo"
+        android:layout_width="108dp"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:inputType="time"
+        android:text="20:00"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="@color/colorAccent"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/textView14"
+        app:layout_constraintTop_toBottomOf="@+id/textView14" />
+
+    <EditText
+        android:id="@+id/editTextNameSalaryRule"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:hint="Navn på regel"
+        app:layout_constraintStart_toStartOf="@+id/timeInputFrom"
+        app:layout_constraintTop_toBottomOf="@+id/timeInputFrom" />
+
+    <EditText
+        android:id="@+id/editTextSetSalaryRule"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Lønnsendring"
+        app:layout_constraintStart_toStartOf="@+id/editTextNameSalaryRule"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNameSalaryRule" />
+
+    <CheckBox
+        android:id="@+id/checkBoxMonday"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Mandag"
+        app:layout_constraintStart_toStartOf="@+id/editTextSetSalaryRule"
+        app:layout_constraintTop_toBottomOf="@+id/editTextSetSalaryRule" />
+
+    <CheckBox
+        android:id="@+id/checkBoxTuesday"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Tirsdag"
+        app:layout_constraintStart_toStartOf="@+id/checkBoxMonday"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxMonday" />
+
+    <CheckBox
+        android:id="@+id/checkBoxWednesday"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Onsdag"
+        app:layout_constraintStart_toStartOf="@+id/checkBoxTuesday"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxTuesday" />
+
+    <CheckBox
+        android:id="@+id/checkBoxThursday"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Torsdag"
+        app:layout_constraintStart_toStartOf="@+id/checkBoxWednesday"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxWednesday" />
+
+    <CheckBox
+        android:id="@+id/checkBoxFriday"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Fredag"
+        app:layout_constraintStart_toStartOf="@+id/checkBoxThursday"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxThursday" />
+
+    <CheckBox
+        android:id="@+id/checkBoxSaturday"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:text="Lørdag"
+        app:layout_constraintStart_toEndOf="@+id/checkBoxMonday"
+        app:layout_constraintTop_toTopOf="@+id/checkBoxMonday" />
+
+    <CheckBox
+        android:id="@+id/checkBoxSunday"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Søndag"
+        app:layout_constraintStart_toStartOf="@+id/checkBoxSaturday"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxSaturday" />
+
+    <Button
+        android:id="@+id/buttonSubmitSalaryRule"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Lag lønnsregel"
+        app:layout_constraintStart_toStartOf="@+id/checkBoxFriday"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxFriday" />
+
+    <RadioGroup
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/timeInputTo"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNameSalaryRule">
+
+        <RadioButton
+            android:id="@+id/radioButtonPositiveSalaryRule"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="+" />
+
+        <RadioButton
+            android:id="@+id/radioButtonNegativeSalaryRule"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="-" />
+    </RadioGroup>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

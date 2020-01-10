@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CreateEvent"></activity>
+        <activity android:name=".CreateSalaryRuleActivity"></activity>
+        <activity android:name=".CreateJobActivity" />
+        <activity android:name=".CreateEvent" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
