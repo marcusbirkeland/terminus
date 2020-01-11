@@ -41,6 +41,7 @@
         android:id="@+id/timeInputToCreateSalaryRule"
         android:layout_width="108dp"
         android:layout_height="50dp"
+        android:layout_marginStart="78dp"
         android:ems="10"
         android:inputType="time"
         android:text="20:00"
@@ -48,7 +49,7 @@
         android:textColor="@color/colorAccent"
         android:textSize="40sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/editTextNameSalaryRule"
+        app:layout_constraintStart_toEndOf="@+id/timeInputFromCreateSalaryRule"
         app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
     <EditText
