@@ -27,10 +27,10 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
     public void sendTime(String input) {
         Log.d("Set time: ", input);
         if(editTextToChange == 1){
-            TextView timeInput = findViewById(R.id.timeInputFrom);
+            TextView timeInput = findViewById(R.id.timeInputFromCreateEvent);
             timeInput.setText(input);
         } else if(editTextToChange == 2){
-            TextView timeInput = findViewById(R.id.timeInputTo);
+            TextView timeInput = findViewById(R.id.timeInputToCreateEvent);
             timeInput.setText(input);
         }
     }
@@ -60,8 +60,8 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
-        TextView timeInputFrom = findViewById(R.id.timeInputFrom);
-        TextView timeInputTo = findViewById(R.id.timeInputTo);
+        TextView timeInputFrom = findViewById(R.id.timeInputFromCreateEvent);
+        TextView timeInputTo = findViewById(R.id.timeInputToCreateEvent);
         timeInputFrom.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {

@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -19,6 +20,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.jobbkalender.CreateEvent;
+import com.example.jobbkalender.CreateJobActivity;
 import com.example.jobbkalender.MainActivity;
 import com.example.jobbkalender.R;
 
@@ -40,6 +42,14 @@ public class ChooseWorkplaceDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setPositiveButton("Legg til jobb", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent(getContext(),CreateJobActivity.class);
+                startActivity(intent);
+                dialog.cancel();
+            }
+        });
         builder.setNegativeButton("Lukk", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();

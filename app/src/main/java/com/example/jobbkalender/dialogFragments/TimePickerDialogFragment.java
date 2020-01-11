@@ -38,10 +38,10 @@ public class TimePickerDialogFragment extends DialogFragment implements TimePick
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         String hourStr = "" + hourOfDay;
         String minuteStr = "" + minute;
-        if (hourOfDay == 0)
-            hourStr = "00";
-        if (minute == 0)
-            minuteStr = "00";
+        if (String.valueOf(hourOfDay).length() < 2)
+            hourStr = "0" + hourOfDay;
+        if (String.valueOf(minute).length() < 2)
+            minuteStr = "0" + minute;
         String time = hourStr + ":" + minuteStr;
         mOnInputListener.sendTime(time);
     }

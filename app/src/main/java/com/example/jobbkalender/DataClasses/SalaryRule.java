@@ -6,16 +6,16 @@ import java.time.LocalTime;
 public class SalaryRule {
 
     private String ruleName="Lønnstillegg";
+    private double changeInPay;
     private  LocalTime startTime;
     private LocalTime endTime;
-    private int [] daysOfWeek;
-    private double changeInPay;
+    private DayOfWeek [] daysOfWeek;
 
-    SalaryRule(String name, LocalTime sTime, LocalTime eTime, int[] days, double pay){
+    SalaryRule(String name, double pay, LocalTime sTime, LocalTime eTime, DayOfWeek [] days){
         ruleName = name;
+        changeInPay = pay;
         startTime = sTime;
         endTime = eTime;
         daysOfWeek = days;
-        changeInPay = pay;
     }
 }

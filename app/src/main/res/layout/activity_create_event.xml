@@ -12,23 +12,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="48dp"
         android:text="min"
-        app:layout_constraintStart_toEndOf="@+id/editTextBreakTime"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintBottom_toBottomOf="@+id/editTextBreakTime"
+        app:layout_constraintStart_toEndOf="@+id/editTextBreakTime" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="78dp"
         android:text="@string/to"
-        app:layout_constraintStart_toStartOf="@+id/timeInputTo"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+        app:layout_constraintStart_toEndOf="@+id/timeInputFromCreateEvent"
+        app:layout_constraintTop_toTopOf="@+id/textView" />
 
     <TextView
-        android:id="@+id/timeInputFrom"
+        android:id="@+id/timeInputFromCreateEvent"
         android:layout_width="117dp"
         android:layout_height="47dp"
         android:ems="24"
@@ -41,11 +39,9 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <TextView
-        android:id="@+id/timeInputTo"
+        android:id="@+id/timeInputToCreateEvent"
         android:layout_width="108dp"
         android:layout_height="50dp"
-        android:layout_marginEnd="64dp"
-        android:layout_marginRight="64dp"
         android:ems="10"
         android:inputType="time"
         android:text="20:00"
@@ -53,26 +49,26 @@
         android:textColor="@color/colorAccent"
         android:textSize="40sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView4"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:text="@string/from"
-        app:layout_constraintStart_toStartOf="@+id/textView9"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/buttonChooseWorkplaceCreateEvent"
         android:layout_width="95dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:text="@string/choose_workplace"
-        app:layout_constraintEnd_toEndOf="@+id/timeInputTo"
-        app:layout_constraintTop_toBottomOf="@+id/editTextBreakTime" />
+        app:layout_constraintEnd_toEndOf="@+id/timeInputToCreateEvent"
+        app:layout_constraintTop_toTopOf="@+id/textView5" />
 
     <EditText
         android:id="@+id/editTextBreakTime"
@@ -80,6 +76,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:ems="10"
+        android:hint="30"
         android:inputType="number"
         android:maxLength="2"
         android:singleLine="true"
@@ -91,12 +88,12 @@
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="32dp"
         android:text="@string/break_time"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="#000000"
-        app:layout_constraintStart_toStartOf="@+id/timeInputFrom"
-        app:layout_constraintTop_toBottomOf="@+id/timeInputFrom" />
+        app:layout_constraintStart_toStartOf="@+id/timeInputFromCreateEvent"
+        app:layout_constraintTop_toBottomOf="@+id/timeInputFromCreateEvent" />
 
     <Button
         android:id="@+id/button2"
@@ -111,7 +108,7 @@
         android:id="@+id/textViewSelectedWorkplaceCreateEvent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:paddingRight="16dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@color/colorAccent"
@@ -128,18 +125,5 @@
         android:textColor="#000000"
         app:layout_constraintStart_toStartOf="@+id/editTextBreakTime"
         app:layout_constraintTop_toBottomOf="@+id/editTextBreakTime" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="28dp"
-        android:text="@string/pick_time"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="#000000"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

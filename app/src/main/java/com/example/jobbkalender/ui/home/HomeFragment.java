@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
@@ -15,6 +16,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.jobbkalender.CreateEvent;
+import com.example.jobbkalender.CreateJobActivity;
+import com.example.jobbkalender.MainActivity;
 import com.example.jobbkalender.R;
 
 public class HomeFragment extends Fragment {
@@ -32,6 +35,14 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+        Button buttonAddJob = view.findViewById(R.id.leggTilJob);
+        buttonAddJob.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), CreateJobActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
