@@ -58,6 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:hint="Navn på regel"
+        android:singleLine="true"
         app:layout_constraintStart_toStartOf="@+id/timeInputFromCreateSalaryRule"
         app:layout_constraintTop_toBottomOf="@+id/timeInputFromCreateSalaryRule" />
 

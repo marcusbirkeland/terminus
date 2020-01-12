@@ -2,6 +2,7 @@ package com.example.jobbkalender;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.example.jobbkalender.dialogFragments.TimePickerDialogFragment;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -104,6 +106,7 @@ public class CreateSalaryRuleActivity extends AppCompatActivity implements TimeP
                 ArrayList<DayOfWeek> checkedDays = getCheckedDays();
                 EditText editTextName = findViewById(R.id.editTextNameSalaryRule);
                 EditText editTextSalaryRuleNum = findViewById(R.id.editTextSetSalaryRule);
+
                 if(checkedDays.size()==0 ){
                     Log.d("Error","Please check off a day");
                     return;
@@ -116,18 +119,25 @@ public class CreateSalaryRuleActivity extends AppCompatActivity implements TimeP
                     Log.d("Error","Please fill salary rule!");
                     return;
                 }
-
+                DateTimeFormatter dateTimeFormatter =DateTimeFormatter.ISO_LOCAL_TIME;
                 String name = editTextName.getText().toString();
-                int pay = Integer.parseInt(editTextSalaryRuleNum.getText().toString());
+                double pay = Double.parseDouble(editTextSalaryRuleNum.getText().toString());
                 TextView textViewTimeFrom = findViewById(R.id.timeInputFromCreateSalaryRule);
-                LocalTime startTime = LocalTime.parse(textViewTimeFrom.getText().toString());
+                LocalTime startTime = LocalTime.parse(textViewTimeFrom.getText().toString(), dateTimeFormatter.ofPattern("HH:mm"));
                 TextView textViewTimeTo = findViewById(R.id.timeInputToCreateSalaryRule);
-                LocalTime endTime = LocalTime.parse(textViewTimeTo.getText().toString());
-                for(int i = 0; i < checkedDays.toArray().length;i++){
-                    Log.d("Days:", checkedDays.toArray()[i].toString()) ;
+                LocalTime endTime = LocalTime.parse(textViewTimeTo.getText().toString() , dateTimeFormatter.ofPattern("HH:mm"));
+                if(startTime.isAfter(endTime)){
+                    Log.d("Error", "Rule cant end before it starts!");
+                    return;
                 }
-                //SalaryRule salaryRule = new SalaryRule(name,);
+                SalaryRule salaryRule = new SalaryRule(name,pay,startTime,endTime,checkedDays);
+                Intent intent = new Intent();
+                Bundle extras = new Bundle();
 
+                extras.putSerializable("SALARYRULE", salaryRule);
+                intent.putExtras(extras);
+                setResult(RESULT_OK,intent);
+                finish();
             }
         });
 

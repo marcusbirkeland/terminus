@@ -16,6 +16,8 @@ import com.example.jobbkalender.dialogFragments.TimePickerDialogFragment;
 import org.w3c.dom.Text;
 
 import java.io.IOException;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class CreateEvent extends AppCompatActivity implements TimePickerDialogFragment.OnInputListener, ChooseWorkplaceDialogFragment.OnInputListener {
 
@@ -62,6 +64,7 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
         setContentView(R.layout.activity_create_event);
         TextView timeInputFrom = findViewById(R.id.timeInputFromCreateEvent);
         TextView timeInputTo = findViewById(R.id.timeInputToCreateEvent);
+
         timeInputFrom.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -82,6 +85,21 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
             @Override
             public void onClick(View v) {
                 showChooseWorkplaceDialog();
+            }
+        });
+        Button submitWorkday = findViewById(R.id.buttonSubmitWorkday);
+        submitWorkday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_TIME;
+                TextView timeInputFrom = findViewById(R.id.timeInputFromCreateEvent);
+                TextView timeInputTo = findViewById(R.id.timeInputToCreateEvent);
+                LocalTime startTime = LocalTime.parse(timeInputFrom.getText().toString(), dateTimeFormatter.ofPattern("HH:mm"));
+                LocalTime endTime = LocalTime.parse(timeInputTo.getText().toString(), dateTimeFormatter.ofPattern("HH:mm"));
+                if(startTime.isAfter(endTime)){
+                    Log.d("Error", "Workday cant end before it starts!");
+                    return;
+                }
             }
         });
     }
