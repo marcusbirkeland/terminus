@@ -41,7 +41,7 @@
         android:id="@+id/timeInputToCreateSalaryRule"
         android:layout_width="108dp"
         android:layout_height="50dp"
-        android:layout_marginStart="78dp"
+        android:layout_marginStart="48dp"
         android:ems="10"
         android:inputType="time"
         android:text="20:00"
@@ -73,72 +73,38 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextNameSalaryRule" />
 
     <CheckBox
-        android:id="@+id/checkBoxMonday"
+        android:id="@+id/checkBoxWeekdays"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Mandag"
+        android:text="Ukedager"
         app:layout_constraintStart_toStartOf="@+id/editTextSetSalaryRule"
         app:layout_constraintTop_toBottomOf="@+id/editTextSetSalaryRule" />
-
-    <CheckBox
-        android:id="@+id/checkBoxTuesday"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:text="Tirsdag"
-        app:layout_constraintStart_toStartOf="@+id/checkBoxMonday"
-        app:layout_constraintTop_toBottomOf="@+id/checkBoxMonday" />
-
-    <CheckBox
-        android:id="@+id/checkBoxWednesday"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:text="Onsdag"
-        app:layout_constraintStart_toStartOf="@+id/checkBoxTuesday"
-        app:layout_constraintTop_toBottomOf="@+id/checkBoxTuesday" />
-
-    <CheckBox
-        android:id="@+id/checkBoxThursday"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:text="Torsdag"
-        app:layout_constraintStart_toStartOf="@+id/checkBoxWednesday"
-        app:layout_constraintTop_toBottomOf="@+id/checkBoxWednesday" />
-
-    <CheckBox
-        android:id="@+id/checkBoxFriday"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:text="Fredag"
-        app:layout_constraintStart_toStartOf="@+id/checkBoxThursday"
-        app:layout_constraintTop_toBottomOf="@+id/checkBoxThursday" />
 
     <CheckBox
         android:id="@+id/checkBoxSaturday"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:text="Lørdag"
-        app:layout_constraintStart_toEndOf="@+id/checkBoxMonday"
-        app:layout_constraintTop_toTopOf="@+id/checkBoxMonday" />
-
-    <CheckBox
-        android:id="@+id/checkBoxSunday"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:text="Søndag"
-        app:layout_constraintStart_toStartOf="@+id/checkBoxSaturday"
-        app:layout_constraintTop_toBottomOf="@+id/checkBoxSaturday" />
+        android:text="Lørdager"
+        app:layout_constraintStart_toStartOf="@+id/checkBoxWeekdays"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxWeekdays" />
 
     <Button
         android:id="@+id/buttonSubmitSalaryRule"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:text="Lag lønnsregel"
-        app:layout_constraintStart_toStartOf="@+id/checkBoxFriday"
-        app:layout_constraintTop_toBottomOf="@+id/checkBoxFriday" />
+        app:layout_constraintStart_toStartOf="@+id/checkBoxSunday"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxSunday" />
+
+    <CheckBox
+        android:id="@+id/checkBoxSunday"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Søndager"
+        app:layout_constraintStart_toStartOf="@+id/checkBoxSaturday"
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxSaturday" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

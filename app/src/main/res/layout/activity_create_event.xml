@@ -20,7 +20,7 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="78dp"
+        android:layout_marginStart="48dp"
         android:text="@string/to"
         app:layout_constraintStart_toEndOf="@+id/timeInputFromCreateEvent"
         app:layout_constraintTop_toTopOf="@+id/textView" />

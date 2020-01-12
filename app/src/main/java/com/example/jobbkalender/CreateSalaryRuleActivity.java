@@ -9,23 +9,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
-import java.sql.Time;
 import java.time.LocalTime;
 
 import com.example.jobbkalender.DataClasses.SalaryRule;
-import com.example.jobbkalender.dialogFragments.ChooseWorkplaceDialogFragment;
 import com.example.jobbkalender.dialogFragments.TimePickerDialogFragment;
 
 import java.time.DayOfWeek;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 public class CreateSalaryRuleActivity extends AppCompatActivity implements TimePickerDialogFragment.OnInputListener {
 
@@ -35,21 +28,14 @@ public class CreateSalaryRuleActivity extends AppCompatActivity implements TimeP
 
     ArrayList<DayOfWeek> getCheckedDays (){
         final ArrayList<DayOfWeek> checkedDays= new ArrayList<>();
-        CheckBox checkBoxMonday = findViewById(R.id.checkBoxMonday);
-        if (checkBoxMonday.isChecked())
+        CheckBox checkBoxWeekdays = findViewById(R.id.checkBoxWeekdays);
+        if (checkBoxWeekdays.isChecked()) {
             checkedDays.add(DayOfWeek.MONDAY);
-        CheckBox checkBoxTuesday = findViewById(R.id.checkBoxTuesday);
-        if (checkBoxTuesday.isChecked())
             checkedDays.add(DayOfWeek.TUESDAY);
-        CheckBox checkBoxWednesday = findViewById(R.id.checkBoxWednesday);
-        if (checkBoxWednesday.isChecked())
             checkedDays.add(DayOfWeek.WEDNESDAY);
-        CheckBox checkBoxThursday = findViewById(R.id.checkBoxThursday);
-        if (checkBoxThursday.isChecked())
             checkedDays.add(DayOfWeek.THURSDAY);
-        CheckBox checkBoxFriday = findViewById(R.id.checkBoxFriday);
-        if (checkBoxFriday.isChecked())
             checkedDays.add(DayOfWeek.FRIDAY);
+        }
         CheckBox checkBoxSaturday = findViewById(R.id.checkBoxSaturday);
         if (checkBoxSaturday.isChecked())
             checkedDays.add(DayOfWeek.SATURDAY);

@@ -40,9 +40,20 @@ public class SalaryRule implements Serializable {
     }
     public String toString(){
         String out;
-        out =  ruleName.toUpperCase() +" : " + "+ " + changeInPay + ",-" +
-                " fra "+startTime.toString() +
+        out =  ruleName.toUpperCase() +":  ";
+        if(changeInPay > 0)
+            out+="+";
+        out += changeInPay + "kr" + '\n' +
+                "Fra "+startTime.toString() +
                 " til " + endTime.toString();
+        if (daysOfWeek.contains(DayOfWeek.MONDAY)) {
+            out+=" (ukedager)";
+        }
+        if(daysOfWeek.contains(DayOfWeek.SATURDAY)){
+            out+=" (lørdager)";
+        }if (daysOfWeek.contains(DayOfWeek.SUNDAY)){
+            out+=" (søndager)";
+        }
         return  out;
     }
 
