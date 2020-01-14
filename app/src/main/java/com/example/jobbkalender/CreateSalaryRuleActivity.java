@@ -116,7 +116,7 @@ public class CreateSalaryRuleActivity extends AppCompatActivity implements TimeP
                     Log.d("Error", "Rule cant end before it starts!");
                     return;
                 }
-                SalaryRule salaryRule = new SalaryRule(name,pay,startTime,endTime,checkedDays);
+                SalaryRule salaryRule = new SalaryRule(name,pay,startTime.format(dateTimeFormatter.ofPattern("HH:mm")),endTime.format(dateTimeFormatter.ofPattern("HH:mm")),checkedDays);
                 Intent intent = new Intent();
                 Bundle extras = new Bundle();
 

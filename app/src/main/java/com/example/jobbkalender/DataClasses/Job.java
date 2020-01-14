@@ -1,20 +1,40 @@
 package com.example.jobbkalender.DataClasses;
 
-public class Job {
-    private int id;
+import android.util.Log;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Job implements Serializable {
     private String name;
     private double salary;
-    private SalaryRule[] salaryRules;
+    private List<SalaryRule> salaryRules = new ArrayList<>();
 
-    Job (String nameIn, double salaryIn){
+    public Job(String nameIn, double salaryIn, List<SalaryRule> salaryRulesIn){
         name = nameIn;
         salary = salaryIn;
+        for (SalaryRule s:salaryRulesIn
+             ) {
+            try {
+                salaryRules.add(s);
+            }catch (NullPointerException n){
+                Log.d("ERROR","SalaryRules are empty");
+            }
+        }
+    }
+    public String getName(){
+        return name;
     }
 
-    Job (String nameIn, double salaryIn, SalaryRule[] salaryRulesIn){
-        name = nameIn;
-        salary = salaryIn;
-        salaryRules = salaryRulesIn;
+    public String toString(){
+        String out = "Name: " + name +
+                " Salary: " + salary+
+                "SalaryRules: ";
+        for (SalaryRule s : salaryRules) {
+            out+=s.toString();
+        }
+        return out;
     }
 
     public void getSalaryRules() {

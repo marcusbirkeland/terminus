@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.jobbkalender.DataClasses.Job;
 import com.example.jobbkalender.dialogFragments.ChooseWorkplaceDialogFragment;
 import com.example.jobbkalender.dialogFragments.TimePickerDialogFragment;
 
@@ -37,10 +38,10 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
         }
     }
     @Override
-    public void sendWorkplace(String workplace){
-        Log.d("Set workplace:", workplace);
+    public void sendWorkplace( Job workplace ){
+        Log.d("Set workplace:", workplace.toString());
         TextView t = findViewById(R.id.textViewSelectedWorkplaceCreateEvent);
-        t.setText(workplace);
+        t.setText(workplace.getName());
     }
 
     void showTimePickerDialog() {

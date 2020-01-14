@@ -12,8 +12,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
+import com.example.jobbkalender.DataClasses.Job;
 import com.example.jobbkalender.DataClasses.SalaryRule;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -21,40 +23,36 @@ import com.google.gson.reflect.TypeToken;
 import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CreateJobActivity extends AppCompatActivity {
 
-    public ArrayList<String> salaryRuleStrings = new ArrayList<>();
-    public ArrayList<SalaryRule> salaryRulesArrayList = new ArrayList<>();
+    List<Job> jobList = new ArrayList<>();
+     List<String> salaryRuleStrings = new ArrayList<>();
+     List<SalaryRule> salaryRulesArrayList = new ArrayList<>();
 
-    private void saveData(){
+    private void saveJob(){
         SharedPreferences pref = getSharedPreferences("Shared pref", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         Gson gson = new Gson();
-        String json = gson.toJson(salaryRulesArrayList);
-        editor.putString("salary rules",json);
+        Type type = new TypeToken<ArrayList<Job>>(){}.getType();
+        String currentList = pref.getString("JOBLIST",null);
+        String jobInfo = gson.toJson(jobList,type);
+        if (currentList != null){
+            editor.putString("JOBLIST", currentList.substring(0,currentList.length()-1)+","+jobInfo.substring(1));
+        }else{
+            editor.putString("JOBLIST",jobInfo);
+        }
+        for (Job j: jobList) {
+            Log.d("JOBS",j.toString());
+        }
         editor.apply();
     }
-    private void loadData(){
-        SharedPreferences pref = getSharedPreferences("Shared pref", MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = pref.getString("salary rules",null);
-        Type type = new TypeToken<ArrayList<SalaryRule>>(){}.getType();
-        salaryRulesArrayList = gson.fromJson(json,type);
-    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_job);
-
-        loadData();
-        try {
-            for (SalaryRule s : salaryRulesArrayList) {
-                salaryRuleStrings.add(s.toString());
-            }
-        } catch (NullPointerException n){
-            Log.d("ERROR", "NULLPOINTER EXCEPTION");
-        }
         ListView listViewSalaryRules = findViewById(R.id.listViewSalaryrules);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,salaryRuleStrings);
         listViewSalaryRules.setAdapter(arrayAdapter);
@@ -66,24 +64,38 @@ public class CreateJobActivity extends AppCompatActivity {
                 startActivityForResult(intent, 1);
             }
         });
+
+        Button submitJob = findViewById(R.id.buttonAddJob);
+        submitJob.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText editTextJobName = findViewById(R.id.editTextNameJob);
+                EditText editTextEnterSalary = findViewById(R.id.editTextSalaryCreateJob);
+                String name = editTextJobName.getText().toString();
+                double salary= Double.parseDouble(editTextEnterSalary.getText().toString());
+                if(name!= "" && salary != 0) {
+                    Job job = new Job(name, salary, salaryRulesArrayList);
+                    jobList.add(job);
+                    saveJob();
+                    finish();
+                }
+            }
+        });
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        ArrayList<SalaryRule> salaryRules = new ArrayList<>();
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1 && resultCode == RESULT_OK){
             Bundle bundle = data.getExtras();
             SalaryRule salaryRule = (SalaryRule) bundle.getSerializable("SALARYRULE");
-            salaryRules.add(salaryRule);
-            salaryRulesArrayList= salaryRules;
+            salaryRulesArrayList.add(salaryRule);
             Log.d("SalaryRule:","NEW SALARY RULE: " + salaryRule.toString());
             ListView listViewSalaryRules = findViewById(R.id.listViewSalaryrules);
             salaryRuleStrings.add(salaryRule.toString());
             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,salaryRuleStrings);
             listViewSalaryRules.setAdapter(arrayAdapter);
-            saveData();
-
         }
     }
+
 }

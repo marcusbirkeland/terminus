@@ -5,18 +5,17 @@ import android.os.Parcelable;
 
 import java.io.Serializable;
 import java.time.DayOfWeek;
-import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class SalaryRule implements Serializable {
 
     private String ruleName="Lønnstillegg";
     private double changeInPay;
-    private  LocalTime startTime;
-    private LocalTime endTime;
+    private  String startTime;
+    private String endTime;
     private ArrayList<DayOfWeek> daysOfWeek;
 
-    public SalaryRule(String name, double pay, LocalTime sTime, LocalTime eTime, ArrayList<DayOfWeek> days){
+    public SalaryRule(String name, double pay, String sTime, String eTime, ArrayList<DayOfWeek> days){
         ruleName = name;
         changeInPay = pay;
         startTime = sTime;
@@ -29,10 +28,10 @@ public class SalaryRule implements Serializable {
     public double getChangeInPay(){
         return changeInPay;
     }
-    public LocalTime getStartTime(){
+    public String getStartTime(){
         return startTime;
     }
-    public LocalTime getEndTime(){
+    public String getEndTime(){
         return endTime;
     }
     public ArrayList<DayOfWeek> getDaysOfWeek(){
