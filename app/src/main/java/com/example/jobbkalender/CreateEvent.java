@@ -36,10 +36,11 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
     ChooseWorkplaceDialogFragment chooseWorkplaceDialogFragment = new ChooseWorkplaceDialogFragment();
 
     List<Job> jobList = new ArrayList<>();
-    String jobName = " ";
+    String jobName = "";
 
     private void loadJobs(){
-        SharedPreferences pref = this.getSharedPreferences("Shared pref", MODE_PRIVATE);
+        // Laster listen med lagrede jobber.
+        SharedPreferences pref = this.getSharedPreferences("SHARED PREFERENCES", MODE_PRIVATE);
         Gson gson = new Gson();
         String json = pref.getString("JOBLIST",null);
         Log.d("JSON","Json read: " + json);
@@ -47,15 +48,15 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
         try {
             jobList= gson.fromJson(json,type);
         } catch (Exception e){
-            Log.e("Eroor","Failed to load jobs");
+            Log.e("Error","Failed to load jobs");
         }
-        Log.d("List:", jobList.get(0).toString());
     }
 
     private Job getJobByName(String name){
+        // Finn Job klasse etter navn i en liste. Brukes for å søke i shared preferences.
         for (Job job: jobList
              ) {
-            if(job.getName() == name){
+            if(job.getName().equals(name)){
                 return job;
             }
         }
@@ -64,6 +65,7 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
 
     @Override
     public void sendTime(String input) {
+        // Denne metoden blir kalt på etter dialogvinduet til timepicker blir lukket.
         Log.d("Set time: ", input);
         if(editTextToChange == 1){
             TextView timeInput = findViewById(R.id.timeInputFromCreateEvent);
@@ -75,6 +77,7 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
     }
     @Override
     public void sendWorkplace( Job workplace ){
+        // Denne metoden blir kalt på etter dialogvinduet til jobpicker blir lukket.
         Log.d("Set workplace:", workplace.toString());
         TextView t = findViewById(R.id.textViewSelectedWorkplaceCreateEvent);
         String name = workplace.getName();
@@ -105,6 +108,7 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
         TextView timeInputFrom = findViewById(R.id.timeInputFromCreateEvent);
         TextView timeInputTo = findViewById(R.id.timeInputToCreateEvent);
 
+        // Input for å sette start og slutt-klokkeslett for arbeidsdagen
         timeInputFrom.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -131,9 +135,18 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
         submitWorkday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_TIME;
+                EditText editTextBreakTime = findViewById(R.id.editTextBreakTime);
                 TextView timeInputFrom = findViewById(R.id.timeInputFromCreateEvent);
                 TextView timeInputTo = findViewById(R.id.timeInputToCreateEvent);
+
+                if (editTextBreakTime.getText().toString().equals("") ||
+                        jobName.equals("")){
+                    Log.e("Error", "Please fill all fields");
+
+                    return;
+                }
+                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_TIME;
+
                 LocalTime startTime = LocalTime.parse(timeInputFrom.getText().toString(), dateTimeFormatter.ofPattern("HH:mm"));
                 LocalTime endTime = LocalTime.parse(timeInputTo.getText().toString(), dateTimeFormatter.ofPattern("HH:mm"));
                 if(startTime.isAfter(endTime)){
@@ -143,10 +156,10 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
                 String date = getIntent().getStringExtra("DATE");
                 LocalDate eventDate = LocalDate.parse(date,dateTimeFormatter.ofPattern("ddMMyyyy"));
                 Log.e("Event date:", eventDate.toString());
-                EditText editTextBreakTime = findViewById(R.id.editTextBreakTime);
 
+                Job selectedJob = getJobByName(jobName);
                 int breakTime = Integer.parseInt(editTextBreakTime.getText().toString());
-                WorkdayEvent workdayEvent = new WorkdayEvent(eventDate,startTime,endTime,breakTime,getJobByName(jobName));
+                WorkdayEvent workdayEvent = new WorkdayEvent(eventDate,startTime,endTime,breakTime,selectedJob);
             }
         });
     }

@@ -42,7 +42,7 @@ public class ChooseWorkplaceDialogFragment extends DialogFragment {
     List<Job> jobList =new ArrayList<>();
 
     private void loadJobs(){
-        SharedPreferences pref = getContext().getSharedPreferences("Shared pref", MODE_PRIVATE);
+        SharedPreferences pref = getContext().getSharedPreferences("SHARED PREFERENCES", MODE_PRIVATE);
         Gson gson = new Gson();
         String json = pref.getString("JOBLIST",null);
         Log.d("JSON","Json read: " + json);
@@ -52,7 +52,6 @@ public class ChooseWorkplaceDialogFragment extends DialogFragment {
         } catch (Exception e){
             Log.e("Eroor","Failed to load jobs");
         }
-        Log.d("List:", jobList.get(0).toString());
     }
 
     public ChooseWorkplaceDialogFragment () {
@@ -81,19 +80,31 @@ public class ChooseWorkplaceDialogFragment extends DialogFragment {
             }
         });
         final List<String> jobNames= new ArrayList<>();
+        if( jobList!= null) {
         for (Job j: jobList
              ) {
             jobNames.add(j.getName());
         }
         String[] jobNamesArray = jobNames.toArray(new String[0]);
-        builder.setTitle("Velg arbeidsplass")
-                .setItems(jobNamesArray, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        final Job selectedItem = jobList.get(which);
-                         mOnInputListener.sendWorkplace(selectedItem);
-                    }
-                });
 
+            builder.setTitle("Velg arbeidsplass")
+                    .setItems(jobNamesArray, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            final Job selectedItem = jobList.get(which);
+                            mOnInputListener.sendWorkplace(selectedItem);
+                        }
+                    });
+        } else {
+            String [] emptyMessage = {"Legg til arbeidsplass"};
+            builder.setTitle("Velg arbeidsplass")
+                    .setItems(emptyMessage, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(getContext(),CreateJobActivity.class);
+                            startActivity(intent);
+                            dialog.cancel();
+                        }
+                    });
+        }
         return builder.create();
     }
 

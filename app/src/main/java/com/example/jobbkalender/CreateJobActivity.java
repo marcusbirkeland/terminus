@@ -33,7 +33,7 @@ public class CreateJobActivity extends AppCompatActivity {
      List<SalaryRule> salaryRulesArrayList = new ArrayList<>();
 
     private void saveJob(){
-        SharedPreferences pref = getSharedPreferences("SHAREDPREFERENCES", MODE_PRIVATE);
+        SharedPreferences pref = getSharedPreferences("SHARED PREFERENCES", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         Gson gson = new Gson();
         Type type = new TypeToken<ArrayList<Job>>(){}.getType();
@@ -92,7 +92,7 @@ public class CreateJobActivity extends AppCompatActivity {
             SalaryRule salaryRule = (SalaryRule) bundle.getSerializable("SALARYRULE");
             salaryRulesArrayList.add(salaryRule);
             Log.d("SalaryRule:","NEW SALARY RULE: " + salaryRule.toString());
-            ListView listViewSalaryRules = findViewById(R.id.listViewEventList);
+            ListView listViewSalaryRules = findViewById(R.id.listViewSalaryrules);
             salaryRuleStrings.add(salaryRule.toString());
             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,salaryRuleStrings);
             listViewSalaryRules.setAdapter(arrayAdapter);

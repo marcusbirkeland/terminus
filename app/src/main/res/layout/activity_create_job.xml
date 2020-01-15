@@ -49,10 +49,10 @@
 
     <Button
         android:id="@+id/buttonAddSalaryRule"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="+"
-        app:layout_constraintEnd_toEndOf="@+id/editTextSalaryCreateJob"
+        app:layout_constraintEnd_toEndOf="@+id/listViewSalaryrules"
         app:layout_constraintTop_toTopOf="@+id/textView8" />
 
     <Button
@@ -85,7 +85,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Lønnstillegg"
+        android:text="Tillegg + fradrag"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="@+id/imageViewCreateJob"
         app:layout_constraintTop_toBottomOf="@+id/editTextSalaryCreateJob" />

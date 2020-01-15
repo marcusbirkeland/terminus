@@ -97,11 +97,11 @@ public class CreateSalaryRuleActivity extends AppCompatActivity implements TimeP
                     Log.d("Error","Please check off a day");
                     return;
                 }
-                if(editTextName.getText().toString().matches("") || editTextName.getText().toString() == ""){
+                if(editTextName.getText().toString().matches("") || editTextName.getText().toString().equals( "")){
                     Log.d("Error","Please fill name!");
                     return;
                 }
-                if( editTextSalaryRuleNum.getText().toString().matches("") || editTextSalaryRuleNum.getText().toString() == ""){
+                if( editTextSalaryRuleNum.getText().toString().matches("") || editTextSalaryRuleNum.getText().toString().equals("")){
                     Log.d("Error","Please fill salary rule!");
                     return;
                 }
