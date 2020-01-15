@@ -36,13 +36,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/calendarView" />
 
-    <Button
-        android:id="@+id/leggTilJob"
+    <ListView
+        android:id="@+id/listViewEventList"
+        android:layout_width="409dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="68dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonAddEvent" />
+
+    <TextView
+        android:id="@+id/textViewTest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Legg til jobb"
-        app:layout_constraintStart_toStartOf="@+id/buttonAddEvent"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonAddEvent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

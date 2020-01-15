@@ -3,6 +3,8 @@ package com.example.jobbkalender;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,20 +13,54 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.jobbkalender.DataClasses.Job;
+import com.example.jobbkalender.DataClasses.WorkdayEvent;
 import com.example.jobbkalender.dialogFragments.ChooseWorkplaceDialogFragment;
 import com.example.jobbkalender.dialogFragments.TimePickerDialogFragment;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.w3c.dom.Text;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CreateEvent extends AppCompatActivity implements TimePickerDialogFragment.OnInputListener, ChooseWorkplaceDialogFragment.OnInputListener {
 
     int editTextToChange = 0;
     TimePickerDialogFragment timePickerDialogFragment = new TimePickerDialogFragment();
     ChooseWorkplaceDialogFragment chooseWorkplaceDialogFragment = new ChooseWorkplaceDialogFragment();
+
+    List<Job> jobList = new ArrayList<>();
+    String jobName = " ";
+
+    private void loadJobs(){
+        SharedPreferences pref = this.getSharedPreferences("Shared pref", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = pref.getString("JOBLIST",null);
+        Log.d("JSON","Json read: " + json);
+        Type type = new TypeToken<ArrayList<Job>>(){}.getType();
+        try {
+            jobList= gson.fromJson(json,type);
+        } catch (Exception e){
+            Log.e("Eroor","Failed to load jobs");
+        }
+        Log.d("List:", jobList.get(0).toString());
+    }
+
+    private Job getJobByName(String name){
+        for (Job job: jobList
+             ) {
+            if(job.getName() == name){
+                return job;
+            }
+        }
+        return null;
+    }
 
     @Override
     public void sendTime(String input) {
@@ -41,7 +77,9 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
     public void sendWorkplace( Job workplace ){
         Log.d("Set workplace:", workplace.toString());
         TextView t = findViewById(R.id.textViewSelectedWorkplaceCreateEvent);
-        t.setText(workplace.getName());
+        String name = workplace.getName();
+        jobName = name;
+        t.setText(name);
     }
 
     void showTimePickerDialog() {
@@ -62,6 +100,7 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadJobs();
         setContentView(R.layout.activity_create_event);
         TextView timeInputFrom = findViewById(R.id.timeInputFromCreateEvent);
         TextView timeInputTo = findViewById(R.id.timeInputToCreateEvent);
@@ -101,6 +140,13 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
                     Log.d("Error", "Workday cant end before it starts!");
                     return;
                 }
+                String date = getIntent().getStringExtra("DATE");
+                LocalDate eventDate = LocalDate.parse(date,dateTimeFormatter.ofPattern("ddMMyyyy"));
+                Log.e("Event date:", eventDate.toString());
+                EditText editTextBreakTime = findViewById(R.id.editTextBreakTime);
+
+                int breakTime = Integer.parseInt(editTextBreakTime.getText().toString());
+                WorkdayEvent workdayEvent = new WorkdayEvent(eventDate,startTime,endTime,breakTime,getJobByName(jobName));
             }
         });
     }

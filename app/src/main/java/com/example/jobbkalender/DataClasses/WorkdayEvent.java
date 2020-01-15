@@ -1,20 +1,41 @@
 package com.example.jobbkalender.DataClasses;
 
-public class WorkdayEvent {
-    private String date;
-    private String startTime;
-    private String endTime;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+public class WorkdayEvent implements Serializable {
+    private LocalDate date;
+    private LocalTime startTime;
+    private LocalTime endTime;
     private int breakTime;
     private Job job;
 
-    public double getWorkdayLength(){
-        double length = 0;
-        return length;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public double getWorkdaySalary(){
-        double salary = 0;
-        return salary;
+    public LocalTime getStartTime() {
+        return startTime;
     }
 
+    public LocalTime getEndTime() {
+        return endTime;
+    }
+
+    public int getBreakTime() {
+        return breakTime;
+    }
+
+    public Job getJob() {
+        return job;
+    }
+
+    public WorkdayEvent (LocalDate dateIn, LocalTime startTimeIn, LocalTime endTimeIn, int breakTimeIn, Job jobIn){
+        date = dateIn;
+        startTime=startTimeIn;
+        endTime=endTimeIn;
+        breakTime = breakTimeIn;
+        job = jobIn;
+    }
 }

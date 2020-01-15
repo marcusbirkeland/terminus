@@ -22,6 +22,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.Serializable;
 import java.lang.reflect.Type;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class CreateJobActivity extends AppCompatActivity {
      List<SalaryRule> salaryRulesArrayList = new ArrayList<>();
 
     private void saveJob(){
-        SharedPreferences pref = getSharedPreferences("Shared pref", MODE_PRIVATE);
+        SharedPreferences pref = getSharedPreferences("SHAREDPREFERENCES", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         Gson gson = new Gson();
         Type type = new TypeToken<ArrayList<Job>>(){}.getType();
@@ -91,7 +92,7 @@ public class CreateJobActivity extends AppCompatActivity {
             SalaryRule salaryRule = (SalaryRule) bundle.getSerializable("SALARYRULE");
             salaryRulesArrayList.add(salaryRule);
             Log.d("SalaryRule:","NEW SALARY RULE: " + salaryRule.toString());
-            ListView listViewSalaryRules = findViewById(R.id.listViewSalaryrules);
+            ListView listViewSalaryRules = findViewById(R.id.listViewEventList);
             salaryRuleStrings.add(salaryRule.toString());
             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,salaryRuleStrings);
             listViewSalaryRules.setAdapter(arrayAdapter);
