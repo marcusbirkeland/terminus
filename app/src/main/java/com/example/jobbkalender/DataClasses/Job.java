@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Job implements Serializable {
+    private String image;
     private String name;
     private double salary;
     private List<SalaryRule> salaryRules = new ArrayList<>();
@@ -27,6 +28,18 @@ public class Job implements Serializable {
         return name;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
     public String toString(){
         String out = "Name: " + name +
                 " Salary: " + salary+
@@ -37,10 +50,4 @@ public class Job implements Serializable {
         return out;
     }
 
-    public void getSalaryRules() {
-        //TODO
-    }
-    public void setSalaryRule(){
-        //TODO
-    }
 }

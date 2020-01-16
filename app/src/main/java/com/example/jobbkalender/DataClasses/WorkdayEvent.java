@@ -1,25 +1,23 @@
 package com.example.jobbkalender.DataClasses;
 
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 public class WorkdayEvent implements Serializable {
-    private LocalDate date;
-    private LocalTime startTime;
-    private LocalTime endTime;
+    private String date;
+    private String startTime;
+    private String endTime;
     private int breakTime;
     private Job job;
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
-    public LocalTime getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public LocalTime getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
@@ -31,7 +29,7 @@ public class WorkdayEvent implements Serializable {
         return job;
     }
 
-    public WorkdayEvent (LocalDate dateIn, LocalTime startTimeIn, LocalTime endTimeIn, int breakTimeIn, Job jobIn){
+    public WorkdayEvent (String dateIn, String startTimeIn, String endTimeIn, int breakTimeIn, Job jobIn){
         date = dateIn;
         startTime=startTimeIn;
         endTime=endTimeIn;

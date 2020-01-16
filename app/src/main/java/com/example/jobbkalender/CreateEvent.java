@@ -35,8 +35,25 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
     TimePickerDialogFragment timePickerDialogFragment = new TimePickerDialogFragment();
     ChooseWorkplaceDialogFragment chooseWorkplaceDialogFragment = new ChooseWorkplaceDialogFragment();
 
+    List<WorkdayEvent> eventList = new ArrayList<>();
     List<Job> jobList = new ArrayList<>();
     String jobName = "";
+
+    private void saveEvent(){
+        SharedPreferences pref = getSharedPreferences("SHARED PREFERENCES", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<WorkdayEvent>>(){}.getType();
+        String currentList = pref.getString("EVENTLIST",null);
+        String eventInfo = gson.toJson(eventList,type);
+        if (currentList != null){
+            editor.putString("EVENTLIST", currentList.substring(0,currentList.length()-1)+","+eventInfo.substring(1));
+        }else{
+            editor.putString("EVENTLIST",eventInfo);
+        }
+        Log.d("Saving to sharedprefs: ", eventInfo);
+        editor.apply();
+    }
 
     private void loadJobs(){
         // Laster listen med lagrede jobber.
@@ -156,10 +173,12 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
                 String date = getIntent().getStringExtra("DATE");
                 LocalDate eventDate = LocalDate.parse(date,dateTimeFormatter.ofPattern("ddMMyyyy"));
                 Log.e("Event date:", eventDate.toString());
-
                 Job selectedJob = getJobByName(jobName);
                 int breakTime = Integer.parseInt(editTextBreakTime.getText().toString());
-                WorkdayEvent workdayEvent = new WorkdayEvent(eventDate,startTime,endTime,breakTime,selectedJob);
+                WorkdayEvent workdayEvent = new WorkdayEvent(eventDate.toString(),startTime.toString(),endTime.toString(),breakTime,selectedJob);
+                eventList.add(workdayEvent);
+                saveEvent();
+                finish();
             }
         });
     }

@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:hint="Navn på jobb"
+        android:maxLength="40"
         android:singleLine="true"
         app:layout_constraintStart_toEndOf="@+id/imageViewCreateJob"
         app:layout_constraintTop_toTopOf="@+id/imageViewCreateJob" />
@@ -35,17 +36,18 @@
         android:layout_marginTop="16dp"
         android:hint="Timelønn"
         android:inputType="numberDecimal"
+        android:maxLength="8"
         app:layout_constraintLeft_toLeftOf="@+id/editTextNameJob"
         app:layout_constraintTop_toBottomOf="@+id/editTextNameJob" />
 
     <ImageView
         android:id="@+id/imageViewCreateJob"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="95dp"
+        android:layout_height="95dp"
         android:layout_marginTop="32dp"
         app:layout_constraintStart_toStartOf="@+id/textView3"
         app:layout_constraintTop_toBottomOf="@+id/textView3"
-        app:srcCompat="@drawable/cursed_mario" />
+        app:srcCompat="@drawable/contacts" />
 
     <Button
         android:id="@+id/buttonAddSalaryRule"
@@ -88,7 +90,16 @@
         android:text="Tillegg + fradrag"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="@+id/imageViewCreateJob"
-        app:layout_constraintTop_toBottomOf="@+id/editTextSalaryCreateJob" />
+        app:layout_constraintTop_toBottomOf="@+id/textView18" />
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Legg til bilde"
+        app:layout_constraintEnd_toEndOf="@+id/imageViewCreateJob"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewCreateJob" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

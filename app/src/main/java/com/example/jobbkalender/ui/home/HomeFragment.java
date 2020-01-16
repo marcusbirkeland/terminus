@@ -49,17 +49,10 @@ public class HomeFragment extends Fragment {
     int day,selectedMonth,selectedYear;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        final TextView tx = view.findViewById(R.id.textViewTest);
         LocalDate currentDate = java.time.LocalDate.now();
         day = currentDate.getDayOfMonth();
         selectedMonth = currentDate.getMonthValue();
         selectedYear= currentDate.getYear();
-        if(selectedMonth < 10){
-
-        }
-        tx.setText("DAG: " + day + " MÅNDE: " + selectedMonth + " ÅR: "+ selectedYear);
-
-
         super.onViewCreated(view, savedInstanceState);
         CalendarView calendarView = view.findViewById(R.id.calendarView);
 
@@ -77,8 +70,6 @@ public class HomeFragment extends Fragment {
                 day = dayOfMonth;
                 selectedMonth = month+1;
                 selectedYear = year;
-                String dateString = "DAG: " + dayOfMonth + " MÅNDE: " + month + " ÅR: "+ year;
-                tx.setText(dateString);
             }
         });
 
