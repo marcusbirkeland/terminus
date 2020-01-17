@@ -120,7 +120,6 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        loadJobs();
         setContentView(R.layout.activity_create_event);
         TextView timeInputFrom = findViewById(R.id.timeInputFromCreateEvent);
         TextView timeInputTo = findViewById(R.id.timeInputToCreateEvent);
@@ -145,6 +144,7 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
         addWorkplace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                loadJobs();
                 showChooseWorkplaceDialog();
             }
         });
@@ -152,6 +152,7 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
         submitWorkday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                loadJobs();
                 EditText editTextBreakTime = findViewById(R.id.editTextBreakTime);
                 TextView timeInputFrom = findViewById(R.id.timeInputFromCreateEvent);
                 TextView timeInputTo = findViewById(R.id.timeInputToCreateEvent);

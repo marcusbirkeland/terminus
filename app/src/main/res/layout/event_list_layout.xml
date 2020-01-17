@@ -10,10 +10,10 @@
         android:layout_weight="33.33">
 
         <ImageView
+            android:id="@+id/imageViewEventList"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/cursed_mario"
-            android:layout_marginHorizontal="4dp"/>
+            android:layout_marginHorizontal="4dp" />
 
         <TextView
             android:id="@+id/textViewEventListName"

@@ -74,11 +74,6 @@ public class ChooseWorkplaceDialogFragment extends DialogFragment {
                 dialog.cancel();
             }
         });
-        builder.setNegativeButton("Lukk", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
         final List<String> jobNames= new ArrayList<>();
         if( jobList!= null) {
         for (Job j: jobList

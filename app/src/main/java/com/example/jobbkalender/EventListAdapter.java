@@ -1,10 +1,14 @@
 package com.example.jobbkalender;
 
 import android.content.Context;
+import android.media.Image;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,9 +29,11 @@ public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        String jobName = getItem(position).getJob().getName();
-        String eventTimeSpan = "Fra " + getItem(position).getStartTime() + " til " + getItem(position).getEndTime();
-        String salary = "Lønn: " + getItem(position).getJob().getSalary()+ "kr";
+        try {
+            String jobName = getItem(position).getJob().getName();
+            String eventTimeSpan = "Fra " + getItem(position).getStartTime() + " til " + getItem(position).getEndTime();
+            String salary = "Lønn: " + getItem(position).getJob().getSalary() + "kr";
+            String src = getItem(position).getJob().getImage();
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(R.layout.event_list_layout,parent,false);
@@ -35,10 +41,22 @@ public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
         TextView textView1 = convertView.findViewById(R.id.textViewEventListName);
         TextView textView2 = convertView.findViewById(R.id.textViewEventListDuration);
         TextView textView3 = convertView.findViewById(R.id.textViewEventListSalary);
+        ImageView imageView = convertView.findViewById(R.id.imageViewEventList);
 
         textView1.setText(jobName);
         textView2.setText(eventTimeSpan);
         textView3.setText(salary);
+        Uri uri = Uri.parse(src);
+        try {
+            imageView.setImageURI(uri);
+        }catch (NullPointerException imgNull){
+            imageView.setImageResource(R.drawable.contacts);
+            Log.d("Image empty", "Setting default image");
+        }
+        } catch (NullPointerException e){
+            Log.d("Null", "Job class is null");
+        }
+
 
         return convertView;
     }

@@ -11,10 +11,9 @@
         android:id="@+id/textView17"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:text="@string/from"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView15"
         app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
     <TextView
@@ -42,7 +41,6 @@
         android:id="@+id/timeInputToCreateSalaryRule"
         android:layout_width="108dp"
         android:layout_height="50dp"
-        android:layout_marginStart="48dp"
         android:ems="10"
         android:inputType="time"
         android:text="20:00"
@@ -50,14 +48,14 @@
         android:textColor="@color/colorAccent"
         android:textSize="40sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/timeInputFromCreateSalaryRule"
+        app:layout_constraintEnd_toEndOf="@+id/buttonSubmitSalaryRule"
         app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
     <EditText
         android:id="@+id/editTextNameSalaryRule"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="48dp"
         android:hint="Navn på regel"
         android:maxLength="50"
         android:singleLine="true"
@@ -94,10 +92,12 @@
 
     <Button
         android:id="@+id/buttonSubmitSalaryRule"
-        android:layout_width="200dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Lag lønnsregel"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="@color/colorAccent"
+        android:text="Lagre"
+        android:textColor="#fff"
         app:layout_constraintStart_toStartOf="@+id/checkBoxSunday"
         app:layout_constraintTop_toBottomOf="@+id/checkBoxSunday" />
 
