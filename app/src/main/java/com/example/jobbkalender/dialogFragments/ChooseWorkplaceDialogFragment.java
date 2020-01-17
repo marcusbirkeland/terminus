@@ -66,7 +66,7 @@ public class ChooseWorkplaceDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState){
         loadJobs();
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setPositiveButton("Legg til jobb", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Ny jobb", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(getContext(),CreateJobActivity.class);

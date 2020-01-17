@@ -21,6 +21,10 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.jobbkalender.CreateEvent;
 import com.example.jobbkalender.CreateJobActivity;
+import com.example.jobbkalender.DataClasses.Job;
+import com.example.jobbkalender.DataClasses.SalaryRule;
+import com.example.jobbkalender.DataClasses.WorkdayEvent;
+import com.example.jobbkalender.EventListAdapter;
 import com.example.jobbkalender.MainActivity;
 import com.example.jobbkalender.R;
 
@@ -72,6 +76,15 @@ public class HomeFragment extends Fragment {
                 selectedYear = year;
             }
         });
+
+        List<WorkdayEvent> events = new ArrayList<>();
+        events.add(new WorkdayEvent("","16:00","20:00",15, new Job("Pizzabakeren",140,new ArrayList<SalaryRule>())));
+        events.add(new WorkdayEvent("","12:00","20:00",30, new Job("Meny",160,new ArrayList<SalaryRule>())));
+        events.add(new WorkdayEvent("","06:00","14:00",30, new Job("Cowboy Bobb Asker",69,new ArrayList<SalaryRule>())));
+
+        ListView eventListView = view.findViewById(R.id.listViewEventList);
+        EventListAdapter eventListAdapter = new EventListAdapter(getContext(),0,events);
+        eventListView.setAdapter(eventListAdapter);
 
     }
 
