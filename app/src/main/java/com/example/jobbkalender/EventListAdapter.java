@@ -15,6 +15,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.jobbkalender.DataClasses.WorkdayEvent;
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+
 import java.util.List;
 
 public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
@@ -29,6 +36,7 @@ public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        setupImageLoader();
         try {
             String jobName = getItem(position).getJob().getName();
             String eventTimeSpan = "Fra " + getItem(position).getStartTime() + " til " + getItem(position).getEndTime();
@@ -37,7 +45,6 @@ public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(R.layout.event_list_layout,parent,false);
-
         TextView textView1 = convertView.findViewById(R.id.textViewEventListName);
         TextView textView2 = convertView.findViewById(R.id.textViewEventListDuration);
         TextView textView3 = convertView.findViewById(R.id.textViewEventListSalary);
@@ -46,18 +53,38 @@ public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
         textView1.setText(jobName);
         textView2.setText(eventTimeSpan);
         textView3.setText(salary);
-        Uri uri = Uri.parse(src);
-        try {
-            imageView.setImageURI(uri);
-        }catch (NullPointerException imgNull){
-            imageView.setImageResource(R.drawable.contacts);
-            Log.d("Image empty", "Setting default image");
-        }
+        ImageLoader imageLoader = ImageLoader.getInstance();
+        int defaultImage = mContext.getResources().getIdentifier("@drawable/contacts",null,mContext.getPackageName());
+        DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
+                    .cacheOnDisc(true).resetViewBeforeLoading(true)
+                    .showImageForEmptyUri(defaultImage)
+                    .showImageOnFail(defaultImage)
+                    .showImageOnLoading(defaultImage).build();
+
+        imageLoader.displayImage("file://"+src, imageView, options);
+
         } catch (NullPointerException e){
             Log.d("Null", "Job class is null");
         }
 
 
         return convertView;
+    }
+
+    private void setupImageLoader(){
+        // UNIVERSAL IMAGE LOADER SETUP
+        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+                .cacheOnDisc(true).cacheInMemory(true)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .displayer(new FadeInBitmapDisplayer(300)).build();
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+                mContext)
+                .defaultDisplayImageOptions(defaultOptions)
+                .memoryCache(new WeakMemoryCache())
+                .discCacheSize(100 * 1024 * 1024).build();
+
+        ImageLoader.getInstance().init(config);
+        // END - UNIVERSAL IMAGE LOADER SETUP
     }
 }

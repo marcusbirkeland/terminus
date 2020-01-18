@@ -1,7 +1,7 @@
 <resources>
     <!-- App -->
     <string name="app_name">terminus</string>
-    <string name="title_calendar">terminus</string>
+    <string name="title_calendar">Kalender</string>
     <string name="title_earnings">Lønn</string>
     <string name="title_settings">Innstillinger</string>
 
