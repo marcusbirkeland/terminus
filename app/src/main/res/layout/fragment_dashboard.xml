@@ -173,7 +173,6 @@
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:text="Endre"
         android:textSize="12sp"
@@ -189,6 +188,17 @@
         android:layout_marginTop="24dp"
         android:text="@string/total_yearly_salary_gross"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonEditTotalEarnings" />
+
+    <Button
+        android:id="@+id/buttonRefreshEarnings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="@color/colorAccent"
+        android:text="Refresh"
+        android:textColor="#fff"
+        app:layout_constraintEnd_toEndOf="@+id/buttonEditTotalEarnings"
         app:layout_constraintTop_toBottomOf="@+id/buttonEditTotalEarnings" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
