@@ -1,8 +1,9 @@
 package com.example.jobbkalender;
 
+import android.app.Activity;
 import android.content.Context;
-import android.media.Image;
-import android.net.Uri;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +14,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.example.jobbkalender.DataClasses.WorkdayEvent;
+import com.example.jobbkalender.ui.home.HomeFragment;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -23,6 +26,8 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import java.util.List;
+
+import static com.example.jobbkalender.MainActivity.DELETE_EVENT;
 
 public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
 
@@ -38,10 +43,11 @@ public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         setupImageLoader();
         try {
-            String jobName = getItem(position).getJob().getName();
-            String eventTimeSpan = "Fra " + getItem(position).getStartTime() + " til " + getItem(position).getEndTime();
-            String salary = "Lønn: " + getItem(position).getJob().getSalary() + "kr";
-            String src = getItem(position).getJob().getImage();
+           final WorkdayEvent event = getItem(position);
+            String jobName = event.getJob().getName();
+            String eventTimeSpan = "Fra " +event.getStartTime() + " til " + getItem(position).getEndTime();
+            String salary = "Lønn: " + event.getJob().getSalary() + "kr";
+            String src = event.getJob().getImage();
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
         convertView = inflater.inflate(R.layout.event_list_layout,parent,false);
@@ -62,10 +68,21 @@ public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
                     .showImageOnLoading(defaultImage).build();
 
         imageLoader.displayImage("file://"+src, imageView, options);
-
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("EVENT",event);
+                    Intent intent = new Intent(mContext, ViewEvent.class);
+                    intent.putExtra("EVENTBUNDLE",bundle);
+                    Activity activity = (Activity)mContext;
+                    activity.startActivityForResult(intent,DELETE_EVENT);
+            }
+            });
         } catch (NullPointerException e){
             Log.d("Null", "Job class is null");
         }
+
 
 
         return convertView;

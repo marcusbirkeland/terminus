@@ -37,6 +37,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
+import static com.example.jobbkalender.MainActivity.DELETE_EVENT;
+
 public class HomeFragment extends Fragment {
 
     public static final int CREATE_EVENT = 2;
@@ -148,16 +151,16 @@ public class HomeFragment extends Fragment {
         });
         return root;
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        final ListView eventListView = getView().findViewById(R.id.listViewEventList);
-        // Finn events på gjeldende dato og oppdater listview
-        loadEvents();
-        String date = dateToString(day,selectedMonth,selectedYear);
-        List<WorkdayEvent> events = searchEvents(date);
-        EventListAdapter eventListAdapter = new EventListAdapter(getContext(),0,events);
-        eventListView.setAdapter(eventListAdapter);
+                super.onActivityResult(requestCode, resultCode, data);
+                final ListView eventListView = getView().findViewById(R.id.listViewEventList);
+                // Finn events på gjeldende dato og oppdater listview
+                loadEvents();
+                String date = dateToString(day, selectedMonth, selectedYear);
+                List<WorkdayEvent> events = searchEvents(date);
+                EventListAdapter eventListAdapter = new EventListAdapter(getContext(), 0, events);
+                eventListView.setAdapter(eventListAdapter);
+                //TODO fikse for sletting av events
     }
 }

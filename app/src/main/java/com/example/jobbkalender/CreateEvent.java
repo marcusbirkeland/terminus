@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.jobbkalender.DataClasses.Job;
@@ -46,7 +48,7 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
         Type type = new TypeToken<ArrayList<WorkdayEvent>>(){}.getType();
         String currentList = pref.getString("EVENTLIST",null);
         String eventInfo = gson.toJson(eventList,type);
-        if (currentList != null){
+        if (currentList != null && !currentList.equals("[]")){
             editor.putString("EVENTLIST", currentList.substring(0,currentList.length()-1)+","+eventInfo.substring(1));
         }else{
             editor.putString("EVENTLIST",eventInfo);
@@ -96,10 +98,18 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
     public void sendWorkplace( Job workplace ){
         // Denne metoden blir kalt på etter dialogvinduet til jobpicker blir lukket.
         Log.d("Set workplace:", workplace.toString());
-        TextView t = findViewById(R.id.textViewSelectedWorkplaceCreateEvent);
-        String name = workplace.getName();
-        jobName = name;
-        t.setText(name);
+        TextView t = findViewById(R.id.textViewCreateEventJobName);
+        ImageView imageView = findViewById(R.id.imageViewCreateEvent);
+        jobName = workplace.getName();
+        t.setText(jobName);
+        try{
+            Uri uri = Uri.parse(workplace.getImage());
+            imageView.setImageURI(uri);
+        }catch (Exception e){
+            imageView.setImageDrawable(getDrawable(R.drawable.contacts));
+            Log.e("Invalid URI","Invalid or no image Uri");
+        }
+
     }
 
     void showTimePickerDialog() {
@@ -179,6 +189,7 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
                 WorkdayEvent workdayEvent = new WorkdayEvent(eventDate.toString(),startTime.toString(),endTime.toString(),breakTime,selectedJob);
                 eventList.add(workdayEvent);
                 saveEvent();
+                setResult(RESULT_OK);
                 finish();
             }
         });
