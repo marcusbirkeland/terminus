@@ -187,6 +187,7 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
                 Job selectedJob = getJobByName(jobName);
                 int breakTime = Integer.parseInt(editTextBreakTime.getText().toString());
                 WorkdayEvent workdayEvent = new WorkdayEvent(eventDate.toString(),startTime.toString(),endTime.toString(),breakTime,selectedJob);
+                workdayEvent.setDayOfWeek(eventDate.getDayOfWeek().name());
                 eventList.add(workdayEvent);
                 saveEvent();
                 setResult(RESULT_OK);

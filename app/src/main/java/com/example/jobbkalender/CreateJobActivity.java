@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -89,10 +90,11 @@ public class CreateJobActivity extends AppCompatActivity {
             public void onClick(View v) {
                 EditText editTextJobName = findViewById(R.id.editTextNameJob);
                 EditText editTextEnterSalary = findViewById(R.id.editTextSalaryCreateJob);
+                CheckBox checkBoxPaidBreak = findViewById(R.id.checkBoxPaidBreak);
                 String name = editTextJobName.getText().toString();
                 if(!name.equals("") && !editTextEnterSalary.getText().toString().equals("")) {
                     double salary= Double.parseDouble(editTextEnterSalary.getText().toString());
-                    Job job = new Job(name, salary, salaryRulesArrayList);
+                    Job job = new Job(name, salary, salaryRulesArrayList,checkBoxPaidBreak.isChecked());
                     job.setImage(selectedImagePath);
                     jobList.add(job);
                     saveJob();

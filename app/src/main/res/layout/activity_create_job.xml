@@ -54,6 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="+"
+        app:layout_constraintBottom_toBottomOf="@+id/checkBoxPaidBreak"
         app:layout_constraintEnd_toEndOf="@+id/listViewSalaryrules"
         app:layout_constraintTop_toTopOf="@+id/textView8" />
 
@@ -72,17 +73,9 @@
         android:id="@+id/listViewSalaryrules"
         android:layout_width="300dp"
         android:layout_height="150dp"
-        android:layout_marginTop="8dp"
         android:maxHeight="100dp"
         app:layout_constraintStart_toStartOf="@+id/textView8"
-        app:layout_constraintTop_toBottomOf="@+id/buttonAddSalaryRule" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="20dp" />
+        app:layout_constraintTop_toBottomOf="@+id/checkBoxPaidBreak" />
 
     <TextView
         android:id="@+id/textView8"
@@ -92,7 +85,7 @@
         android:text="Tillegg + fradrag"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="@+id/imageViewCreateJob"
-        app:layout_constraintTop_toBottomOf="@+id/textView18" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewCreateJob" />
 
     <TextView
         android:id="@+id/textView18"
@@ -100,8 +93,16 @@
         android:layout_height="wrap_content"
         android:text="Legg til bilde"
         app:layout_constraintEnd_toEndOf="@+id/imageViewCreateJob"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="@+id/imageViewCreateJob"
         app:layout_constraintTop_toBottomOf="@+id/imageViewCreateJob" />
+
+    <CheckBox
+        android:id="@+id/checkBoxPaidBreak"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Betalt lønsj"
+        app:layout_constraintStart_toStartOf="@+id/textView8"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

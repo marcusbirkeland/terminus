@@ -4,10 +4,19 @@ import java.io.Serializable;
 
 public class WorkdayEvent implements Serializable {
     private String date;
+    private String dayOfWeek;
     private String startTime;
     private String endTime;
     private int breakTime;
     private Job job;
+
+    public String getDayOfWeek() {
+        return dayOfWeek;
+    }
+
+    public void setDayOfWeek(String dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
+    }
 
     public String getDate() {
         return date;

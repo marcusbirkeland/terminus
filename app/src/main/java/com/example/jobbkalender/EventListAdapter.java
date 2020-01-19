@@ -1,5 +1,6 @@
 package com.example.jobbkalender;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -25,6 +26,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.jobbkalender.MainActivity.DELETE_EVENT;
@@ -38,6 +40,7 @@ public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
         mContext = context;
     }
 
+    @SuppressLint("ViewHolder")
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -46,7 +49,10 @@ public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
            final WorkdayEvent event = getItem(position);
             String jobName = event.getJob().getName();
             String eventTimeSpan = "Fra " +event.getStartTime() + " til " + getItem(position).getEndTime();
-            String salary = "Lønn: " + event.getJob().getSalary() + "kr";
+            PayCaluclator payCaluclator = new PayCaluclator();
+            List<WorkdayEvent> events = new ArrayList<>();
+            events.add(event);
+            String salary = "Lønn: " + (int) payCaluclator.getTotalEarningsGross(events) + " kr";
             String src = event.getJob().getImage();
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
@@ -82,8 +88,6 @@ public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
         } catch (NullPointerException e){
             Log.d("Null", "Job class is null");
         }
-
-
 
         return convertView;
     }
