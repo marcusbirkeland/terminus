@@ -9,47 +9,42 @@
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:text="@string/total_monthly_tax"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewMonthlySalary" />
+        android:text="Månedslønn (netto)"
+        app:layout_constraintStart_toStartOf="@+id/textViewMonthlyEarningsGross"
+        app:layout_constraintTop_toBottomOf="@+id/textViewMonthlyEarningsGross" />
 
     <TextView
-        android:id="@+id/textViewMonthlyTax"
+        android:id="@+id/textViewMonthlyEarningsNet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="0"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView12"
         app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
     <TextView
         android:id="@+id/textViewNetCurrentEarnings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="0"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView10"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <TextView
         android:id="@+id/textViewGrossCurrentEarnings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="0"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView13"
         app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
     <TextView
@@ -67,89 +62,46 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextYearlySalary"
+        android:id="@+id/editTextTaxPercentage"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
         android:layout_marginTop="32dp"
         android:ems="10"
-        android:hint="@string/total_yearly_estimate"
+        android:hint="Skatteprosent"
         android:inputType="number"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/editTextTotalEarnings"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:ems="10"
-        android:hint="@string/true_earnings"
-        android:inputType="number"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextYearlySalary" />
-
     <TextView
         android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/total_yearly_salary_net"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textViewGrossCurrentEarnings"
         app:layout_constraintTop_toBottomOf="@+id/textViewGrossCurrentEarnings" />
 
     <TextView
         android:id="@+id/textView11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/total_monthly_salary_net"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTotalTaxes" />
+        android:layout_marginTop="8dp"
+        android:text="Månedslønn (brutto)"
+        app:layout_constraintStart_toStartOf="@+id/textViewMonthPeriod"
+        app:layout_constraintTop_toBottomOf="@+id/textViewMonthPeriod" />
 
     <TextView
-        android:id="@+id/textViewMonthlySalary"
+        android:id="@+id/textViewMonthlyEarningsGross"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:text="0"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView11"
         app:layout_constraintTop_toBottomOf="@+id/textView11" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/total_yearly_taxes"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewNetCurrentEarnings" />
-
-    <TextView
-        android:id="@+id/textViewTotalTaxes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="0"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <Button
         android:id="@+id/buttonEditYearlySalary"
@@ -160,40 +112,53 @@
         android:layout_marginTop="32dp"
         android:text="@string/edit"
         android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@+id/editTextYearlySalary"
+        app:layout_constraintStart_toEndOf="@+id/editTextTaxPercentage"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/buttonEditTotalEarnings"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Endre"
-        android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@+id/editTextTotalEarnings"
-        app:layout_constraintTop_toBottomOf="@+id/buttonEditYearlySalary" />
 
     <TextView
         android:id="@+id/textView13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
         android:layout_marginTop="24dp"
         android:text="@string/total_yearly_salary_gross"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonEditTotalEarnings" />
+        app:layout_constraintStart_toStartOf="@+id/editTextTaxPercentage"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTaxPercentage" />
 
-    <Button
-        android:id="@+id/buttonRefreshEarnings"
+    <Spinner
+        android:id="@+id/spinnerSelectJob"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@+id/textView19"
+        app:layout_constraintTop_toBottomOf="@+id/textView19" />
+
+    <TextView
+        android:id="@+id/textView19"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:backgroundTint="@color/colorAccent"
-        android:text="Refresh"
-        android:textColor="#fff"
-        app:layout_constraintEnd_toEndOf="@+id/buttonEditTotalEarnings"
-        app:layout_constraintTop_toBottomOf="@+id/buttonEditTotalEarnings" />
+        android:text="Velg jobb"
+        app:layout_constraintStart_toStartOf="@+id/textViewNetCurrentEarnings"
+        app:layout_constraintTop_toBottomOf="@+id/textViewNetCurrentEarnings" />
+
+    <TextView
+        android:id="@+id/textView20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Månedslønn i perioden:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintStart_toStartOf="@+id/textView19"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerSelectJob" />
+
+    <TextView
+        android:id="@+id/textViewMonthPeriod"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintStart_toStartOf="@+id/textView20"
+        app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

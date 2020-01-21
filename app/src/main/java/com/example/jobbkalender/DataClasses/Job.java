@@ -10,12 +10,14 @@ public class Job implements Serializable {
     private String image;
     private String name;
     private double salary;
-    private boolean hasPaidBreak = false;
+    private boolean hasPaidBreak;
+    private int salaryPeriodDate;
     private List<SalaryRule> salaryRules = new ArrayList<>();
 
-    public Job(String nameIn, double salaryIn, List<SalaryRule> salaryRulesIn, boolean paidBreak){
+    public Job(String nameIn, double salaryIn, int salaryPeriodDateIn, List<SalaryRule> salaryRulesIn, boolean paidBreak){
         name = nameIn;
         salary = salaryIn;
+        salaryPeriodDate = salaryPeriodDateIn;
         hasPaidBreak = paidBreak;
         for (SalaryRule s:salaryRulesIn
              ) {
@@ -49,6 +51,10 @@ public class Job implements Serializable {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public int getSalaryPeriodDate() {
+        return salaryPeriodDate;
     }
 
     public double getSalary() {

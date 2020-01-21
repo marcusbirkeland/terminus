@@ -2,15 +2,12 @@ package com.example.jobbkalender;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -20,9 +17,13 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.NumberPicker;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.jobbkalender.DataClasses.Job;
 import com.example.jobbkalender.DataClasses.SalaryRule;
+import com.example.jobbkalender.dialogFragments.SalaryPeriodDatePicker;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -30,18 +31,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.Serializable;
 import java.lang.reflect.Type;
-import java.nio.channels.FileChannel;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CreateJobActivity extends AppCompatActivity {
+public class CreateJobActivity extends AppCompatActivity implements NumberPicker.OnValueChangeListener {
 
+    private int salaryPeriodDate=1;
     public static final int CREATE_SALARY_RULE = 1;
     public static final int PICK_IMAGE = 2;
     private String selectedImagePath;
@@ -69,7 +67,21 @@ public class CreateJobActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+        TextView editTextSalaryPeriod = findViewById(R.id.editTextSetSalaryPeriod);
+        editTextSalaryPeriod.setText("Hver "+ numberPicker.getValue() +"." );
+        salaryPeriodDate = numberPicker.getValue();
+        Log.d("Selected date", "" +  numberPicker.getValue());
+    }
+    public void showNumberPicker(){
+        SalaryPeriodDatePicker salaryPeriodDatePicker = new SalaryPeriodDatePicker();
+        salaryPeriodDatePicker.setValueChangeListener(this);
+        salaryPeriodDatePicker.show(getSupportFragmentManager(),"Salary Period Picker");
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_job);
         ListView listViewSalaryRules = findViewById(R.id.listViewSalaryrules);
@@ -83,6 +95,13 @@ public class CreateJobActivity extends AppCompatActivity {
                 startActivityForResult(intent, 1);
             }
         });
+        TextView editTextsetSalaryPeriod = findViewById(R.id.editTextSetSalaryPeriod);
+        editTextsetSalaryPeriod.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showNumberPicker();
+            }
+        });
 
         Button submitJob = findViewById(R.id.buttonAddJob);
         submitJob.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +113,7 @@ public class CreateJobActivity extends AppCompatActivity {
                 String name = editTextJobName.getText().toString();
                 if(!name.equals("") && !editTextEnterSalary.getText().toString().equals("")) {
                     double salary= Double.parseDouble(editTextEnterSalary.getText().toString());
-                    Job job = new Job(name, salary, salaryRulesArrayList,checkBoxPaidBreak.isChecked());
+                    Job job = new Job(name, salary, salaryPeriodDate, salaryRulesArrayList,checkBoxPaidBreak.isChecked());
                     job.setImage(selectedImagePath);
                     jobList.add(job);
                     saveJob();
@@ -113,18 +132,19 @@ public class CreateJobActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent getIntentnt = new Intent();
-                getIntentnt.setType("image/*");
-                getIntentnt.setAction(Intent.ACTION_GET_CONTENT);
+                Intent getIntent = new Intent();
+                getIntent.setType("image/*");
+                getIntent.setAction(Intent.ACTION_GET_CONTENT);
                 Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 pickIntent.setType("image/*");
-                Intent chooserIntent = Intent.createChooser(getIntentnt, "Select Image");
+                Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
                 chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
                 startActivityForResult(chooserIntent, PICK_IMAGE);
 
             }
         });
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

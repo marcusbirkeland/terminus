@@ -15,10 +15,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import com.example.jobbkalender.DataClasses.WorkdayEvent;
-import com.example.jobbkalender.ui.home.HomeFragment;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -49,10 +47,10 @@ public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
            final WorkdayEvent event = getItem(position);
             String jobName = event.getJob().getName();
             String eventTimeSpan = "Fra " +event.getStartTime() + " til " + getItem(position).getEndTime();
-            PayCaluclator payCaluclator = new PayCaluclator();
             List<WorkdayEvent> events = new ArrayList<>();
             events.add(event);
-            String salary = "Lønn: " + (int) payCaluclator.getTotalEarningsGross(events) + " kr";
+            PayCalculator payCalculator = new PayCalculator(events);
+            String salary = "Lønn: " + (int) payCalculator.getEarnings(events) + " kr";
             String src = event.getJob().getImage();
 
         LayoutInflater inflater = LayoutInflater.from(mContext);
