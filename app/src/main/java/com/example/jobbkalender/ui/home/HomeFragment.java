@@ -1,5 +1,6 @@
 package com.example.jobbkalender.ui.home;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.content.Intent;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
 import android.widget.ListAdapter;
@@ -28,6 +30,7 @@ import com.example.jobbkalender.DataClasses.WorkdayEvent;
 import com.example.jobbkalender.EventListAdapter;
 import com.example.jobbkalender.MainActivity;
 import com.example.jobbkalender.R;
+import com.example.jobbkalender.ViewEvent;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
@@ -40,7 +43,7 @@ import java.util.List;
 import static android.app.Activity.RESULT_OK;
 import static com.example.jobbkalender.MainActivity.DELETE_EVENT;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment{
 
     public static final int CREATE_EVENT = 2;
     List<WorkdayEvent> workdayEvents = new ArrayList<>();
@@ -99,16 +102,25 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         loadEvents();
-        final ListView eventListView = view.findViewById(R.id.listViewEventList);
+
         LocalDate currentDate = java.time.LocalDate.now();
         day = currentDate.getDayOfMonth();
         selectedMonth = currentDate.getMonthValue();
         selectedYear= currentDate.getYear();
         // Finn events på gjeldende dato og oppdater listview
         String date = dateToString(day,selectedMonth,selectedYear);
-        List<WorkdayEvent> events = searchEvents(date);
+        final List<WorkdayEvent> events = searchEvents(date);
         EventListAdapter eventListAdapter = new EventListAdapter(getContext(),0,events);
+        final ListView eventListView = view.findViewById(R.id.listViewEventList);
         eventListView.setAdapter(eventListAdapter);
+        eventListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String date = dateToString(day,selectedMonth,selectedYear);
+                List<WorkdayEvent> events = searchEvents(date);
+                startViewEvent(events.get(position));
+            }
+        });
         // Legg til ny event
         Button buttonAddEvent = view.findViewById(R.id.buttonAddEvent);
         buttonAddEvent.setOnClickListener(new View.OnClickListener() {
@@ -153,14 +165,22 @@ public class HomeFragment extends Fragment {
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-                super.onActivityResult(requestCode, resultCode, data);
-                final ListView eventListView = getView().findViewById(R.id.listViewEventList);
-                // Finn events på gjeldende dato og oppdater listview
-                loadEvents();
-                String date = dateToString(day, selectedMonth, selectedYear);
-                List<WorkdayEvent> events = searchEvents(date);
-                EventListAdapter eventListAdapter = new EventListAdapter(getContext(), 0, events);
-                eventListView.setAdapter(eventListAdapter);
-                //TODO fikse for sletting av events
+        super.onActivityResult(requestCode, resultCode, data);
+        final ListView eventListView = getView().findViewById(R.id.listViewEventList);
+        loadEvents();
+        // Finn events på gjeldende dato og oppdater listview
+        String date = dateToString(day,selectedMonth,selectedYear);
+        List<WorkdayEvent> events = searchEvents(date);
+        EventListAdapter eventListAdapter = new EventListAdapter(getContext(),0,events);
+        eventListView.setAdapter(eventListAdapter);
+    }
+
+    private void startViewEvent(WorkdayEvent event) {
+        Log.e("SDFSDFSDF","SDFSDFSFDF");
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("EVENT",event);
+        Intent intent = new Intent(getContext(), ViewEvent.class);
+        intent.putExtra("EVENTBUNDLE",bundle);
+        startActivityForResult(intent,DELETE_EVENT);
     }
 }

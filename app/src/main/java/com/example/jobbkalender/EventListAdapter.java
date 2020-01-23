@@ -2,6 +2,7 @@ package com.example.jobbkalender;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.jobbkalender.DataClasses.Job;
 import com.example.jobbkalender.DataClasses.WorkdayEvent;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -32,7 +34,6 @@ import static com.example.jobbkalender.MainActivity.DELETE_EVENT;
 public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
 
     private Context mContext;
-
     public EventListAdapter(@NonNull Context context, int resource, @NonNull List<WorkdayEvent> objects) {
         super(context, resource, objects);
         mContext = context;
@@ -72,21 +73,9 @@ public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
                     .showImageOnLoading(defaultImage).build();
 
         imageLoader.displayImage("file://"+src, imageView, options);
-            convertView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("EVENT",event);
-                    Intent intent = new Intent(mContext, ViewEvent.class);
-                    intent.putExtra("EVENTBUNDLE",bundle);
-                    Activity activity = (Activity)mContext;
-                    activity.startActivityForResult(intent,DELETE_EVENT);
-            }
-            });
         } catch (NullPointerException e){
             Log.d("Null", "Job class is null");
         }
-
         return convertView;
     }
 
@@ -106,4 +95,5 @@ public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
         ImageLoader.getInstance().init(config);
         // END - UNIVERSAL IMAGE LOADER SETUP
     }
+
 }

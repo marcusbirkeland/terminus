@@ -6,10 +6,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
@@ -26,6 +30,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import static android.content.Context.MODE_PRIVATE;
@@ -35,9 +40,40 @@ public class EarningsFragment extends Fragment {
     private EarningsViewModel earningsViewModel;
     private List<WorkdayEvent> workdayEvents = new ArrayList<>();
     private List<Job> jobs = new ArrayList<>();
+    List<String> jobNames = new ArrayList<>();
     private Job selectedJob;
+    private int currentEarnings;
+    private float taxPercentage;
+    private int spinnerPosition;
 
     PayCalculator payCalculator = new PayCalculator(workdayEvents);
+
+    private void calculateMonthlyEarnings(int position){
+        selectedJob = getJobByName(jobNames.get(position));
+        TextView textViewMonthlyEarningsGross = getView().findViewById(R.id.textViewMonthlyEarningsGross);
+        TextView textViewMonthPeriod = getView().findViewById(R.id.textViewMonthPeriod);
+        TextView textViewMonthlyEarningsNet = getView().findViewById(R.id.textViewMonthlyEarningsNet);
+        int monthlyGrossPay = payCalculator.getMonthlyEarnings(workdayEvents,selectedJob);
+        textViewMonthPeriod.setText("Lønn i perioden  " + payCalculator.getStartDateStr() + " - " + payCalculator.getEndDateStr());
+        textViewMonthlyEarningsGross.setText("" + monthlyGrossPay);
+        Log.d("Selected job",selectedJob.toString());
+        float monthlyNetPay = monthlyGrossPay*(1-taxPercentage/100);
+        textViewMonthlyEarningsNet.setText((int) monthlyNetPay + "");
+    }
+
+    private void saveTaxPercentage (float percentage){
+        SharedPreferences pref = getActivity().getSharedPreferences("SHARED PREFERENCES", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putFloat("TAXPERCENTAGE", percentage);
+        editor.apply();
+    }
+    private float loadTaxPercentage(){
+        SharedPreferences pref = getActivity().getSharedPreferences("SHARED PREFERENCES",MODE_PRIVATE);
+        float percentage;
+        percentage = pref.getFloat("TAXPERCENTAGE", 0.0f);
+        Log.d("LOAD TAX","TAX:" + percentage);
+        return percentage;
+    }
     private void loadJobs(){
         // Laster listen med lagrede jobber.
         SharedPreferences pref = getActivity().getSharedPreferences("SHARED PREFERENCES", MODE_PRIVATE);
@@ -82,9 +118,16 @@ public class EarningsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         loadEvents();
         loadJobs();
+        taxPercentage = loadTaxPercentage();
+        EditText editTextTaxPercentage = getView().findViewById(R.id.editTextTaxPercentage);
+        editTextTaxPercentage.setText(taxPercentage+ "");
         TextView textViewTotalEarningsGross = getView().findViewById(R.id.textViewGrossCurrentEarnings);
-        textViewTotalEarningsGross.setText("" + payCalculator.getEarnings(workdayEvents));
-        Spinner jobSpinner = getView().findViewById(R.id.spinnerSelectJob);
+        currentEarnings = payCalculator.getEarnings(workdayEvents);
+        textViewTotalEarningsGross.setText("" + currentEarnings);
+        TextView textViewTotalEarningsNet = getView().findViewById(R.id.textViewNetCurrentEarnings);
+        float netEarnings = currentEarnings*(1-(taxPercentage/100));
+        textViewTotalEarningsNet.setText("" + (int) netEarnings);
+        final Spinner jobSpinner = getView().findViewById(R.id.spinnerSelectJob);
         // Gjør spinner scrollable
         try {
             Field popup = Spinner.class.getDeclaredField("mPopup");
@@ -101,8 +144,6 @@ public class EarningsFragment extends Fragment {
         }
         catch (NoClassDefFoundError | ClassCastException | NoSuchFieldException | IllegalAccessException e) {
         }
-
-        final List<String> jobNames = new ArrayList<>();
         if(jobs != null) {
             for (Job job : jobs) {
                 jobNames.add(job.getName());
@@ -113,22 +154,32 @@ public class EarningsFragment extends Fragment {
         jobSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedJob = getJobByName(jobNames.get(position));
-                TextView textViewMonthlyEarningsGross = getView().findViewById(R.id.textViewMonthlyEarningsGross);
-                TextView textViewMonthPeriod = getView().findViewById(R.id.textViewMonthPeriod);
-                TextView textViewMonthlyEarningsNet = getView().findViewById(R.id.textViewMonthlyEarningsNet);
-                int monthlyGrossPay = payCalculator.getMonthlyEarnings(workdayEvents,selectedJob);
-                textViewMonthPeriod.setText("Fra " + payCalculator.getStartDateStr() + " til " + payCalculator.getEndDateStr());
-                textViewMonthlyEarningsGross.setText("" + monthlyGrossPay);
-                Log.d("Selected job",selectedJob.toString());
+                spinnerPosition = position;
+                calculateMonthlyEarnings(position);
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 selectedJob = null;
             }
         });
-
+        Button buttonSaveTaxPercentage = getView().findViewById(R.id.buttonSaveTaxPercentage);
+        buttonSaveTaxPercentage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText editTextTaxPercentage = getView().findViewById(R.id.editTextTaxPercentage);
+                if(editTextTaxPercentage.getText() != null && !editTextTaxPercentage.getText().toString().equals("")) {
+                    saveTaxPercentage(Float.parseFloat(editTextTaxPercentage.getText().toString()));
+                    taxPercentage = Float.parseFloat(editTextTaxPercentage.getText().toString());
+                   Toast toast =  Toast.makeText(getActivity(), "Skatteprosent lagret!", Toast.LENGTH_LONG);
+                    toast.show();
+                    editTextTaxPercentage.setCursorVisible(false);
+                    TextView textViewTotalEarningsNet = getView().findViewById(R.id.textViewNetCurrentEarnings);
+                    float netEarnings = currentEarnings*(1-(taxPercentage/100));
+                    textViewTotalEarningsNet.setText("" + (int) netEarnings);
+                    calculateMonthlyEarnings(spinnerPosition);
+                }
+            }
+        });
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,

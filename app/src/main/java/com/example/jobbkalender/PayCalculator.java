@@ -100,7 +100,6 @@ public class PayCalculator {
                 eventDate.isBefore(startDate) || eventDate.isAfter(endDate)){
                     continue;
                 }
-                Log.d("WAHOO","AHGOOOHFOO");
                 List<SalaryRule> salaryRulesList = new ArrayList<>();
                 for (SalaryRule rule : event.getJob().getSalaryRules()) {
                     for (DayOfWeek dayOfWeek : rule.getDaysOfWeek()) {
