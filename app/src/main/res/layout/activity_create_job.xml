@@ -7,7 +7,7 @@
     tools:context=".CreateJobActivity">
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/textViewCreateJobTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -45,8 +45,8 @@
         android:layout_width="95dp"
         android:layout_height="95dp"
         android:layout_marginTop="32dp"
-        app:layout_constraintStart_toStartOf="@+id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintStart_toStartOf="@+id/textViewCreateJobTitle"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCreateJobTitle"
         app:srcCompat="@drawable/contacts" />
 
     <Button
@@ -127,6 +127,17 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="@+id/imageViewCreateJob"
         app:layout_constraintTop_toBottomOf="@+id/editTextSalaryCreateJob" />
+
+    <Button
+        android:id="@+id/buttonDeleteJob"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="@color/colorAccent"
+        android:text="Slett jobb"
+        android:textColor="#fff"
+        app:layout_constraintBottom_toTopOf="@+id/editTextNameJob"
+        app:layout_constraintEnd_toEndOf="@+id/editTextNameJob" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

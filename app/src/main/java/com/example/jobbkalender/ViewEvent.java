@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.jobbkalender.DataClasses.Job;
@@ -23,12 +24,17 @@ import com.google.gson.reflect.TypeToken;
 import org.w3c.dom.Text;
 
 import java.lang.reflect.Type;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ViewEvent extends AppCompatActivity {
 
     private List<WorkdayEvent> workdayEvents = new ArrayList<>();
+    private String formatDate(LocalDate date){
+        return  date.getDayOfMonth() + "." + date.getMonthValue()+ "." + date.getYear();
+    }
 
     private void loadEvents() {
         // Laster listen med lagrede jobber.
@@ -81,12 +87,15 @@ public class ViewEvent extends AppCompatActivity {
             TextView textViewTimeFrom = findViewById(R.id.timeInputFromViewEvent);
             TextView textViewTimeTo = findViewById(R.id.timeInputToViewEvent);
             TextView textViewJobName = findViewById(R.id.textViewViewEventJobName);
+            TextView textViewSalary = findViewById(R.id.textViewViewEventSalary);
             ImageView imageView = findViewById(R.id.imageViewViewEvent);
 
-            textViewDate.setText(event.getDate());
+            LocalDate eventDate = LocalDate.parse(event.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            textViewDate.setText(formatDate(eventDate));
             textViewTimeFrom.setText(event.getStartTime());
             textViewTimeTo.setText(event.getEndTime());
             textViewJobName.setText(event.getJob().getName());
+            textViewSalary.setText(event.getSalary() + " kr");
             try {
                 Uri uri = Uri.parse(event.getJob().getImage());
                 imageView.setImageURI(uri);
@@ -106,6 +115,18 @@ public class ViewEvent extends AppCompatActivity {
                     saveEvents();
                     setResult(RESULT_OK);
                     finish();
+                }
+            });
+            LinearLayout linearLayoutJobView = findViewById(R.id.linearLayoutJobView);
+            linearLayoutJobView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(),CreateJobActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("JOB",event.getJob());
+                    bundle.putBoolean("EDITMODE",true);
+                    intent.putExtra("BUNDLE",bundle);
+                    startActivity(intent);
                 }
             });
         }

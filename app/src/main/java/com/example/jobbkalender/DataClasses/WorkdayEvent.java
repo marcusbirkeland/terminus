@@ -8,7 +8,16 @@ public class WorkdayEvent implements Serializable {
     private String startTime;
     private String endTime;
     private int breakTime;
+    private int salary;
     private Job job;
+
+    public int getSalary() {
+        return salary;
+    }
+
+    public void setSalary(int salary) {
+        this.salary = salary;
+    }
 
     public String getDayOfWeek() {
         return dayOfWeek;

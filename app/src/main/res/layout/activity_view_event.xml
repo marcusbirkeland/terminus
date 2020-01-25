@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/timeInputToViewEvent"
         android:layout_width="117dp"
-        android:layout_height="47dp"
+        android:layout_height="wrap_content"
         android:ems="24"
         android:text="20.00"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
@@ -31,7 +31,7 @@
     <TextView
         android:id="@+id/timeInputFromViewEvent"
         android:layout_width="117dp"
-        android:layout_height="47dp"
+        android:layout_height="wrap_content"
         android:ems="24"
         android:text="16:00"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
@@ -45,10 +45,10 @@
         android:id="@+id/textView37"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:text="@string/from"
-        app:layout_constraintStart_toStartOf="@+id/textView36"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintStart_toStartOf="@+id/textViewViewEventDate"
+        app:layout_constraintTop_toBottomOf="@+id/textViewViewEventDate" />
 
     <TextView
         android:id="@+id/textView36"
@@ -65,28 +65,29 @@
         android:id="@+id/textViewViewEventDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="DATO"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/colorAccent"
+        android:textColor="#000"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="@+id/textView36"
-        app:layout_constraintTop_toBottomOf="@+id/timeInputFromViewEvent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView36" />
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/linearLayoutJobView"
         android:layout_width="300dp"
-        android:layout_height="100dp"
+        android:layout_height="80dp"
         android:layout_marginTop="32dp"
         android:backgroundTint="@color/colorPrimaryDark"
         android:backgroundTintMode="src_atop"
         android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="@+id/textView36"
-        app:layout_constraintTop_toBottomOf="@+id/textView36">
+        app:layout_constraintStart_toStartOf="@+id/timeInputFromViewEvent"
+        app:layout_constraintTop_toBottomOf="@+id/timeInputFromViewEvent">
 
         <ImageView
             android:id="@+id/imageViewViewEvent"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
             android:src="@drawable/contacts" />
 
         <TextView
@@ -102,11 +103,34 @@
 
     <Button
         android:id="@+id/buttonViewEventDelete"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="64dp"
         android:backgroundTint="@color/colorAccent"
         android:text="Slett"
         android:textColor="#fff"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/linearLayoutJobView" />
+
+    <TextView
+        android:id="@+id/textViewViewEventSalaryDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Lønn"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/linearLayoutJobView"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutJobView" />
+
+    <TextView
+        android:id="@+id/textViewViewEventSalary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Her vises lønn"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/textViewViewEventSalaryDescription"
+        app:layout_constraintTop_toBottomOf="@+id/textViewViewEventSalaryDescription" />
 </androidx.constraintlayout.widget.ConstraintLayout>

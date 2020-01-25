@@ -51,7 +51,8 @@ public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
             List<WorkdayEvent> events = new ArrayList<>();
             events.add(event);
             PayCalculator payCalculator = new PayCalculator(events);
-            String salary = "Lønn: " + (int) payCalculator.getEarnings(events) + " kr";
+            event.setSalary(payCalculator.getEarnings(events));
+            String salary = "Lønn: " + event.getSalary() + " kr";
             String src = event.getJob().getImage();
 
         LayoutInflater inflater = LayoutInflater.from(mContext);

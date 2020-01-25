@@ -40,6 +40,8 @@ import java.util.List;
 public class CreateJobActivity extends AppCompatActivity implements NumberPicker.OnValueChangeListener {
 
     private int salaryPeriodDate=1;
+    private boolean editMode;
+    private Job job;
     public static final int CREATE_SALARY_RULE = 1;
     public static final int PICK_IMAGE = 2;
     private String selectedImagePath;
@@ -81,9 +83,13 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
+        Bundle bundle = getIntent().getBundleExtra("BUNDLE");
+
         setContentView(R.layout.activity_create_job);
+        final EditText editTextJobName = findViewById(R.id.editTextNameJob);
+        final EditText editTextEnterSalary = findViewById(R.id.editTextSalaryCreateJob);
+        final CheckBox checkBoxPaidBreak = findViewById(R.id.checkBoxPaidBreak);
         ListView listViewSalaryRules = findViewById(R.id.listViewSalaryrules);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,salaryRuleStrings);
         listViewSalaryRules.setAdapter(arrayAdapter);
@@ -100,27 +106,6 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
             @Override
             public void onClick(View v) {
                 showNumberPicker();
-            }
-        });
-
-        Button submitJob = findViewById(R.id.buttonAddJob);
-        submitJob.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditText editTextJobName = findViewById(R.id.editTextNameJob);
-                EditText editTextEnterSalary = findViewById(R.id.editTextSalaryCreateJob);
-                CheckBox checkBoxPaidBreak = findViewById(R.id.checkBoxPaidBreak);
-                String name = editTextJobName.getText().toString();
-                if(!name.equals("") && !editTextEnterSalary.getText().toString().equals("")) {
-                    double salary= Double.parseDouble(editTextEnterSalary.getText().toString());
-                    Job job = new Job(name, salary, salaryPeriodDate, salaryRulesArrayList,checkBoxPaidBreak.isChecked());
-                    job.setImage(selectedImagePath);
-                    jobList.add(job);
-                    saveJob();
-                    finish();
-                }
-
-
             }
         });
         ImageView imageView = findViewById(R.id.imageViewCreateJob);
@@ -143,6 +128,35 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
 
             }
         });
+
+        Button submitJob = findViewById(R.id.buttonAddJob);
+        submitJob.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = editTextJobName.getText().toString();
+                if(!name.equals("") && !editTextEnterSalary.getText().toString().equals("")) {
+                    double salary= Double.parseDouble(editTextEnterSalary.getText().toString());
+                    Job job = new Job(name, salary, salaryPeriodDate, salaryRulesArrayList,checkBoxPaidBreak.isChecked());
+                    job.setImage(selectedImagePath);
+                    jobList.add(job);
+                    if(!editMode) {
+                        saveJob();
+                    }else{
+
+                    }
+                    finish();
+                }
+            }
+        });
+        if(bundle.getBoolean("EDITMODE")==true){
+            job = (Job) bundle.getSerializable("JOB");
+            editTextJobName.setText(job.getName());
+            editTextEnterSalary.setText(job.getSalary()+"");
+            editTextsetSalaryPeriod.setText("Hver " +  job.getSalaryPeriodDate()+".");
+            checkBoxPaidBreak.setChecked(job.hasPaidBreak());
+            Uri uri = Uri.parse(job.getImage());
+            imageView.setImageURI(uri);
+        }
     }
 
 
