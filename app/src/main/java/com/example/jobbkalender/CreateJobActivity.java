@@ -83,7 +83,12 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
         List<WorkdayEvent> newEventList = savedWorkdayEvents;
         for(WorkdayEvent event : newEventList){
             if(event.getJob().getName().equals(prevJob.getName())){
-                event.setJob(newJob);
+                Job setJob = jobIn;
+                setJob.setImage(newJob.getImage());
+                setJob.setName(newJob.getName());
+                // Oppdaterer kun navn og bilde. Lønn blir ikke endret da dette ødelegger oversikten over hva man har tjent tidligere.
+                // Kun senere oppføringer vil ha oppdatert lønn og tilleggsregler osv.
+                event.setJob(setJob);
             }
         }
         saveEvents(newEventList);

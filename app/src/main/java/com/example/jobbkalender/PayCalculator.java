@@ -29,6 +29,54 @@ public class PayCalculator {
         return endDateStr;
     }
 
+    public int getYearlyEarnings(List<WorkdayEvent> workdayEvents){
+        double sum = 0;
+        LocalDate now = LocalDate.now();
+        try {
+            for (WorkdayEvent event : workdayEvents) {
+                LocalDate eventDate = LocalDate.parse(event.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                // Hopp over event dersom den ikke er i nåværende år.
+                if(eventDate.getYear()!= now.getYear())
+                    continue;
+                LocalTime startTime = LocalTime.parse(event.getStartTime(), DateTimeFormatter.ofPattern("HH:mm"));
+                LocalTime endTime = LocalTime.parse(event.getEndTime(), DateTimeFormatter.ofPattern("HH:mm"));
+
+                List<SalaryRule> salaryRulesList = new ArrayList<>();
+                for (SalaryRule rule : event.getJob().getSalaryRules()) {
+                    for (DayOfWeek dayOfWeek : rule.getDaysOfWeek()) {
+                        if (dayOfWeek.toString().equals(event.getDayOfWeek())) {
+                            salaryRulesList.add(rule);
+                            Log.d("ADD", "Salary Rule added");
+                        }
+                    }
+                }
+                // Hopp over pause dersom den ikke er betalt
+                if (!event.getJob().hasPaidBreak()) {
+                    startTime = startTime.plusMinutes(event.getBreakTime());
+                }
+                double salary = event.getJob().getSalary();
+                // Itererer gjennom hvert minutt av arbeidsdagen og finner ut lønn
+                while (startTime.isBefore(endTime)) {
+                    // Sjekk lønnsregler for gjeldende minutt. Finn kr/min og legg til i gjeldende minuttlønn.
+                    double currentSalary = salary;
+                    for (SalaryRule salaryRule : salaryRulesList) {
+                        LocalTime ruleStartTime = LocalTime.parse(salaryRule.getStartTime(), DateTimeFormatter.ofPattern("HH:mm"));
+                        LocalTime ruleEndTime = LocalTime.parse(salaryRule.getEndTime(), DateTimeFormatter.ofPattern("HH:mm"));
+                        if (startTime.isAfter(ruleStartTime) && startTime.isBefore(ruleEndTime)) {
+                            currentSalary += salaryRule.getChangeInPay();
+                        }
+                    }
+                    // Legg til minutlønn i sum
+                    sum += currentSalary / 60;
+                    startTime = startTime.plusMinutes(1);
+                }
+            }
+        }catch (NullPointerException e){
+            Log.e("Null","No workday events in list");
+        }
+        return (int) sum;
+    }
+
     public int getEarnings(List<WorkdayEvent> workdayEvents){
         double sum=0;
         try {

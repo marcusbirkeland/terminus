@@ -122,7 +122,7 @@ public class EarningsFragment extends Fragment {
         EditText editTextTaxPercentage = getView().findViewById(R.id.editTextTaxPercentage);
         editTextTaxPercentage.setText(taxPercentage+ "");
         TextView textViewTotalEarningsGross = getView().findViewById(R.id.textViewGrossCurrentEarnings);
-        currentEarnings = payCalculator.getEarnings(workdayEvents);
+        currentEarnings = payCalculator.getYearlyEarnings(workdayEvents);
         textViewTotalEarningsGross.setText("" + currentEarnings);
         TextView textViewTotalEarningsNet = getView().findViewById(R.id.textViewNetCurrentEarnings);
         float netEarnings = currentEarnings*(1-(taxPercentage/100));
