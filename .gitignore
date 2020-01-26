@@ -8,6 +8,7 @@
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
 /app/build/tmp
+/app/build/outputs/logs
 /app/build/generated
 /app/build/intermediates
 .DS_Store
