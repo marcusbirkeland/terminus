@@ -43,6 +43,8 @@ public class WorkdayEvent implements Serializable {
         return breakTime;
     }
 
+    public void setJob(Job jobIn){this.job = jobIn;}
+
     public Job getJob() {
         return job;
     }

@@ -1,5 +1,6 @@
 package com.example.jobbkalender;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -32,6 +33,7 @@ import java.util.List;
 public class ViewEvent extends AppCompatActivity {
 
     private List<WorkdayEvent> workdayEvents = new ArrayList<>();
+    private int eventIndex = -1;
     private String formatDate(LocalDate date){
         return  date.getDayOfMonth() + "." + date.getMonthValue()+ "." + date.getYear();
     }
@@ -61,6 +63,7 @@ public class ViewEvent extends AppCompatActivity {
         editor.apply();
     }
 
+
     private int getEventIndex(WorkdayEvent event){
         for (int i = 0; i<workdayEvents.size();i++){
             WorkdayEvent e = workdayEvents.get(i);
@@ -76,26 +79,76 @@ public class ViewEvent extends AppCompatActivity {
         return -1;
     }
 
-        @Override
+    private int getEventPay(){
+        final List<WorkdayEvent> eventToCalculate = new ArrayList<>();
+        eventToCalculate.add(workdayEvents.get(eventIndex));
+        PayCalculator payCalculator = new PayCalculator(eventToCalculate);
+        return  payCalculator.getEarnings(eventToCalculate);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        loadEvents();
+        final WorkdayEvent event = workdayEvents.get(eventIndex);
+        final TextView textViewJobName = findViewById(R.id.textViewViewEventJobName);
+        final TextView textViewSalary = findViewById(R.id.textViewViewEventSalary);
+        final ImageView imageView = findViewById(R.id.imageViewViewEvent);
+
+        textViewJobName.setText(event.getJob().getName());
+        // Regn ut total lønn for arbeidsdag
+        textViewSalary.setText(getEventPay()+ " kr");
+        // Finner bilde for imageView
+        try {
+            Uri uri = Uri.parse(event.getJob().getImage());
+            imageView.setImageURI(uri);
+        } catch (Exception e){
+            Log.e("No image", "No image file to open");
+        }
+
+        // Laster inn det nye "Job" objektet
+        LinearLayout linearLayoutJobView = findViewById(R.id.linearLayoutJobView);
+        linearLayoutJobView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadEvents();
+                Intent intent = new Intent(getApplicationContext(),CreateJobActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("JOB",event.getJob());
+                bundle.putBoolean("EDITMODE",true);
+                intent.putExtra("BUNDLE",bundle);
+                startActivityForResult(intent, 1);
+            }
+        });
+    }
+
+    @Override
         protected void onCreate (Bundle savedInstanceState){
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_view_event);
+            loadEvents();
             Intent intent = getIntent();
             Bundle bundle = intent.getBundleExtra("EVENTBUNDLE");
-            final WorkdayEvent event = (WorkdayEvent) bundle.getSerializable("EVENT");
-            TextView textViewDate = findViewById(R.id.textViewViewEventDate);
-            TextView textViewTimeFrom = findViewById(R.id.timeInputFromViewEvent);
-            TextView textViewTimeTo = findViewById(R.id.timeInputToViewEvent);
-            TextView textViewJobName = findViewById(R.id.textViewViewEventJobName);
-            TextView textViewSalary = findViewById(R.id.textViewViewEventSalary);
-            ImageView imageView = findViewById(R.id.imageViewViewEvent);
+            final WorkdayEvent eventIn = (WorkdayEvent) bundle.getSerializable("EVENT");
+            eventIndex = getEventIndex(eventIn);
+            final WorkdayEvent event = workdayEvents.get(eventIndex);
+
+            final TextView textViewDate = findViewById(R.id.textViewViewEventDate);
+            final TextView textViewTimeFrom = findViewById(R.id.timeInputFromViewEvent);
+            final TextView textViewTimeTo = findViewById(R.id.timeInputToViewEvent);
+            final TextView textViewJobName = findViewById(R.id.textViewViewEventJobName);
+            final TextView textViewSalary = findViewById(R.id.textViewViewEventSalary);
+            final ImageView imageView = findViewById(R.id.imageViewViewEvent);
 
             LocalDate eventDate = LocalDate.parse(event.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             textViewDate.setText(formatDate(eventDate));
             textViewTimeFrom.setText(event.getStartTime());
             textViewTimeTo.setText(event.getEndTime());
             textViewJobName.setText(event.getJob().getName());
-            textViewSalary.setText(event.getSalary() + " kr");
+            // Regn ut total lønn for arbeidsdag
+
+            textViewSalary.setText(getEventPay() + " kr");
             try {
                 Uri uri = Uri.parse(event.getJob().getImage());
                 imageView.setImageURI(uri);
@@ -121,13 +174,15 @@ public class ViewEvent extends AppCompatActivity {
             linearLayoutJobView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    loadEvents();
                     Intent intent = new Intent(getApplicationContext(),CreateJobActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("JOB",event.getJob());
                     bundle.putBoolean("EDITMODE",true);
                     intent.putExtra("BUNDLE",bundle);
-                    startActivity(intent);
+                    startActivityForResult(intent, 1);
                 }
             });
+
         }
     }

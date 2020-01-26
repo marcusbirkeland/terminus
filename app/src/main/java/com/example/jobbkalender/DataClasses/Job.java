@@ -37,10 +37,6 @@ public class Job implements Serializable {
         return salaryRules;
     }
 
-    public void setHasPayedBreak(boolean hasPayedBreak) {
-        this.hasPaidBreak = hasPayedBreak;
-    }
-
     public String getName(){
         return name;
     }

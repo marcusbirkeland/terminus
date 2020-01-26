@@ -3,6 +3,7 @@ package com.example.jobbkalender;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 
 import com.example.jobbkalender.DataClasses.Job;
 import com.example.jobbkalender.DataClasses.SalaryRule;
+import com.example.jobbkalender.DataClasses.WorkdayEvent;
 import com.example.jobbkalender.dialogFragments.SalaryPeriodDatePicker;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -41,22 +43,99 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
 
     private int salaryPeriodDate=1;
     private boolean editMode;
-    private Job job;
+    private Job jobIn;
     public static final int CREATE_SALARY_RULE = 1;
     public static final int PICK_IMAGE = 2;
     private String selectedImagePath;
-    List<Job> jobList = new ArrayList<>();
-     List<String> salaryRuleStrings = new ArrayList<>();
-     List<SalaryRule> salaryRulesArrayList = new ArrayList<>();
+    private List<Job> savedJobs = new ArrayList<>();
+    private List<Job> jobList = new ArrayList<>();
+    private List<String> salaryRuleStrings = new ArrayList<>();
+    private List<SalaryRule> salaryRulesArrayList = new ArrayList<>();
+    private List<WorkdayEvent> savedWorkdayEvents = new ArrayList<>();
 
 
-    private void saveJob(){
+    private void saveEvents(List<WorkdayEvent> eventsToSave){
+        SharedPreferences pref = getSharedPreferences("SHARED PREFERENCES", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<WorkdayEvent>>(){}.getType();
+        String eventInfo = gson.toJson(eventsToSave,type);
+            editor.putString("EVENTLIST", eventInfo);
+        Log.d("Saving to sharedprefs: ", eventInfo);
+        editor.apply();
+    }
+    private void loadEvents(){
+        // Laster listen med lagrede jobber.
+        SharedPreferences pref =getSharedPreferences("SHARED PREFERENCES", Context.MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = pref.getString("EVENTLIST",null);
+        Log.d("JSON","Json read: " + json);
+        Type type = new TypeToken<ArrayList<WorkdayEvent>>(){}.getType();
+        try {
+            savedWorkdayEvents = gson.fromJson(json,type);
+        } catch (Exception e){
+            Log.e("Error","Failed to load events");
+        }
+    }
+
+    private void editAllEventsWithJob(Job prevJob, Job newJob){
+        loadEvents();
+        List<WorkdayEvent> newEventList = savedWorkdayEvents;
+        for(WorkdayEvent event : newEventList){
+            if(event.getJob().getName().equals(prevJob.getName())){
+                event.setJob(newJob);
+            }
+        }
+        saveEvents(newEventList);
+    }
+
+    private int getJobIndex(Job jobIn){
+         int i = 0;
+         for(Job job : savedJobs){
+             if(job.getName().equals(jobIn.getName())){
+                 return i;
+             }
+             i++;
+         }
+         Log.e("Null","Job out of index");
+         return -1;
+    }
+    private void loadJobs(){
+        // Laster listen med lagrede jobber.
+        SharedPreferences pref = getSharedPreferences("SHARED PREFERENCES", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = pref.getString("JOBLIST",null);
+        Log.d("JSON","Json read: " + json);
+        Type type = new TypeToken<ArrayList<Job>>(){}.getType();
+        try {
+            savedJobs= gson.fromJson(json,type);
+        } catch (Exception e){
+            Log.e("Error","Failed to load jobs");
+        }
+    }
+    private void saveJob(boolean isEditMode){
         SharedPreferences pref = getSharedPreferences("SHARED PREFERENCES", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         Gson gson = new Gson();
         Type type = new TypeToken<ArrayList<Job>>(){}.getType();
         String currentList = pref.getString("JOBLIST",null);
         String jobInfo = gson.toJson(jobList,type);
+        if(isEditMode){
+            Log.d("Saving job", "SAVING IN EDIT MODE");
+            loadJobs();
+            List<Job> newJobList = savedJobs;
+            int index = getJobIndex(jobIn);
+            newJobList.remove(index);
+            // Job list inneholder kun en jobb.
+            Job newJob = jobList.get(0);
+            newJobList.add(index, newJob);
+            jobInfo = gson.toJson(newJobList);
+            editor.putString("JOBLIST", jobInfo);
+            editor.apply();
+            editAllEventsWithJob(jobIn, newJob);
+            return;
+        }
+
         if (currentList != null){
             editor.putString("JOBLIST", currentList.substring(0,currentList.length()-1)+","+jobInfo.substring(1));
         }else{
@@ -67,6 +146,7 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
         }
         editor.apply();
     }
+
 
     @Override
     public void onValueChange(NumberPicker numberPicker, int i, int i1) {
@@ -84,13 +164,40 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle bundle = getIntent().getBundleExtra("BUNDLE");
-
         setContentView(R.layout.activity_create_job);
+        //Setter default bilde-path for editMode
+
+        final Button buttonDelete = findViewById(R.id.buttonDeleteJob);
+        final TextView editTextsetSalaryPeriod = findViewById(R.id.editTextSetSalaryPeriod);
         final EditText editTextJobName = findViewById(R.id.editTextNameJob);
         final EditText editTextEnterSalary = findViewById(R.id.editTextSalaryCreateJob);
         final CheckBox checkBoxPaidBreak = findViewById(R.id.checkBoxPaidBreak);
-        ListView listViewSalaryRules = findViewById(R.id.listViewSalaryrules);
+        final ImageView imageView = findViewById(R.id.imageViewCreateJob);
+        final ListView listViewSalaryRules = findViewById(R.id.listViewSalaryrules);
+        final Bundle bundle = getIntent().getBundleExtra("BUNDLE");
+
+        buttonDelete.setVisibility(View.INVISIBLE);
+
+        if(bundle != null && bundle.getBoolean("EDITMODE")){
+            editMode = true;
+            Button deleteButton = findViewById(R.id.buttonDeleteJob);
+            deleteButton.setVisibility(View.VISIBLE);
+            jobIn = (Job) bundle.getSerializable("JOB");
+            editTextJobName.setText(jobIn.getName());
+            editTextEnterSalary.setText(jobIn.getSalary()+"");
+            editTextsetSalaryPeriod.setText("Hver " +  jobIn.getSalaryPeriodDate()+".");
+            checkBoxPaidBreak.setChecked(jobIn.hasPaidBreak());
+            if(jobIn.getImage() != null) {
+                Uri uri = Uri.parse(jobIn.getImage());
+                imageView.setImageURI(uri);
+            }
+            salaryRulesArrayList = jobIn.getSalaryRules();
+            for(SalaryRule salaryRule : salaryRulesArrayList){
+                salaryRuleStrings.add(salaryRule.toString());
+            }
+            selectedImagePath= jobIn.getImage();
+        }
+
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,salaryRuleStrings);
         listViewSalaryRules.setAdapter(arrayAdapter);
         Button buttonCreateSalaryRule = findViewById(R.id.buttonAddSalaryRule);
@@ -101,14 +208,13 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
                 startActivityForResult(intent, 1);
             }
         });
-        TextView editTextsetSalaryPeriod = findViewById(R.id.editTextSetSalaryPeriod);
+
         editTextsetSalaryPeriod.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showNumberPicker();
             }
         });
-        ImageView imageView = findViewById(R.id.imageViewCreateJob);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public int hashCode() {
@@ -140,23 +246,15 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
                     job.setImage(selectedImagePath);
                     jobList.add(job);
                     if(!editMode) {
-                        saveJob();
+                        saveJob(false);
                     }else{
-
+                        saveJob(true);
                     }
                     finish();
                 }
             }
         });
-        if(bundle.getBoolean("EDITMODE")==true){
-            job = (Job) bundle.getSerializable("JOB");
-            editTextJobName.setText(job.getName());
-            editTextEnterSalary.setText(job.getSalary()+"");
-            editTextsetSalaryPeriod.setText("Hver " +  job.getSalaryPeriodDate()+".");
-            checkBoxPaidBreak.setChecked(job.hasPaidBreak());
-            Uri uri = Uri.parse(job.getImage());
-            imageView.setImageURI(uri);
-        }
+
     }
 
 
@@ -186,6 +284,7 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
              imageView.setImageURI(selectedImageUri);
              // Lag en kopi av bildet og lagre path
              selectedImagePath = copyFile(f);
+             Log.d("COPY IMAGE TO PATH",selectedImagePath);
          } catch (Exception e) {
              Log.e("FileSelectorActivity", "File select error", e);
          }

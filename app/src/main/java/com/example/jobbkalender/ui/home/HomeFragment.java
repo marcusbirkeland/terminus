@@ -176,7 +176,6 @@ public class HomeFragment extends Fragment{
     }
 
     private void startViewEvent(WorkdayEvent event) {
-        Log.e("SDFSDFSDF","SDFSDFSFDF");
         Bundle bundle = new Bundle();
         bundle.putSerializable("EVENT",event);
         Intent intent = new Intent(getContext(), ViewEvent.class);
