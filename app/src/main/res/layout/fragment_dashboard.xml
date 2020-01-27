@@ -9,9 +9,8 @@
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:text="Månedslønn (netto)"
-        app:layout_constraintStart_toEndOf="@+id/textView11"
+        app:layout_constraintStart_toStartOf="@+id/textView10"
         app:layout_constraintTop_toTopOf="@+id/textView11" />
 
     <TextView
@@ -65,7 +64,7 @@
         android:id="@+id/editTextTaxPercentage"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
         android:ems="10"
         android:hint="Skatt"
@@ -79,7 +78,7 @@
         android:id="@+id/textView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="32dp"
         android:text="@string/total_yearly_salary_net"
         app:layout_constraintStart_toEndOf="@+id/textView13"
         app:layout_constraintTop_toTopOf="@+id/textView13" />
@@ -113,7 +112,7 @@
         android:text="lagre"
         android:textColor="#fff"
         android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="@+id/textView10"
+        app:layout_constraintStart_toEndOf="@+id/textView13"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView

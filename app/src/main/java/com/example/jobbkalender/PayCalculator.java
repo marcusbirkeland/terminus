@@ -36,7 +36,7 @@ public class PayCalculator {
             for (WorkdayEvent event : workdayEvents) {
                 LocalDate eventDate = LocalDate.parse(event.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 // Hopp over event dersom den ikke er i nåværende år.
-                if(eventDate.getYear()!= now.getYear())
+                if(eventDate.getYear()!= now.getYear() || eventDate.isAfter(now))
                     continue;
                 LocalTime startTime = LocalTime.parse(event.getStartTime(), DateTimeFormatter.ofPattern("HH:mm"));
                 LocalTime endTime = LocalTime.parse(event.getEndTime(), DateTimeFormatter.ofPattern("HH:mm"));

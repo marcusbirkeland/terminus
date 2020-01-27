@@ -8,10 +8,15 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.jobbkalender.DataClasses.Job;
@@ -37,11 +42,10 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
     TimePickerDialogFragment timePickerDialogFragment = new TimePickerDialogFragment();
     ChooseWorkplaceDialogFragment chooseWorkplaceDialogFragment = new ChooseWorkplaceDialogFragment();
 
-    List<WorkdayEvent> eventList = new ArrayList<>();
     List<Job> jobList = new ArrayList<>();
     String jobName = "";
 
-    private void saveEvent(){
+    private void saveEvent(List<WorkdayEvent> eventList){
         SharedPreferences pref = getSharedPreferences("SHARED PREFERENCES", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         Gson gson = new Gson();
@@ -163,38 +167,69 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
             @Override
             public void onClick(View v) {
                 loadJobs();
+                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_TIME;
                 EditText editTextBreakTime = findViewById(R.id.editTextBreakTime);
                 TextView timeInputFrom = findViewById(R.id.timeInputFromCreateEvent);
                 TextView timeInputTo = findViewById(R.id.timeInputToCreateEvent);
+                CheckBox checkBoxIsNightShift = findViewById(R.id.checkBoxNightshift);
+                final ToggleRadioButton radioButtonRepeatEachWeek = findViewById(R.id.radioButtonRepeatEachWeek);
+                final ToggleRadioButton radioButtonRepeatEveryOtherWeek = findViewById(R.id.radioButtonRepeatEveryOtherWeek);
+                final RadioGroup radioGroup = findViewById(R.id.radioGroupRepeat);
+                // For å kunne unchecke radioButton
 
-                if (jobName.equals("")){
-                    Log.e("Error", "Please fill all fields");
-                    return;
-                }
-
-                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_TIME;
 
                 LocalTime startTime = LocalTime.parse(timeInputFrom.getText().toString(), dateTimeFormatter.ofPattern("HH:mm"));
                 LocalTime endTime = LocalTime.parse(timeInputTo.getText().toString(), dateTimeFormatter.ofPattern("HH:mm"));
-                if(startTime.isAfter(endTime)){
+                if(startTime.isAfter(endTime) && !checkBoxIsNightShift.isChecked()){
                     Log.d("Error", "Workday cant end before it starts!");
+                    return;
+                }
+                if (jobName.equals("") ){
+                    Log.e("Error", "Please fill all fields");
                     return;
                 }
                 String date = getIntent().getStringExtra("DATE");
                 LocalDate eventDate = LocalDate.parse(date,dateTimeFormatter.ofPattern("ddMMyyyy"));
-                Log.e("Event date:", eventDate.toString());
-                Job selectedJob = getJobByName(jobName);
+                // Setter default verdi til pause
                 int breakTime = 30;
+                Job selectedJob = getJobByName(jobName);
+                // Lag event
+                WorkdayEvent workdayEvent = new WorkdayEvent(eventDate.toString(),startTime.toString(),endTime.toString(),breakTime,selectedJob);
+                workdayEvent.setDayOfWeek(eventDate.getDayOfWeek().name());
+                workdayEvent.setNightShift(checkBoxIsNightShift.isChecked());
+
                 if(!editTextBreakTime.getText().toString().equals("")){
                     breakTime = Integer.parseInt(editTextBreakTime.getText().toString());
                 }
-                WorkdayEvent workdayEvent = new WorkdayEvent(eventDate.toString(),startTime.toString(),endTime.toString(),breakTime,selectedJob);
-                workdayEvent.setDayOfWeek(eventDate.getDayOfWeek().name());
+                // Lag event og lagre event
+                if(radioButtonRepeatEachWeek.isChecked()){
+                    repeatEvent(workdayEvent,eventDate,7);
+                }else if(radioButtonRepeatEveryOtherWeek.isChecked()){
+                    repeatEvent(workdayEvent,eventDate,14);
+                } else{
+
+                List<WorkdayEvent> eventList = new ArrayList<>();
                 eventList.add(workdayEvent);
-                saveEvent();
+                    saveEvent(eventList);
+                }
                 setResult(RESULT_OK);
                 finish();
             }
         });
+    }
+    private void repeatEvent(WorkdayEvent event, LocalDate eventDate, int dayInterval){
+        LocalDate itterDate = eventDate;
+        int currentYear = itterDate.getYear();
+        List<WorkdayEvent> eventList = new ArrayList<>();
+        while(itterDate.getYear() != (currentYear + 1)){
+            WorkdayEvent tempEvent = new WorkdayEvent(event);
+            tempEvent.setDate(itterDate.toString());
+            eventList.add(eventList.size(),tempEvent);
+            itterDate = itterDate.plusDays(dayInterval);
+        }
+        for(WorkdayEvent tempEvent : eventList){
+            Log.d("Adding event on",tempEvent.getDate().toString());
+        }
+        saveEvent(eventList);
     }
 }
