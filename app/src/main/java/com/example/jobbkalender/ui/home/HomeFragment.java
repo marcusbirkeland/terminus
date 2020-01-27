@@ -17,6 +17,7 @@ import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -124,7 +125,18 @@ public class HomeFragment extends Fragment{
             Log.e("Error","Failed to load events");
         }
     }
-
+    private void loadCalendarEvents(){
+        final CompactCalendarView compactCalendarView = getView().findViewById(R.id.compactCalendarView);
+        compactCalendarView.removeAllEvents();
+        loadEvents();
+        for (WorkdayEvent event : workdayEvents){
+            LocalDate eventDate = LocalDate.parse( event.getDate(), dateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            Instant instant = eventDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+            int accent = ContextCompat.getColor(getContext(), R.color.colorAccent);
+            Event calendarEvent = new Event(accent, instant.toEpochMilli());
+            compactCalendarView.addEvent(calendarEvent);
+        }
+    }
     private List<WorkdayEvent> searchEvents (String date){
         List<WorkdayEvent> matchingEvents = new ArrayList<>();
         String selectedDate = dateToString(selectedDay,selectedMonth,selectedYear);
@@ -150,8 +162,7 @@ public class HomeFragment extends Fragment{
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        loadEvents();
-
+        loadCalendarEvents();
         LocalDate currentDate = java.time.LocalDate.now();
         selectedDay = currentDate.getDayOfMonth();
         selectedMonth = currentDate.getMonthValue();
@@ -242,6 +253,7 @@ public class HomeFragment extends Fragment{
         });
         return root;
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -253,12 +265,10 @@ public class HomeFragment extends Fragment{
         EventListAdapter eventListAdapter = new EventListAdapter(getContext(),0,events);
         eventListView.setAdapter(eventListAdapter);
         // Legg til event
-        CompactCalendarView compactCalendarView = getView().findViewById(R.id.compactCalendarView);
-        LocalDate eventDate = LocalDate.parse( date, dateTimeFormatter.ofPattern("ddMMyyyy"));
-        Instant instant = eventDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
-        Event event = new Event(Color.BLACK, instant.toEpochMilli());
-        compactCalendarView.addEvent(event);
+        loadCalendarEvents();
     }
+
+
 
     private void startViewEvent(WorkdayEvent event) {
         Bundle bundle = new Bundle();

@@ -125,6 +125,9 @@ public class PayCalculator {
     }
 
     public int getMonthlyEarnings(List<WorkdayEvent> workdayEvents, Job selectedJob) {
+        if(selectedJob == null){
+            return 0;
+        }
         double monthlyPay = 0;
         LocalDate now = LocalDate.now();
         LocalDate checkDate = LocalDate.of(now.getYear(), now.getMonthValue(), selectedJob.getSalaryPeriodDate());
