@@ -167,12 +167,11 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
                 TextView timeInputFrom = findViewById(R.id.timeInputFromCreateEvent);
                 TextView timeInputTo = findViewById(R.id.timeInputToCreateEvent);
 
-                if (editTextBreakTime.getText().toString().equals("") ||
-                        jobName.equals("")){
+                if (jobName.equals("")){
                     Log.e("Error", "Please fill all fields");
-
                     return;
                 }
+
                 DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_TIME;
 
                 LocalTime startTime = LocalTime.parse(timeInputFrom.getText().toString(), dateTimeFormatter.ofPattern("HH:mm"));
@@ -185,7 +184,10 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
                 LocalDate eventDate = LocalDate.parse(date,dateTimeFormatter.ofPattern("ddMMyyyy"));
                 Log.e("Event date:", eventDate.toString());
                 Job selectedJob = getJobByName(jobName);
-                int breakTime = Integer.parseInt(editTextBreakTime.getText().toString());
+                int breakTime = 30;
+                if(!editTextBreakTime.getText().toString().equals("")){
+                    breakTime = Integer.parseInt(editTextBreakTime.getText().toString());
+                }
                 WorkdayEvent workdayEvent = new WorkdayEvent(eventDate.toString(),startTime.toString(),endTime.toString(),breakTime,selectedJob);
                 workdayEvent.setDayOfWeek(eventDate.getDayOfWeek().name());
                 eventList.add(workdayEvent);

@@ -268,8 +268,6 @@ public class HomeFragment extends Fragment{
         loadCalendarEvents();
     }
 
-
-
     private void startViewEvent(WorkdayEvent event) {
         Bundle bundle = new Bundle();
         bundle.putSerializable("EVENT",event);
