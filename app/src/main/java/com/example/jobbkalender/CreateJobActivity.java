@@ -36,6 +36,8 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Type;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,11 +85,19 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
         List<WorkdayEvent> newEventList = savedWorkdayEvents;
         for(WorkdayEvent event : newEventList){
             if(event.getJob().getName().equals(prevJob.getName())){
-                Job setJob = jobIn;
+                LocalDate now = LocalDate.now();
+                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME;
+                LocalDate eventDate = LocalDate.parse(event.getDate(), dateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                Log.d("Editing event on",eventDate.toString());
+                Job setJob = new Job (jobIn);
                 setJob.setImage(newJob.getImage());
                 setJob.setName(newJob.getName());
-                // Oppdaterer kun navn og bilde. Lønn blir ikke endret da dette ødelegger oversikten over hva man har tjent tidligere.
-                // Kun senere oppføringer vil ha oppdatert lønn og tilleggsregler osv.
+                if(eventDate.isAfter(now)){
+                    // Dersom event er etter nåværende dato vil lønn endre seg.
+                   setJob.setSalary(newJob.getSalary());
+                   setJob.setHasPaidBreak(newJob.hasPaidBreak());
+                   setJob.setSalaryRules(newJob.getSalaryRules());
+                }
                 event.setJob(setJob);
             }
         }

@@ -14,6 +14,15 @@ public class Job implements Serializable {
     private int salaryPeriodDate;
     private List<SalaryRule> salaryRules = new ArrayList<>();
 
+    public Job(Job job) {
+        this.image = job.image;
+        this.name = job.name;
+        this.salary = job.salary;
+        this.hasPaidBreak = job.hasPaidBreak;
+        this.salaryPeriodDate = job.salaryPeriodDate;
+        this. salaryRules = job.salaryRules;
+    }
+
     public Job(String nameIn, double salaryIn, int salaryPeriodDateIn, List<SalaryRule> salaryRulesIn, boolean paidBreak){
         name = nameIn;
         salary = salaryIn;
@@ -47,6 +56,22 @@ public class Job implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
+    }
+
+    public void setHasPaidBreak(boolean hasPaidBreak) {
+        this.hasPaidBreak = hasPaidBreak;
+    }
+
+    public void setSalaryPeriodDate(int salaryPeriodDate) {
+        this.salaryPeriodDate = salaryPeriodDate;
+    }
+
+    public void setSalaryRules(List<SalaryRule> salaryRules) {
+        this.salaryRules = salaryRules;
     }
 
     public void setImage(String image) {

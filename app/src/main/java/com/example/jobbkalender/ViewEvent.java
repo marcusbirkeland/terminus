@@ -114,6 +114,7 @@ public class ViewEvent extends AppCompatActivity {
                 bundle.putBoolean("EDITMODE",true);
                 intent.putExtra("BUNDLE",bundle);
                 startActivityForResult(intent, 1);
+                // TODO ikkje bra practice, da man kan få forskjellige instanser av job klassen dersom man har endret. Burde heller bare vise data.
             }
         });
     }
