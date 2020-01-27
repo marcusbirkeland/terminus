@@ -1,22 +1,19 @@
 package com.example.jobbkalender.ui.home;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.EventLog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.content.Intent;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.CalendarView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
@@ -25,29 +22,82 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.jobbkalender.CreateEvent;
-import com.example.jobbkalender.DataClasses.Job;
 import com.example.jobbkalender.DataClasses.WorkdayEvent;
 import com.example.jobbkalender.EventListAdapter;
-import com.example.jobbkalender.MainActivity;
 import com.example.jobbkalender.R;
 import com.example.jobbkalender.ViewEvent;
+import com.github.sundeepk.compactcalendarview.CompactCalendarView;
+import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import org.w3c.dom.Text;
+
 import java.lang.reflect.Type;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
-import static android.app.Activity.RESULT_OK;
 import static com.example.jobbkalender.MainActivity.DELETE_EVENT;
 
 public class HomeFragment extends Fragment{
 
     public static final int CREATE_EVENT = 2;
     List<WorkdayEvent> workdayEvents = new ArrayList<>();
-    private int day,selectedMonth,selectedYear;
+    private int selectedDay,selectedMonth,selectedYear;
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
+
+    private String monthToString(int date){
+        String currentDate = "";
+        switch(date){
+            case 1:
+                currentDate = "Januar";
+                break;
+            case 2:
+                currentDate = "Februar";
+                break;
+            case 3:
+                currentDate = "Mars";
+                break;
+            case 4:
+                currentDate = "April";
+                break;
+            case 5:
+                currentDate = "Mai";
+                break;
+            case 6:
+                currentDate = "Juni";
+                break;
+            case 7:
+                currentDate = "Juli";
+                break;
+            case 8:
+                currentDate = "August";
+                break;
+            case 9:
+                currentDate = "Sepember";
+                break;
+            case 10:
+                currentDate = "Oktober";
+                break;
+
+            case 11:
+                currentDate = "November";
+                break;
+
+            case 12:
+                currentDate = "Desember";
+                break;
+        }
+        return currentDate;
+    }
 
     private String dateToString(int day, int month, int year){
         String daystring = day + "";
@@ -77,7 +127,7 @@ public class HomeFragment extends Fragment{
 
     private List<WorkdayEvent> searchEvents (String date){
         List<WorkdayEvent> matchingEvents = new ArrayList<>();
-        String selectedDate = dateToString(day,selectedMonth,selectedYear);
+        String selectedDate = dateToString(selectedDay,selectedMonth,selectedYear);
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_TIME;
         LocalDate eventDate = LocalDate.parse(selectedDate,dateTimeFormatter.ofPattern("ddMMyyyy"));
         selectedDate = eventDate.toString();
@@ -87,7 +137,7 @@ public class HomeFragment extends Fragment{
                 if (event.getDate().equals(selectedDate)) {
                     matchingEvents.add(event);
                    Log.d("Add event to list;",event.toString());
-                }
+            }
             }
         }
         catch (NullPointerException e){
@@ -97,18 +147,21 @@ public class HomeFragment extends Fragment{
     }
 
     private HomeViewModel homeViewModel;
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         loadEvents();
 
         LocalDate currentDate = java.time.LocalDate.now();
-        day = currentDate.getDayOfMonth();
+        selectedDay = currentDate.getDayOfMonth();
         selectedMonth = currentDate.getMonthValue();
         selectedYear= currentDate.getYear();
+
+        TextView textViewSelectedMonth = getView().findViewById(R.id.textViewCalendarSelectedMonth);
+        textViewSelectedMonth.setText(monthToString(selectedMonth) + " " + selectedYear);
+
         // Finn events på gjeldende dato og oppdater listview
-        String date = dateToString(day,selectedMonth,selectedYear);
+        String date = dateToString(selectedDay,selectedMonth,selectedYear);
         final List<WorkdayEvent> events = searchEvents(date);
         EventListAdapter eventListAdapter = new EventListAdapter(getContext(),0,events);
         final ListView eventListView = view.findViewById(R.id.listViewEventList);
@@ -116,7 +169,7 @@ public class HomeFragment extends Fragment{
         eventListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String date = dateToString(day,selectedMonth,selectedYear);
+                String date = dateToString(selectedDay,selectedMonth,selectedYear);
                 List<WorkdayEvent> events = searchEvents(date);
                 startViewEvent(events.get(position));
             }
@@ -126,21 +179,47 @@ public class HomeFragment extends Fragment{
         buttonAddEvent.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), CreateEvent.class);
-                intent.putExtra("DATE", dateToString(day,selectedMonth,selectedYear));
+                intent.putExtra("DATE", dateToString(selectedDay,selectedMonth,selectedYear));
                 startActivityForResult(intent,CREATE_EVENT);
             }
         });
         // Endre dato og oppdater liste med events
-        CalendarView calendarView = view.findViewById(R.id.calendarView);
-        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+        CompactCalendarView calendarView = view.findViewById(R.id.compactCalendarView);
+        calendarView.setUseThreeLetterAbbreviation(true);
+        calendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
-            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+            public void onDayClick(Date dateClicked) {
+                Calendar cal = Calendar.getInstance(TimeZone.getTimeZone(ZoneId.systemDefault()));
+                cal.setTime(dateClicked);
+                selectedDay = cal.get(Calendar.DAY_OF_MONTH);
+                selectedMonth = cal.get(Calendar.MONTH) + 1;
+                selectedYear = cal.get(Calendar.YEAR);
+                Log.d("DAY CLICKED", "DAY: " + selectedDay + "Month: " + selectedMonth + " Year: " + selectedYear );
                 loadEvents();
-                day = dayOfMonth;
-                selectedMonth = month+1;
-                selectedYear = year;
                 // Finn events på gjeldende dato og oppdater listview
-                String date = dateToString(day,selectedMonth,selectedYear);
+                String date = dateToString(selectedDay,selectedMonth,selectedYear);
+                List<WorkdayEvent> events = searchEvents(date);
+                EventListAdapter eventListAdapter = new EventListAdapter(getContext(),0,events);
+                eventListView.setAdapter(eventListAdapter);
+            }
+
+            @Override
+            public void onMonthScroll(Date firstDayOfNewMonth) {
+
+                Calendar cal = Calendar.getInstance(TimeZone.getTimeZone(ZoneId.systemDefault()));
+                cal.setTime(firstDayOfNewMonth);
+                String currentDate = monthToString(cal.get(Calendar.MONTH)+1);
+                currentDate += " " + cal.get(Calendar.YEAR);
+                TextView textViewSelectedMonth = getView().findViewById(R.id.textViewCalendarSelectedMonth);
+                textViewSelectedMonth.setText(currentDate);
+
+                selectedDay = cal.get(Calendar.DAY_OF_MONTH);
+                selectedMonth = cal.get(Calendar.MONTH) + 1;
+                selectedYear = cal.get(Calendar.YEAR);
+                Log.d("DAY CLICKED", "DAY: " + selectedDay + "Month: " + selectedMonth + " Year: " + selectedYear );
+                loadEvents();
+                // Finn events på gjeldende dato og oppdater listview
+                String date = dateToString(selectedDay,selectedMonth,selectedYear);
                 List<WorkdayEvent> events = searchEvents(date);
                 EventListAdapter eventListAdapter = new EventListAdapter(getContext(),0,events);
                 eventListView.setAdapter(eventListAdapter);
@@ -169,10 +248,16 @@ public class HomeFragment extends Fragment{
         final ListView eventListView = getView().findViewById(R.id.listViewEventList);
         loadEvents();
         // Finn events på gjeldende dato og oppdater listview
-        String date = dateToString(day,selectedMonth,selectedYear);
+        String date = dateToString(selectedDay,selectedMonth,selectedYear);
         List<WorkdayEvent> events = searchEvents(date);
         EventListAdapter eventListAdapter = new EventListAdapter(getContext(),0,events);
         eventListView.setAdapter(eventListAdapter);
+        // Legg til event
+        CompactCalendarView compactCalendarView = getView().findViewById(R.id.compactCalendarView);
+        LocalDate eventDate = LocalDate.parse( date, dateTimeFormatter.ofPattern("ddMMyyyy"));
+        Instant instant = eventDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+        Event event = new Event(Color.BLACK, instant.toEpochMilli());
+        compactCalendarView.addEvent(event);
     }
 
     private void startViewEvent(WorkdayEvent event) {
@@ -181,5 +266,16 @@ public class HomeFragment extends Fragment{
         Intent intent = new Intent(getContext(), ViewEvent.class);
         intent.putExtra("EVENTBUNDLE",bundle);
         startActivityForResult(intent,DELETE_EVENT);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        CompactCalendarView compactCalendarView = getView().findViewById(R.id.compactCalendarView);
+        Date date = compactCalendarView.getFirstDayOfCurrentMonth();
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone(ZoneId.systemDefault()));
+        cal.setTime(date);
+        TextView textViewSelectedMonth = getView().findViewById(R.id.textViewCalendarSelectedMonth);
+        textViewSelectedMonth.setText(monthToString(cal.get(Calendar.MONTH) +1) + " " + cal.get(Calendar.YEAR));
     }
 }
