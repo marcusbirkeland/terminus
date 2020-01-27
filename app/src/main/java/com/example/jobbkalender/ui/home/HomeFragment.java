@@ -129,12 +129,14 @@ public class HomeFragment extends Fragment{
         final CompactCalendarView compactCalendarView = getView().findViewById(R.id.compactCalendarView);
         compactCalendarView.removeAllEvents();
         loadEvents();
-        for (WorkdayEvent event : workdayEvents){
-            LocalDate eventDate = LocalDate.parse( event.getDate(), dateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            Instant instant = eventDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
-            int accent = ContextCompat.getColor(getContext(), R.color.colorAccent);
-            Event calendarEvent = new Event(accent, instant.toEpochMilli());
-            compactCalendarView.addEvent(calendarEvent);
+        if(workdayEvents != null) {
+            for (WorkdayEvent event : workdayEvents) {
+                LocalDate eventDate = LocalDate.parse(event.getDate(), dateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                Instant instant = eventDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+                int accent = ContextCompat.getColor(getContext(), R.color.colorAccent);
+                Event calendarEvent = new Event(accent, instant.toEpochMilli());
+                compactCalendarView.addEvent(calendarEvent);
+            }
         }
     }
     private List<WorkdayEvent> searchEvents (String date){
