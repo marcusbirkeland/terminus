@@ -7,8 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -20,7 +22,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.jobbkalender.DataClasses.Job;
 import com.example.jobbkalender.DataClasses.SalaryRule;
@@ -242,6 +243,8 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
                 getIntent.setType("image/*");
                 getIntent.setAction(Intent.ACTION_GET_CONTENT);
                 Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                pickIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                pickIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 pickIntent.setType("image/*");
                 Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
                 chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
@@ -272,7 +275,6 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
 
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -289,73 +291,32 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
      if (requestCode == PICK_IMAGE && resultCode == RESULT_OK){
          try {
              Uri selectedImageUri = data.getData();
-             final String path = getPathFromURI(selectedImageUri);
-             String fileName = "";
-             File f = new File(path);
-             if (path != null) {
-                 selectedImageUri = Uri.fromFile(f);
+             Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
+
+             // Lagre fil i lokal mappe
+             String outputPath = getApplicationContext().getApplicationInfo().dataDir + "/JobImages/";
+             File dir = new File(outputPath);
+             if(!dir.exists())
+                 dir.mkdirs();
+             int i = 0;
+             String filename="ikon" + i +  ".png";
+             File file = new File(dir, filename);
+             while(file.exists()){
+                 i++;
+                 filename = "ikon" + i +  ".png";
+                 file = new File(dir, filename);
              }
+             selectedImagePath = outputPath + filename;
+             FileOutputStream fOut = new FileOutputStream(file);
+             bitmap.compress(Bitmap.CompressFormat.PNG, 85, fOut);
+             fOut.flush();
+             fOut.close();
+
              ImageView imageView = findViewById(R.id.imageViewCreateJob);
              imageView.setImageURI(selectedImageUri);
-             // Lag en kopi av bildet og lagre path
-             selectedImagePath = copyFile(f);
-             Log.d("COPY IMAGE TO PATH",selectedImagePath);
          } catch (Exception e) {
              Log.e("FileSelectorActivity", "File select error", e);
          }
      }
     }
-
-    private String copyFile(File file) {
-    // Denne metoden lagrer en kopi av valgt bilde i jobimages mappen
-        InputStream in = null;
-        OutputStream out = null;
-        String outputPath = getApplicationContext().getApplicationInfo().dataDir + "/JobImages/";
-        try {
-            //create output directory if it doesn't exist
-            File dir = new File (outputPath);
-            if (!dir.exists())
-            {
-                dir.mkdirs();
-            }
-            in = new FileInputStream(file);
-            out = new FileOutputStream(outputPath+ file.getName());
-
-            byte[] buffer = new byte[1024];
-            int read;
-            while ((read = in.read(buffer)) != -1) {
-                out.write(buffer, 0, read);
-            }
-            in.close();
-            in = null;
-
-            // write the output file (You have now copied the file)
-            out.flush();
-            out.close();
-            out = null;
-            Log.d("Image saved to:",outputPath+ file.getName());
-            return outputPath+ file.getName();
-
-        }  catch (FileNotFoundException fnfe1) {
-            Log.e("File not found", fnfe1.getMessage());
-        }
-        catch (Exception e) {
-            Log.e("Error", e.getMessage());
-        }
-        return null;
-    }
-
-    public String getPathFromURI(Uri contentUri) {
-        // Kode hentet fra https://mobikul.com/pick-image-gallery-android/
-        String res = null;
-        String[] proj = {MediaStore.Images.Media.DATA};
-        Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
-        if (cursor.moveToFirst()) {
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            res = cursor.getString(column_index);
-        }
-        cursor.close();
-        return res;
-    }
-
 }
