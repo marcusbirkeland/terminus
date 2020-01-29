@@ -5,8 +5,10 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,6 +77,9 @@ public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
         TextView textView2 = convertView.findViewById(R.id.textViewEventListDuration);
         TextView textView3 = convertView.findViewById(R.id.textViewEventListSalary);
         ImageView imageView = convertView.findViewById(R.id.imageViewEventList);
+        if(event.isNightShift()){
+            textView2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 11);
+        }
 
         textView1.setText(jobName);
         textView2.setText(eventTimeSpan);

@@ -7,7 +7,7 @@
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="40">
+        android:layout_weight="35">
 
         <ImageView
             android:id="@+id/imageViewEventList"
@@ -20,6 +20,7 @@
             android:id="@+id/textViewEventListName"
             android:layout_width="match_parent"
             android:layout_height="20dp"
+            android:textSize="16sp"
             android:paddingLeft="8dp"
             android:layout_marginRight="8dp"
             android:textColor="#000"
@@ -33,13 +34,13 @@
         android:layout_height="50dp"
         android:orientation="vertical"
         android:weightSum="100"
-        android:layout_weight="60">
+        android:layout_weight="65">
 
         <TextView
             android:id="@+id/textViewEventListDuration"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="30"
+            android:layout_weight="40"
             android:text="Text2"
             android:textColor="#000"
             android:paddingTop="4dp"
@@ -49,7 +50,7 @@
             android:id="@+id/textViewEventListSalary"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="70"
+            android:layout_weight="60"
             android:text="Text3"
             android:textColor="#000"
             android:textSize="12sp" />

@@ -1,9 +1,17 @@
 package com.example.jobbkalender.ui.home;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.EventLog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +25,8 @@ import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -34,6 +44,8 @@ import com.google.gson.reflect.TypeToken;
 
 import org.w3c.dom.Text;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -206,6 +218,7 @@ public class HomeFragment extends Fragment{
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), CreateEvent.class);
                 intent.putExtra("DATE", dateToString(selectedDay,selectedMonth,selectedYear));
+
                 startActivityForResult(intent,CREATE_EVENT);
             }
         });
@@ -252,7 +265,35 @@ public class HomeFragment extends Fragment{
             }
         });
     }
+    private NotificationManager createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Kalenderevent";
+            String description = "Viser kalenderevents";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("CalendarEvent", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getActivity().getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+            return notificationManager;
+        }
+        return null;
+    }
 
+    private void makeNotification(String title, String body, String imagePath){
+        Bitmap icon = BitmapFactory.decodeFile(imagePath);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), "CalendarEvent")
+                .setSmallIcon(R.drawable.coin_icon).setLargeIcon(icon)
+                .setContentTitle(title)
+                .setContentText(body)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getActivity());
+        // notificationId is a unique int for each notification that you must define
+        notificationManager.notify(1123, builder.build());
+    }
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel =
@@ -288,6 +329,7 @@ public class HomeFragment extends Fragment{
         bundle.putSerializable("EVENT",event);
         Intent intent = new Intent(getContext(), ViewEvent.class);
         intent.putExtra("EVENTBUNDLE",bundle);
+        makeNotification(event.getJob().getName(), event.getStartTime() + " til " + event.getEndTime() + " i dag", event.getJob().getImage());
         startActivityForResult(intent,DELETE_EVENT);
     }
 
