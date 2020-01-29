@@ -117,7 +117,6 @@ public class HomeFragment extends Fragment{
         SharedPreferences pref = getActivity().getSharedPreferences("SHARED PREFERENCES", Context.MODE_PRIVATE);
         Gson gson = new Gson();
         String json = pref.getString("EVENTLIST",null);
-        Log.d("JSON","Json read: " + json);
         Type type = new TypeToken<ArrayList<WorkdayEvent>>(){}.getType();
         try {
             workdayEvents = gson.fromJson(json,type);
@@ -126,6 +125,7 @@ public class HomeFragment extends Fragment{
         }
     }
     private void loadCalendarEvents(){
+        // Setter events grafisk i kalender
         final CompactCalendarView compactCalendarView = getView().findViewById(R.id.compactCalendarView);
         compactCalendarView.removeAllEvents();
         loadEvents();
@@ -136,6 +136,12 @@ public class HomeFragment extends Fragment{
                 int accent = ContextCompat.getColor(getContext(), R.color.colorAccent);
                 Event calendarEvent = new Event(accent, instant.toEpochMilli());
                 compactCalendarView.addEvent(calendarEvent);
+                if(event.isNightShift()){
+                    eventDate = eventDate.plusDays(1);
+                    instant = eventDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
+                    calendarEvent = new Event(accent,instant.toEpochMilli());
+                    compactCalendarView.addEvent(calendarEvent);
+                }
             }
         }
     }
@@ -150,8 +156,15 @@ public class HomeFragment extends Fragment{
             for (WorkdayEvent event : workdayEvents) {
                 if (event.getDate().equals(selectedDate)) {
                     matchingEvents.add(event);
-                   Log.d("Add event to list;",event.toString());
-            }
+                    Log.d("Add event to list;",event.toString());
+                }
+                if(event.isNightShift()){
+                    LocalDate nightshiftDate= LocalDate.parse(event.getDate(),dateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                    if(nightshiftDate.plusDays(1).equals(eventDate)){
+                        matchingEvents.add(event);
+                        Log.d("Add event to list;",event.toString());
+                    }
+                }
             }
         }
         catch (NullPointerException e){

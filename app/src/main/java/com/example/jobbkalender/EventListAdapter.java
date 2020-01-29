@@ -26,7 +26,11 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
+import java.io.File;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static com.example.jobbkalender.MainActivity.DELETE_EVENT;
@@ -47,7 +51,17 @@ public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
         try {
            final WorkdayEvent event = getItem(position);
             String jobName = event.getJob().getName();
-            String eventTimeSpan = "Fra " +event.getStartTime() + " til " + getItem(position).getEndTime();
+            final String eventTimeSpan;
+            if(event.isNightShift()){
+                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_TIME;
+                LocalDate startDate = LocalDate.parse(event.getDate(), dateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                LocalDate endDate = startDate.plusDays(1);
+                eventTimeSpan = "Fra : " + event.getStartTime() +
+                        " (" + startDate.getDayOfMonth() + "." + startDate.getMonthValue() + ") " + "\n" +
+                        "Til : " + getItem(position).getEndTime() + " (" + endDate.getDayOfMonth() + "." + endDate.getMonthValue() + ") ";
+            }else{
+                eventTimeSpan = "Fra " +event.getStartTime() + " til " + getItem(position).getEndTime();
+            }
             List<WorkdayEvent> events = new ArrayList<>();
             events.add(event);
             PayCalculator payCalculator = new PayCalculator(events);

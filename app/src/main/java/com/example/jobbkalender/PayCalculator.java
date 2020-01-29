@@ -99,7 +99,7 @@ public class PayCalculator {
                 }
                 double salary = event.getJob().getSalary();
                 // Itererer gjennom hvert minutt av arbeidsdagen og finner ut lønn
-                while (startTime.isBefore(endTime)) {
+                while (!startTime.equals(endTime)) {
                     // Sjekk lønnsregler for gjeldende minutt. Finn kr/min og legg til i gjeldende minuttlønn.
                     double currentSalary = salary;
                     for (SalaryRule salaryRule : salaryRulesList) {
@@ -168,7 +168,7 @@ public class PayCalculator {
                     startTime = startTime.plusMinutes(event.getBreakTime());
                 }
                 // Itererer gjennom hvert minutt av arbeidsdagen og finner ut lønn
-                while (startTime.isBefore(endTime)) {
+                while (!startTime.equals(endTime)) {
                     // Sjekk lønnsregler for gjeldende minutt. Finn kr/min og legg til i gjeldende minuttlønn.
                     double currentSalary = salary;
                     for (SalaryRule salaryRule : salaryRulesList) {

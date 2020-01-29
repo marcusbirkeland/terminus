@@ -41,7 +41,6 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
     int editTextToChange = 0;
     TimePickerDialogFragment timePickerDialogFragment = new TimePickerDialogFragment();
     ChooseWorkplaceDialogFragment chooseWorkplaceDialogFragment = new ChooseWorkplaceDialogFragment();
-
     List<Job> jobList = new ArrayList<>();
     String jobName = "";
 
@@ -85,7 +84,6 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
         }
         return null;
     }
-
     @Override
     public void sendTime(String input) {
         // Denne metoden blir kalt på etter dialogvinduet til timepicker blir lukket.
@@ -207,7 +205,6 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
                 }else if(radioButtonRepeatEveryOtherWeek.isChecked()){
                     repeatEvent(workdayEvent,eventDate,14);
                 } else{
-
                 List<WorkdayEvent> eventList = new ArrayList<>();
                 eventList.add(workdayEvent);
                     saveEvent(eventList);
