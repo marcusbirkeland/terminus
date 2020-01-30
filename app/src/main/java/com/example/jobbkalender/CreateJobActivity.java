@@ -14,6 +14,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -163,7 +164,6 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
         editor.apply();
     }
 
-
     @Override
     public void onValueChange(NumberPicker numberPicker, int i, int i1) {
         TextView editTextSalaryPeriod = findViewById(R.id.editTextSetSalaryPeriod);
@@ -211,11 +211,24 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
             for(SalaryRule salaryRule : salaryRulesArrayList){
                 salaryRuleStrings.add(salaryRule.toString());
             }
+
             selectedImagePath= jobIn.getImage();
         }
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,salaryRuleStrings);
         listViewSalaryRules.setAdapter(arrayAdapter);
+        listViewSalaryRules.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Lar brukeren redigere tilleggsregler
+                Intent editSalaryRule = new Intent(getApplicationContext(), CreateSalaryRuleActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("SALARYRULE",salaryRulesArrayList.get(position));
+                bundle.putBoolean("EDITMODE",true);
+                editSalaryRule.putExtra("BUNDLE",bundle);
+                startActivity(editSalaryRule);
+            }
+        });
         Button buttonCreateSalaryRule = findViewById(R.id.buttonAddSalaryRule);
         buttonCreateSalaryRule.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -279,14 +292,32 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == CREATE_SALARY_RULE && resultCode == RESULT_OK){
+           final ListView listViewSalaryRules = findViewById(R.id.listViewSalaryrules);
+            assert data != null;
             Bundle bundle = data.getExtras();
+            assert bundle != null;
             SalaryRule salaryRule = (SalaryRule) bundle.getSerializable("SALARYRULE");
-            salaryRulesArrayList.add(salaryRule);
-            Log.d("SalaryRule:","NEW SALARY RULE: " + salaryRule.toString());
-            ListView listViewSalaryRules = findViewById(R.id.listViewSalaryrules);
-            salaryRuleStrings.add(salaryRule.toString());
+            if(bundle.getBoolean("WAS_EDITED")){
+                SalaryRule oldRule = (SalaryRule) bundle.getSerializable("OLDRULE");
+                int index = 0;
+                // Finner index til tilleggsregel i liste.
+                for (int i=0; i< salaryRulesArrayList.size();i++){
+                    SalaryRule rule = salaryRulesArrayList.get(i);
+                    if (rule.equals(oldRule))
+                        index = i;
+                }
+                salaryRulesArrayList.remove(index);
+                salaryRuleStrings.remove(index);
+                salaryRulesArrayList.add(index, salaryRule);
+                salaryRuleStrings.add(index,salaryRule.toString());
+            }else{
+                salaryRulesArrayList.add(salaryRule);
+                salaryRuleStrings.add(salaryRule.toString());
+            }
+            // Setter ListView.
             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,salaryRuleStrings);
             listViewSalaryRules.setAdapter(arrayAdapter);
+            Log.d("SalaryRule:","NEW SALARY RULE: " + salaryRule.toString());
         }
      if (requestCode == PICK_IMAGE && resultCode == RESULT_OK){
          try {

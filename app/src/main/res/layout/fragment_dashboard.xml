@@ -69,6 +69,7 @@
         android:ems="10"
         android:hint="Skatt"
         android:inputType="numberDecimal"
+        android:maxLength="5"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textSize="22sp"
         app:layout_constraintStart_toStartOf="parent"

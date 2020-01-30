@@ -178,9 +178,14 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
 
                 LocalTime startTime = LocalTime.parse(timeInputFrom.getText().toString(), dateTimeFormatter.ofPattern("HH:mm"));
                 LocalTime endTime = LocalTime.parse(timeInputTo.getText().toString(), dateTimeFormatter.ofPattern("HH:mm"));
+                if(startTime.equals(endTime)){
+                    Log.d("Create Event: ", "End time cannot be equal to start time");
+                }
                 if(startTime.isAfter(endTime) && !checkBoxIsNightShift.isChecked()){
-                    Log.d("Error", "Workday cant end before it starts!");
+                    Log.d("Error", "Invalid time for regular shift");
                     return;
+                } else if(startTime.isBefore(endTime) && checkBoxIsNightShift.isChecked()){
+                    Log.d("Create Event: ", "Invalid time for night shift");
                 }
                 if (jobName.equals("") ){
                     Log.e("Error", "Please fill all fields");

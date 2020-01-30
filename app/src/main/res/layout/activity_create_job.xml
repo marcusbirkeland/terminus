@@ -100,7 +100,7 @@
         android:id="@+id/checkBoxPaidBreak"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Betalt lønsj"
+        android:text="Betalt pause"
         app:layout_constraintStart_toStartOf="@+id/textView8"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 

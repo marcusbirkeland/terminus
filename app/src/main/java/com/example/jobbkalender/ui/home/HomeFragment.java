@@ -33,6 +33,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.jobbkalender.CreateEvent;
+import com.example.jobbkalender.CreateSalaryRuleActivity;
 import com.example.jobbkalender.DataClasses.WorkdayEvent;
 import com.example.jobbkalender.EventListAdapter;
 import com.example.jobbkalender.R;
@@ -261,6 +262,7 @@ public class HomeFragment extends Fragment{
                 String date = dateToString(selectedDay,selectedMonth,selectedYear);
                 List<WorkdayEvent> events = searchEvents(date);
                 EventListAdapter eventListAdapter = new EventListAdapter(getContext(),0,events);
+
                 eventListView.setAdapter(eventListAdapter);
             }
         });
@@ -281,18 +283,6 @@ public class HomeFragment extends Fragment{
             return notificationManager;
         }
         return null;
-    }
-
-    private void makeNotification(String title, String body, String imagePath){
-        Bitmap icon = BitmapFactory.decodeFile(imagePath);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), "CalendarEvent")
-                .setSmallIcon(R.drawable.coin_icon).setLargeIcon(icon)
-                .setContentTitle(title)
-                .setContentText(body)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getActivity());
-        // notificationId is a unique int for each notification that you must define
-        notificationManager.notify(1123, builder.build());
     }
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -329,7 +319,6 @@ public class HomeFragment extends Fragment{
         bundle.putSerializable("EVENT",event);
         Intent intent = new Intent(getContext(), ViewEvent.class);
         intent.putExtra("EVENTBUNDLE",bundle);
-        makeNotification(event.getJob().getName(), event.getStartTime() + " til " + event.getEndTime() + " i dag", event.getJob().getImage());
         startActivityForResult(intent,DELETE_EVENT);
     }
 

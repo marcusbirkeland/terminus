@@ -1,6 +1,7 @@
 package com.example.jobbkalender.ui.earnings;
 
 import android.content.SharedPreferences;
+import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -167,16 +168,22 @@ public class EarningsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 EditText editTextTaxPercentage = getView().findViewById(R.id.editTextTaxPercentage);
+                TextView textViewTotalEarningsNet = getView().findViewById(R.id.textViewNetCurrentEarnings);
                 if(editTextTaxPercentage.getText() != null && !editTextTaxPercentage.getText().toString().equals("")) {
-                    saveTaxPercentage(Float.parseFloat(editTextTaxPercentage.getText().toString()));
                     taxPercentage = Float.parseFloat(editTextTaxPercentage.getText().toString());
-                   Toast toast =  Toast.makeText(getActivity(), "Skatteprosent lagret!", Toast.LENGTH_LONG);
+                    if (taxPercentage > 100 ){
+                        taxPercentage = 100;
+                        // Lagrer skatteprosent i sharedprefs
+                        editTextTaxPercentage.setText("100");
+                    }
+                    saveTaxPercentage(taxPercentage);
+                    Toast toast =  Toast.makeText(getActivity(), "Skatteprosent lagret!", Toast.LENGTH_LONG);
                     toast.show();
-                    editTextTaxPercentage.setCursorVisible(false);
-                    TextView textViewTotalEarningsNet = getView().findViewById(R.id.textViewNetCurrentEarnings);
+                    // Setter netto-årslønn
                     float netEarnings = currentEarnings*(1-(taxPercentage/100));
                     textViewTotalEarningsNet.setText("" + (int) netEarnings);
-                    calculateMonthlyEarnings(spinnerPosition);
+                    if(jobs != null)
+                        calculateMonthlyEarnings(spinnerPosition);
                 }
             }
         });

@@ -23,6 +23,8 @@ import java.util.ArrayList;
 public class CreateSalaryRuleActivity extends AppCompatActivity implements TimePickerDialogFragment.OnInputListener {
 
     private int editTextToChange = 0;
+    private boolean editMode;
+    private SalaryRule salaryRuleIn;
     TimePickerDialogFragment timePickerDialogFragment = new TimePickerDialogFragment();
 
 
@@ -68,8 +70,38 @@ public class CreateSalaryRuleActivity extends AppCompatActivity implements TimeP
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_salary_rule);
-        TextView textViewTimeFrom = findViewById(R.id.timeInputFromCreateSalaryRule);
-        TextView textViewTimeTo = findViewById(R.id.timeInputToCreateSalaryRule);
+        final TextView textViewTimeFrom = findViewById(R.id.timeInputFromCreateSalaryRule);
+        final TextView textViewTimeTo = findViewById(R.id.timeInputToCreateSalaryRule);
+        final EditText editTextName = findViewById(R.id.editTextNameSalaryRule);
+        final EditText editTextSalaryRuleNum = findViewById(R.id.editTextSetSalaryRule);
+        final CheckBox checkBoxWeekdays = findViewById(R.id.checkBoxWeekdays);
+        final CheckBox checkBoxSaturday = findViewById(R.id.checkBoxSaturday);
+        final CheckBox checkBoxSunday = findViewById(R.id.checkBoxSunday);
+
+        Bundle bundle = getIntent().getBundleExtra("BUNDLE");
+        try{
+            Log.e("FORTNITE","!!!!");
+            if(bundle.getBoolean("EDITMODE")){
+                editMode = true;
+                salaryRuleIn = (SalaryRule) bundle.getSerializable("SALARYRULE");
+                editTextName.setText(salaryRuleIn.getRuleName());
+                editTextSalaryRuleNum.setText(salaryRuleIn.getChangeInPay()+ "");
+                textViewTimeFrom.setText(salaryRuleIn.getStartTime());
+                textViewTimeTo.setText(salaryRuleIn.getEndTime());
+                if(salaryRuleIn.getDaysOfWeek().contains(DayOfWeek.MONDAY)){
+                    checkBoxWeekdays.setChecked(true);
+                }
+                if(salaryRuleIn.getDaysOfWeek().contains(DayOfWeek.SATURDAY)){
+                    checkBoxSaturday.setChecked(true);
+                }
+                if(salaryRuleIn.getDaysOfWeek().contains(DayOfWeek.SUNDAY)){
+                    checkBoxSunday.setChecked(true);
+                }
+            }
+        } catch (NullPointerException e){
+            Log.e("NULL", "No bundle in createSalaryRuleActivity!");
+        }
+
         textViewTimeFrom.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -90,8 +122,6 @@ public class CreateSalaryRuleActivity extends AppCompatActivity implements TimeP
             public void onClick(View v)
             {
                 ArrayList<DayOfWeek> checkedDays = getCheckedDays();
-                EditText editTextName = findViewById(R.id.editTextNameSalaryRule);
-                EditText editTextSalaryRuleNum = findViewById(R.id.editTextSetSalaryRule);
 
                 if(checkedDays.size()==0 ){
                     Log.d("Error","Please check off a day");
@@ -108,9 +138,8 @@ public class CreateSalaryRuleActivity extends AppCompatActivity implements TimeP
                 DateTimeFormatter dateTimeFormatter =DateTimeFormatter.ISO_LOCAL_TIME;
                 String name = editTextName.getText().toString();
                 double pay = Double.parseDouble(editTextSalaryRuleNum.getText().toString());
-                TextView textViewTimeFrom = findViewById(R.id.timeInputFromCreateSalaryRule);
+
                 LocalTime startTime = LocalTime.parse(textViewTimeFrom.getText().toString(), dateTimeFormatter.ofPattern("HH:mm"));
-                TextView textViewTimeTo = findViewById(R.id.timeInputToCreateSalaryRule);
                 LocalTime endTime = LocalTime.parse(textViewTimeTo.getText().toString() , dateTimeFormatter.ofPattern("HH:mm"));
                 if(startTime.isAfter(endTime)){
                     Log.d("Error", "Rule cant end before it starts!");
@@ -119,13 +148,15 @@ public class CreateSalaryRuleActivity extends AppCompatActivity implements TimeP
                 SalaryRule salaryRule = new SalaryRule(name,pay,startTime.format(dateTimeFormatter.ofPattern("HH:mm")),endTime.format(dateTimeFormatter.ofPattern("HH:mm")),checkedDays);
                 Intent intent = new Intent();
                 Bundle extras = new Bundle();
-
                 extras.putSerializable("SALARYRULE", salaryRule);
+                if(editMode){
+                    extras.putSerializable("OLDRULE",salaryRuleIn);
+                    extras.putBoolean("WAS_EDITED",true);
+                }
                 intent.putExtras(extras);
                 setResult(RESULT_OK,intent);
                 finish();
             }
         });
-
     }
 }

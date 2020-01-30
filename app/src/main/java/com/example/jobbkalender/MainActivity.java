@@ -2,6 +2,7 @@ package com.example.jobbkalender;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -23,6 +24,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import android.util.Log;
 import android.view.Window;
 
 import java.util.ArrayList;
@@ -34,7 +37,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        startService(new Intent(this, NotificationService.class));
+        if(!isServiceRunning(NotificationService.class)){
+            Log.d("Starting service","NOTTIFICATION SERVICE");
+            startService(new Intent(this, NotificationService.class));
+        }
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
@@ -57,14 +63,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        startService(new Intent(this,NotificationService.class));
-    }
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
         stopService(new Intent(this,NotificationService.class));
+    }
+    private boolean isServiceRunning(Class<?> serviceClass){
+        ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for(ActivityManager.RunningServiceInfo service : activityManager.getRunningServices(Integer.MAX_VALUE)){
+            if(serviceClass.getClass().getName().equals(service.service.getClassName())){
+                return true;
+            }
+        }
+        return false;
     }
 }
