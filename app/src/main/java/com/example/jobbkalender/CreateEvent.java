@@ -172,9 +172,6 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
                 CheckBox checkBoxIsNightShift = findViewById(R.id.checkBoxNightshift);
                 final ToggleRadioButton radioButtonRepeatEachWeek = findViewById(R.id.radioButtonRepeatEachWeek);
                 final ToggleRadioButton radioButtonRepeatEveryOtherWeek = findViewById(R.id.radioButtonRepeatEveryOtherWeek);
-                final RadioGroup radioGroup = findViewById(R.id.radioGroupRepeat);
-                // For å kunne unchecke radioButton
-
 
                 LocalTime startTime = LocalTime.parse(timeInputFrom.getText().toString(), dateTimeFormatter.ofPattern("HH:mm"));
                 LocalTime endTime = LocalTime.parse(timeInputTo.getText().toString(), dateTimeFormatter.ofPattern("HH:mm"));
@@ -197,13 +194,13 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
                 int breakTime = 30;
                 Job selectedJob = getJobByName(jobName);
                 // Lag event
+                if(!editTextBreakTime.getText().toString().equals("")){
+                    breakTime = Integer.parseInt(editTextBreakTime.getText().toString());
+                }
                 WorkdayEvent workdayEvent = new WorkdayEvent(eventDate.toString(),startTime.toString(),endTime.toString(),breakTime,selectedJob);
                 workdayEvent.setDayOfWeek(eventDate.getDayOfWeek().name());
                 workdayEvent.setNightShift(checkBoxIsNightShift.isChecked());
 
-                if(!editTextBreakTime.getText().toString().equals("")){
-                    breakTime = Integer.parseInt(editTextBreakTime.getText().toString());
-                }
                 // Lag event og lagre event
                 if(radioButtonRepeatEachWeek.isChecked()){
                     repeatEvent(workdayEvent,eventDate,7);
@@ -230,7 +227,7 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
             itterDate = itterDate.plusDays(dayInterval);
         }
         for(WorkdayEvent tempEvent : eventList){
-            Log.d("Adding event on",tempEvent.getDate().toString());
+            Log.d("Adding event on",tempEvent.getDate());
         }
         saveEvent(eventList);
     }

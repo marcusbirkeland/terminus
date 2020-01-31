@@ -3,6 +3,7 @@ package com.example.jobbkalender;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +26,7 @@ public class CreateSalaryRuleActivity extends AppCompatActivity implements TimeP
     private int editTextToChange = 0;
     private boolean editMode;
     private SalaryRule salaryRuleIn;
+    private int index;
     TimePickerDialogFragment timePickerDialogFragment = new TimePickerDialogFragment();
 
 
@@ -77,11 +79,14 @@ public class CreateSalaryRuleActivity extends AppCompatActivity implements TimeP
         final CheckBox checkBoxWeekdays = findViewById(R.id.checkBoxWeekdays);
         final CheckBox checkBoxSaturday = findViewById(R.id.checkBoxSaturday);
         final CheckBox checkBoxSunday = findViewById(R.id.checkBoxSunday);
+        final Button buttonDeleteSalaryRule = findViewById(R.id.buttonEditSalaryRuleDelete);
 
         Bundle bundle = getIntent().getBundleExtra("BUNDLE");
+
         try{
-            Log.e("FORTNITE","!!!!");
             if(bundle.getBoolean("EDITMODE")){
+                buttonDeleteSalaryRule.setVisibility(View.VISIBLE);
+                index = bundle.getInt("INDEX");
                 editMode = true;
                 salaryRuleIn = (SalaryRule) bundle.getSerializable("SALARYRULE");
                 editTextName.setText(salaryRuleIn.getRuleName());
@@ -97,7 +102,23 @@ public class CreateSalaryRuleActivity extends AppCompatActivity implements TimeP
                 if(salaryRuleIn.getDaysOfWeek().contains(DayOfWeek.SUNDAY)){
                     checkBoxSunday.setChecked(true);
                 }
+
+                buttonDeleteSalaryRule.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        Bundle extras = new Bundle();
+                        extras.putBoolean("DELETE",true);
+                        extras.putBoolean("WAS_EDITED",true);
+                        extras.putInt("INDEX",index);
+                        Log.d("INDEX",index+"");
+                        intent.putExtras(extras);
+                        setResult(RESULT_OK,intent);
+                        finish();
+                    }
+                });
             }
+
         } catch (NullPointerException e){
             Log.e("NULL", "No bundle in createSalaryRuleActivity!");
         }
@@ -150,7 +171,7 @@ public class CreateSalaryRuleActivity extends AppCompatActivity implements TimeP
                 Bundle extras = new Bundle();
                 extras.putSerializable("SALARYRULE", salaryRule);
                 if(editMode){
-                    extras.putSerializable("OLDRULE",salaryRuleIn);
+                    extras.putInt("INDEX",index);
                     extras.putBoolean("WAS_EDITED",true);
                 }
                 intent.putExtras(extras);

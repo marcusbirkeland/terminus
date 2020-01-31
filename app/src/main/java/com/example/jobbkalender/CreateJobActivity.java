@@ -225,8 +225,9 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("SALARYRULE",salaryRulesArrayList.get(position));
                 bundle.putBoolean("EDITMODE",true);
+                bundle.putInt("INDEX",position);
                 editSalaryRule.putExtra("BUNDLE",bundle);
-                startActivity(editSalaryRule);
+                startActivityForResult(editSalaryRule, CREATE_SALARY_RULE);
             }
         });
         Button buttonCreateSalaryRule = findViewById(R.id.buttonAddSalaryRule);
@@ -285,7 +286,6 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
                 }
             }
         });
-
     }
 
     @Override
@@ -298,27 +298,25 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
             assert bundle != null;
             SalaryRule salaryRule = (SalaryRule) bundle.getSerializable("SALARYRULE");
             if(bundle.getBoolean("WAS_EDITED")){
-                SalaryRule oldRule = (SalaryRule) bundle.getSerializable("OLDRULE");
-                int index = 0;
-                // Finner index til tilleggsregel i liste.
-                for (int i=0; i< salaryRulesArrayList.size();i++){
-                    SalaryRule rule = salaryRulesArrayList.get(i);
-                    if (rule.equals(oldRule))
-                        index = i;
-                }
+                int index = bundle.getInt("INDEX");
                 salaryRulesArrayList.remove(index);
                 salaryRuleStrings.remove(index);
-                salaryRulesArrayList.add(index, salaryRule);
-                salaryRuleStrings.add(index,salaryRule.toString());
+
+                if(!bundle.getBoolean("DELETE")) {
+                    salaryRulesArrayList.add(index, salaryRule);
+                    salaryRuleStrings.add(index, salaryRule.toString());
+                }
             }else{
                 salaryRulesArrayList.add(salaryRule);
                 salaryRuleStrings.add(salaryRule.toString());
+                Log.d("SalaryRule:","NEW SALARY RULE: " + salaryRule.toString());
             }
             // Setter ListView.
             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,salaryRuleStrings);
             listViewSalaryRules.setAdapter(arrayAdapter);
-            Log.d("SalaryRule:","NEW SALARY RULE: " + salaryRule.toString());
         }
+
+
      if (requestCode == PICK_IMAGE && resultCode == RESULT_OK){
          try {
              Uri selectedImageUri = data.getData();
