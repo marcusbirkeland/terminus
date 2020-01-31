@@ -3,6 +3,8 @@ package com.example.jobbkalender;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -50,6 +52,7 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
     private Job jobIn;
     public static final int CREATE_SALARY_RULE = 1;
     public static final int PICK_IMAGE = 2;
+    public static final int DELETE_JOB = 420;
     private String selectedImagePath;
     private List<Job> savedJobs = new ArrayList<>();
     private List<Job> jobList = new ArrayList<>();
@@ -138,9 +141,12 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
         loadJobs();
         int index = getJobIndexByName(job.getName());
         if(index != -1){
-            savedJobs.remove(index);
+            List<Job> newJobList = savedJobs;
+            newJobList.remove(index);
             deleteAllEventsWithJob(job);
-            saveJobList(savedJobs);
+            saveJobList(newJobList);
+            Intent intent = new Intent();
+            setResult(DELETE_JOB);
         }
         finish();
     }
@@ -179,8 +185,6 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
         editor.apply();
     }
 
-
-
     private void saveJob(boolean isEditMode){
         SharedPreferences pref = getSharedPreferences("SHARED PREFERENCES", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
@@ -193,19 +197,23 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
             Log.d("Saving job", "SAVING IN EDIT MODE");
             loadJobs();
             List<Job> newJobList = savedJobs;
-            int index = getJobIndex(jobIn);
-            newJobList.remove(index);
-            // Job list inneholder kun en jobb.
-            Job newJob = jobList.get(0);
-            newJobList.add(index, newJob);
-            jobInfo = gson.toJson(newJobList);
-            editor.putString("JOBLIST", jobInfo);
-            editor.apply();
-            editAllEventsWithJob(jobIn, newJob);
+            try{
+                int index = getJobIndex(jobIn);
+                newJobList.remove(index);
+                // Job list inneholder kun en jobb.
+                Job newJob = jobList.get(0);
+                newJobList.add(index, newJob);
+                jobInfo = gson.toJson(newJobList);
+                editor.putString("JOBLIST", jobInfo);
+                editor.apply();
+                editAllEventsWithJob(jobIn, newJob);
+            }catch (ArrayIndexOutOfBoundsException a){
+                Log.d("Edit Job","Could not find job");
+            }
             return;
         }
 
-        if (currentList != null){
+        if (currentList != null && !currentList.equals("[]")){
             editor.putString("JOBLIST", currentList.substring(0,currentList.length()-1)+","+jobInfo.substring(1));
         }else{
             editor.putString("JOBLIST",jobInfo);
@@ -240,7 +248,6 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
         final ImageView imageView = findViewById(R.id.imageViewCreateJob);
         final ListView listViewSalaryRules = findViewById(R.id.listViewSalaryrules);
         final Bundle bundle = getIntent().getBundleExtra("BUNDLE");
-
         buttonDelete.setVisibility(View.INVISIBLE);
 
         if(bundle != null && bundle.getBoolean("EDITMODE")){
@@ -327,6 +334,16 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
             @Override
             public void onClick(View v) {
                 String name = editTextJobName.getText().toString();
+                loadJobs();
+                for (Job job : savedJobs){
+                    if(job.getName().equals(name)){
+                        TextView textViewErrorMessage = findViewById(R.id.textViewCreateJobErrorMessage);
+                        textViewErrorMessage.setText("Du har allerede registrert denne jobben!");
+                        return;
+                    }
+
+                }
+
                 if(!name.equals("") && !editTextEnterSalary.getText().toString().equals("")) {
                     double salary= Double.parseDouble(editTextEnterSalary.getText().toString());
                     Job job = new Job(name, salary, salaryPeriodDate, salaryRulesArrayList,checkBoxPaidBreak.isChecked());
@@ -336,6 +353,12 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
                         saveJob(false);
                     }else{
                         saveJob(true);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("EDITED_JOB",job);
+                        bundle.putString("OLD_JOB_NAME",jobIn.getName());
+                        Intent intent = new Intent();
+                        intent.putExtra("BUNDLE",bundle);
+                        setResult(Activity.RESULT_OK,intent);
                     }
                     finish();
                 }
@@ -370,7 +393,6 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
             ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,salaryRuleStrings);
             listViewSalaryRules.setAdapter(arrayAdapter);
         }
-
 
      if (requestCode == PICK_IMAGE && resultCode == RESULT_OK){
          try {

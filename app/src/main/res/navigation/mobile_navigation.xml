@@ -15,7 +15,7 @@
         android:id="@+id/navigation_earnings"
         android:name="com.example.jobbkalender.ui.earnings.EarningsFragment"
         android:label="@string/title_earnings"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_earnings" />
 
     <fragment
         android:id="@+id/navigation_notifications"

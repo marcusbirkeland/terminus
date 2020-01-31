@@ -103,7 +103,7 @@ public class ViewEvent extends AppCompatActivity {
         }
 
         // Laster inn det nye "Job" objektet
-        LinearLayout linearLayoutJobView = findViewById(R.id.linearLayoutJobView);
+        LinearLayout linearLayoutJobView = findViewById(R.id.linearLayoutJobViewCreateEvent);
         linearLayoutJobView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -166,7 +166,7 @@ public class ViewEvent extends AppCompatActivity {
                     finish();
                 }
             });
-            LinearLayout linearLayoutJobView = findViewById(R.id.linearLayoutJobView);
+            LinearLayout linearLayoutJobView = findViewById(R.id.linearLayoutJobViewCreateEvent);
             linearLayoutJobView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

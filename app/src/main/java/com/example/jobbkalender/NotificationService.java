@@ -65,20 +65,19 @@ public class NotificationService extends Service {
     }
     @Override
     public void onCreate () {
-        Log. e ( TAG , "onCreate" ) ;
+        Log. e ( TAG , "NotificationService created" ) ;
         createNotificationChannel();
     }
     @Override
     public void onDestroy () {
-        Log. e ( TAG , "onDestroy" ) ;
-        stopTimerTask() ;
+        Log. e ( TAG , "NotificationService destroyed");
         super .onDestroy() ;
+        stopTimerTask() ;
         Intent broadcastIntent = new Intent();
         broadcastIntent.setAction("restartservice");
         broadcastIntent.setClass(this, ServiceRestarter.class);
         this.sendBroadcast(broadcastIntent);
     }
-    //we are going to use a handler to be able to run in our TimerTask
     final Handler handler = new Handler() ;
     public void startTimer () {
         timer = new Timer() ;
@@ -87,7 +86,7 @@ public class NotificationService extends Service {
     }
     public void stopTimerTask () {
         if ( timer != null ) {
-            timer .cancel() ;
+            timer.cancel() ;
             timer = null;
         }
     }
@@ -111,7 +110,6 @@ public class NotificationService extends Service {
     }
 
     private void createNotification(WorkdayEvent event){
-
         Bitmap icon = BitmapFactory.decodeFile(event.getJob().getImage());
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
                 .setSmallIcon(R.drawable.coin_icon).setLargeIcon(icon)

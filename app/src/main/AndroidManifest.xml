@@ -15,7 +15,7 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".ViewEvent" />
         <activity android:name=".CreateSalaryRuleActivity" />
-        <activity android:name=".CreateJobActivity" />
+        <activity android:name=".CreateJobActivity" android:windowSoftInputMode="adjustNothing"></activity>
         <activity android:name=".CreateEvent" />
         <activity
             android:name=".MainActivity"

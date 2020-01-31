@@ -1,13 +1,11 @@
 package com.example.jobbkalender.ui.earnings;
 
 import android.content.SharedPreferences;
-import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -31,7 +29,6 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import static android.content.Context.MODE_PRIVATE;
@@ -56,10 +53,10 @@ public class EarningsFragment extends Fragment {
         TextView textViewMonthlyEarningsNet = getView().findViewById(R.id.textViewMonthlyEarningsNet);
         int monthlyGrossPay = payCalculator.getMonthlyEarnings(workdayEvents,selectedJob);
         textViewMonthPeriod.setText("Lønn i perioden  " + payCalculator.getStartDateStr() + " - " + payCalculator.getEndDateStr());
-        textViewMonthlyEarningsGross.setText("" + monthlyGrossPay);
+        textViewMonthlyEarningsGross.setText(monthlyGrossPay + " kr");
         Log.d("Selected job",selectedJob.toString());
         float monthlyNetPay = monthlyGrossPay*(1-taxPercentage/100);
-        textViewMonthlyEarningsNet.setText((int) monthlyNetPay + "");
+        textViewMonthlyEarningsNet.setText((int) monthlyNetPay + " kr");
     }
 
     private void saveTaxPercentage (float percentage){
@@ -124,10 +121,10 @@ public class EarningsFragment extends Fragment {
         editTextTaxPercentage.setText(taxPercentage+ "");
         TextView textViewTotalEarningsGross = getView().findViewById(R.id.textViewGrossCurrentEarnings);
         currentEarnings = payCalculator.getYearlyEarnings(workdayEvents);
-        textViewTotalEarningsGross.setText("" + currentEarnings);
+        textViewTotalEarningsGross.setText("" + currentEarnings + " kr");
         TextView textViewTotalEarningsNet = getView().findViewById(R.id.textViewNetCurrentEarnings);
         float netEarnings = currentEarnings*(1-(taxPercentage/100));
-        textViewTotalEarningsNet.setText("" + (int) netEarnings);
+        textViewTotalEarningsNet.setText("" + (int) netEarnings + " kr");
         final Spinner jobSpinner = getView().findViewById(R.id.spinnerSelectJob);
         // Gjør spinner scrollable
         try {
@@ -193,7 +190,7 @@ public class EarningsFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         earningsViewModel =
                 ViewModelProviders.of(this).get(EarningsViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        View root = inflater.inflate(R.layout.fragment_earnings, container, false);
         final TextView textView = root.findViewById(R.id.text_dashboard);
         earningsViewModel.getText().observe(this, new Observer<String>() {
             @Override

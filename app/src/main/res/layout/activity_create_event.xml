@@ -48,6 +48,7 @@
         android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/buttonChooseWorkplaceCreateEvent"
+        app:layout_constraintStart_toStartOf="@+id/buttonChooseWorkplaceCreateEvent"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <TextView
@@ -66,7 +67,7 @@
         android:backgroundTint="@color/colorPrimary"
         android:text="@string/choose_workplace"
         android:textColor="#fff"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayoutJobViewCreateEvent"
         app:layout_constraintTop_toTopOf="@+id/textView5" />
 
     <EditText
@@ -95,7 +96,7 @@
         app:layout_constraintTop_toBottomOf="@+id/checkBoxNightshift" />
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/linearLayoutJobViewCreateEvent"
         android:layout_width="300dp"
         android:layout_height="0dp"
         android:backgroundTint="@color/colorPrimaryDark"
@@ -127,8 +128,8 @@
         android:backgroundTint="@color/colorAccent"
         android:text="@string/add_workday"
         android:textColor="#fff"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout2"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+        app:layout_constraintStart_toStartOf="@+id/linearLayoutJobViewCreateEvent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutJobViewCreateEvent" />
 
     <TextView
         android:id="@+id/textView5"
@@ -167,6 +168,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="@+id/timeInputToCreateEvent"
+        app:layout_constraintStart_toStartOf="@+id/buttonChooseWorkplaceCreateEvent"
         app:layout_constraintTop_toBottomOf="@+id/textView3">
 
         <com.example.jobbkalender.ToggleRadioButton
@@ -193,5 +195,15 @@
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/radioGroupRepeat"
         app:layout_constraintTop_toTopOf="@+id/textView6" />
+
+    <TextView
+        android:id="@+id/textViewCreateEventError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textColor="@android:color/holo_red_light"
+        app:layout_constraintStart_toStartOf="@+id/linearLayoutJobViewCreateEvent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutJobViewCreateEvent"
+        tools:text="Error message" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

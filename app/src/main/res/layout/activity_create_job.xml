@@ -6,138 +6,169 @@
     android:layout_height="match_parent"
     tools:context=".CreateJobActivity">
 
-    <TextView
-        android:id="@+id/textViewCreateJobTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:text="Legg til jobb"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
+        <TextView
+            android:id="@+id/textViewCreateJobTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:text="Legg til jobb"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/editTextNameJob"
-        android:layout_width="180dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:hint="Navn på jobb"
-        android:maxLength="40"
-        android:singleLine="true"
-        app:layout_constraintStart_toEndOf="@+id/imageViewCreateJob"
-        app:layout_constraintTop_toTopOf="@+id/imageViewCreateJob" />
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:orientation="horizontal"
+            android:weightSum="100"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewCreateJobTitle">
 
-    <EditText
-        android:id="@+id/editTextSalaryCreateJob"
-        android:layout_width="180dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="Timelønn"
-        android:inputType="numberDecimal"
-        android:maxLength="8"
-        app:layout_constraintLeft_toLeftOf="@+id/editTextNameJob"
-        app:layout_constraintTop_toBottomOf="@+id/editTextNameJob" />
+            <ImageView
+                android:id="@+id/imageViewCreateJob"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginRight="16dp"
+                android:layout_weight="10"
+                app:layout_constraintStart_toStartOf="@+id/textViewCreateJobTitle"
+                app:layout_constraintTop_toBottomOf="@+id/textViewCreateJobTitle"
+                app:srcCompat="@drawable/contacts" />
 
-    <ImageView
-        android:id="@+id/imageViewCreateJob"
-        android:layout_width="95dp"
-        android:layout_height="95dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintStart_toStartOf="@+id/textViewCreateJobTitle"
-        app:layout_constraintTop_toBottomOf="@+id/textViewCreateJobTitle"
-        app:srcCompat="@drawable/contacts" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="40"
+                android:orientation="vertical">
 
-    <Button
-        android:id="@+id/buttonAddSalaryRule"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="+"
-        app:layout_constraintBottom_toBottomOf="@+id/checkBoxPaidBreak"
-        app:layout_constraintEnd_toEndOf="@+id/listViewSalaryrules"
-        app:layout_constraintTop_toTopOf="@+id/textView8" />
+                <EditText
+                    android:id="@+id/editTextNameJob"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Navn på jobb"
+                    android:maxLength="40"
+                    android:singleLine="true"
+                    app:layout_constraintStart_toEndOf="@+id/imageViewCreateJob"
+                    app:layout_constraintTop_toTopOf="@+id/imageViewCreateJob" />
 
-    <Button
-        android:id="@+id/buttonAddJob"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="@color/colorAccent"
-        android:text="Lagre"
-        android:textColor="#fff"
-        app:layout_constraintStart_toStartOf="@+id/listViewSalaryrules"
-        app:layout_constraintTop_toBottomOf="@+id/listViewSalaryrules" />
+                <EditText
+                    android:id="@+id/editTextSalaryCreateJob"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:hint="Timelønn"
+                    android:inputType="numberDecimal"
+                    android:maxLength="8"
+                    app:layout_constraintLeft_toLeftOf="@+id/editTextNameJob"
+                    app:layout_constraintTop_toBottomOf="@+id/editTextNameJob" />
+            </LinearLayout>
+        </LinearLayout>
 
-    <ListView
-        android:id="@+id/listViewSalaryrules"
-        android:layout_width="300dp"
-        android:layout_height="150dp"
-        android:maxHeight="100dp"
-        app:layout_constraintStart_toStartOf="@+id/textView8"
-        app:layout_constraintTop_toBottomOf="@+id/checkBoxPaidBreak" />
+        <Button
+            android:id="@+id/buttonAddSalaryRule"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+"
+            app:layout_constraintBottom_toBottomOf="@+id/checkBoxPaidBreak"
+            app:layout_constraintEnd_toEndOf="@+id/listViewSalaryrules"
+            app:layout_constraintTop_toTopOf="@+id/textView8" />
 
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Tillegg + fradrag"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintStart_toStartOf="@+id/imageViewCreateJob"
-        app:layout_constraintTop_toBottomOf="@+id/editTextSetSalaryPeriod" />
+        <Button
+            android:id="@+id/buttonAddJob"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="64dp"
+            android:backgroundTint="@color/colorAccent"
+            android:text="Lagre"
+            android:textColor="#fff"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/listViewSalaryrules" />
 
-    <TextView
-        android:id="@+id/textView18"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Legg til bilde"
-        app:layout_constraintEnd_toEndOf="@+id/imageViewCreateJob"
-        app:layout_constraintStart_toStartOf="@+id/imageViewCreateJob"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewCreateJob" />
+        <ListView
+            android:id="@+id/listViewSalaryrules"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="32dp"
+            android:maxHeight="100dp"
+            app:layout_constraintBottom_toTopOf="@+id/textViewCreateJobErrorMessage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/checkBoxPaidBreak" />
 
-    <CheckBox
-        android:id="@+id/checkBoxPaidBreak"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Betalt pause"
-        app:layout_constraintStart_toStartOf="@+id/textView8"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Tillegg + fradrag"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintStart_toStartOf="@+id/editTextSetSalaryPeriod"
+            app:layout_constraintTop_toBottomOf="@+id/editTextSetSalaryPeriod" />
 
-    <TextView
-        android:id="@+id/editTextSetSalaryPeriod"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Lønnsperiode"
-        android:inputType="date"
-        android:text="Velg dato"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="@color/colorAccent"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@+id/textView16"
-        app:layout_constraintTop_toBottomOf="@+id/textView16" />
+        <CheckBox
+            android:id="@+id/checkBoxPaidBreak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Betalt pause"
+            app:layout_constraintStart_toStartOf="@+id/textView8"
+            app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
-    <TextView
-        android:id="@+id/textView16"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Lønnsperiode"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintStart_toStartOf="@+id/imageViewCreateJob"
-        app:layout_constraintTop_toBottomOf="@+id/editTextSalaryCreateJob" />
+        <TextView
+            android:id="@+id/editTextSetSalaryPeriod"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Lønnsperiode"
+            android:inputType="date"
+            android:text="Velg dato"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@color/colorAccent"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="@+id/textView16"
+            app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
-    <Button
-        android:id="@+id/buttonDeleteJob"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:backgroundTint="@color/colorAccent"
-        android:text="Slett jobb"
-        android:textColor="#fff"
-        app:layout_constraintBottom_toTopOf="@+id/editTextNameJob"
-        app:layout_constraintEnd_toEndOf="@+id/editTextNameJob" />
+        <TextView
+            android:id="@+id/textView16"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Lønnsperiode"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
+        <Button
+            android:id="@+id/buttonDeleteJob"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorAccent"
+            android:text="Slett jobb"
+            android:textColor="#fff"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout" />
 
+        <TextView
+            android:id="@+id/textViewCreateJobErrorMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/buttonAddJob"
+            app:layout_constraintStart_toStartOf="@+id/buttonAddJob"
+            tools:text="ERROR MESSAGE" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

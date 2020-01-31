@@ -1,22 +1,19 @@
 package com.example.jobbkalender;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.jobbkalender.DataClasses.Job;
@@ -26,15 +23,15 @@ import com.example.jobbkalender.dialogFragments.TimePickerDialogFragment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.w3c.dom.Text;
-
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.jobbkalender.CreateJobActivity.DELETE_JOB;
+import static com.example.jobbkalender.MainActivity.DELETE_EVENT;
 
 public class CreateEvent extends AppCompatActivity implements TimePickerDialogFragment.OnInputListener, ChooseWorkplaceDialogFragment.OnInputListener {
 
@@ -43,6 +40,18 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
     ChooseWorkplaceDialogFragment chooseWorkplaceDialogFragment = new ChooseWorkplaceDialogFragment();
     List<Job> jobList = new ArrayList<>();
     String jobName = "";
+    private String errorMessage = "";
+    private boolean cancelSubmit;
+    private Job selectedJob;
+
+    private void startViewJob(Job job) {
+        Intent intent = new Intent(getApplicationContext(),CreateJobActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("JOB",job);
+        bundle.putBoolean("EDITMODE",true);
+        intent.putExtra("BUNDLE",bundle);
+        startActivityForResult(intent, 1);
+    }
 
     private void saveEvent(List<WorkdayEvent> eventList){
         SharedPreferences pref = getSharedPreferences("SHARED PREFERENCES", MODE_PRIVATE);
@@ -102,8 +111,11 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
         Log.d("Set workplace:", workplace.toString());
         TextView t = findViewById(R.id.textViewCreateEventJobName);
         ImageView imageView = findViewById(R.id.imageViewCreateEvent);
+        LinearLayout linearLayout = findViewById(R.id.linearLayoutJobViewCreateEvent);
+        linearLayout.setVisibility(View.VISIBLE);
         jobName = workplace.getName();
         t.setText(jobName);
+        selectedJob = new Job(workplace);
         try{
             Uri uri = Uri.parse(workplace.getImage());
             imageView.setImageURI(uri);
@@ -161,6 +173,15 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
             }
         });
         Button submitWorkday = findViewById(R.id.buttonSubmitWorkday);
+
+        LinearLayout linearLayoutJobView = findViewById(R.id.linearLayoutJobViewCreateEvent);
+        linearLayoutJobView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startViewJob(selectedJob);
+
+            }
+        });
         submitWorkday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -169,6 +190,7 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
                 EditText editTextBreakTime = findViewById(R.id.editTextBreakTime);
                 TextView timeInputFrom = findViewById(R.id.timeInputFromCreateEvent);
                 TextView timeInputTo = findViewById(R.id.timeInputToCreateEvent);
+                TextView textViewErrorMessage = findViewById(R.id.textViewCreateEventError);
                 CheckBox checkBoxIsNightShift = findViewById(R.id.checkBoxNightshift);
                 final ToggleRadioButton radioButtonRepeatEachWeek = findViewById(R.id.radioButtonRepeatEachWeek);
                 final ToggleRadioButton radioButtonRepeatEveryOtherWeek = findViewById(R.id.radioButtonRepeatEveryOtherWeek);
@@ -176,20 +198,31 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
                 LocalTime startTime = LocalTime.parse(timeInputFrom.getText().toString(), dateTimeFormatter.ofPattern("HH:mm"));
                 LocalTime endTime = LocalTime.parse(timeInputTo.getText().toString(), dateTimeFormatter.ofPattern("HH:mm"));
                 if(startTime.equals(endTime)){
+                    errorMessage = "Venligst velg et annet klokkelslett.";
                     Log.d("Create Event: ", "End time cannot be equal to start time");
+                    cancelSubmit = true;
                 }
-                if(startTime.isAfter(endTime) && !checkBoxIsNightShift.isChecked()){
+                else if(startTime.isAfter(endTime) && !checkBoxIsNightShift.isChecked()){
+                    errorMessage = "Huk av boksen for nattevakt";
                     Log.d("Error", "Invalid time for regular shift");
-                    return;
+                    cancelSubmit = true;
                 } else if(startTime.isBefore(endTime) && checkBoxIsNightShift.isChecked()){
+                    errorMessage = "Dette er ikke en nattevakt";
                     Log.d("Create Event: ", "Invalid time for night shift");
+                    cancelSubmit = true;
                 }
-                if (jobName.equals("") ){
+                else if (jobName.equals("") ){
+                    errorMessage = "Velg en jobb først!";
                     Log.e("Error", "Please fill all fields");
+                    cancelSubmit = true;
+                }
+                if(cancelSubmit){
+                    textViewErrorMessage.setText(errorMessage);
                     return;
                 }
                 String date = getIntent().getStringExtra("DATE");
                 LocalDate eventDate = LocalDate.parse(date,dateTimeFormatter.ofPattern("ddMMyyyy"));
+
                 // Setter default verdi til pause
                 int breakTime = 30;
                 Job selectedJob = getJobByName(jobName);
@@ -231,4 +264,38 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
         }
         saveEvent(eventList);
     }
+
+    private int getJobIndex(String jobName,List<Job> jobList){
+        for(int i =0; i < jobList.size();i++){
+            if(jobList.get(i).getName().equals(jobName)){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK){
+            try{
+                TextView t = findViewById(R.id.textViewCreateEventJobName);
+                ImageView imageView = findViewById(R.id.imageViewCreateEvent);
+                Bundle bundle = data.getBundleExtra("BUNDLE");
+                Job job = (Job) bundle.getSerializable("EDITED_JOB");
+                selectedJob = new Job(job);
+                t.setText(job.getName());
+                imageView.setImageURI(Uri.parse(job.getImage()));
+                loadJobs();
+            }catch (NullPointerException n){
+                Log.e("Create Event","No result");
+            }
+        }
+        if(resultCode == DELETE_JOB){
+            loadJobs();
+            LinearLayout layout = findViewById(R.id.linearLayoutJobViewCreateEvent);
+            layout.setVisibility(View.INVISIBLE);
+        }
+    }
 }
+

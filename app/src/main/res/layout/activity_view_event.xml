@@ -74,7 +74,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView36" />
 
     <LinearLayout
-        android:id="@+id/linearLayoutJobView"
+        android:id="@+id/linearLayoutJobViewCreateEvent"
         android:layout_width="300dp"
         android:layout_height="80dp"
         android:layout_marginTop="32dp"
@@ -110,7 +110,7 @@
         android:text="Slett"
         android:textColor="#fff"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/linearLayoutJobView" />
+        app:layout_constraintStart_toStartOf="@+id/linearLayoutJobViewCreateEvent" />
 
     <TextView
         android:id="@+id/textViewViewEventSalaryDescription"
@@ -120,8 +120,8 @@
         android:text="Lønn"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/linearLayoutJobView"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutJobView" />
+        app:layout_constraintStart_toStartOf="@+id/linearLayoutJobViewCreateEvent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutJobViewCreateEvent" />
 
     <TextView
         android:id="@+id/textViewViewEventSalary"
