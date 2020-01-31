@@ -57,6 +57,18 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
     private List<SalaryRule> salaryRulesArrayList = new ArrayList<>();
     private List<WorkdayEvent> savedWorkdayEvents = new ArrayList<>();
 
+    private int getJobIndexByName(String name){
+        // Finn Job klasse etter navn i en liste. Brukes for å søke i shared preferences.
+        int i =0;
+        for (Job job: savedJobs
+        ) {
+            if(job.getName().equals(name)){
+               return i;
+            }
+            i++;
+        }
+        return -1;
+    }
 
     private void saveEvents(List<WorkdayEvent> eventsToSave){
         SharedPreferences pref = getSharedPreferences("SHARED PREFERENCES", MODE_PRIVATE);
@@ -105,6 +117,33 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
         }
         saveEvents(newEventList);
     }
+    private void deleteAllEventsWithJob(Job job){
+        loadEvents();
+        List<WorkdayEvent> newEventList = new ArrayList<>();
+        for(WorkdayEvent event : savedWorkdayEvents){
+            if(!event.getJob().getName().equals(job.getName())){
+                newEventList.add(event);
+            }else {
+                LocalDate now = LocalDate.now();
+                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_DATE_TIME;
+                LocalDate eventDate = LocalDate.parse(event.getDate(), dateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                if (!eventDate.isAfter(now)) {
+                    newEventList.add(event);
+                }
+            }
+        }
+        saveEvents(newEventList);
+    }
+    private void deleteJob(Job job){
+        loadJobs();
+        int index = getJobIndexByName(job.getName());
+        if(index != -1){
+            savedJobs.remove(index);
+            deleteAllEventsWithJob(job);
+            saveJobList(savedJobs);
+        }
+        finish();
+    }
 
     private int getJobIndex(Job jobIn){
          int i = 0;
@@ -130,6 +169,18 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
             Log.e("Error","Failed to load jobs");
         }
     }
+    private void saveJobList (List<Job> jobListIn){
+        SharedPreferences pref = getSharedPreferences("SHARED PREFERENCES", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<Job>>(){}.getType();
+        String jobInfo = gson.toJson(jobListIn,type);
+        editor.putString("JOBLIST",jobInfo);
+        editor.apply();
+    }
+
+
+
     private void saveJob(boolean isEditMode){
         SharedPreferences pref = getSharedPreferences("SHARED PREFERENCES", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
@@ -137,6 +188,7 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
         Type type = new TypeToken<ArrayList<Job>>(){}.getType();
         String currentList = pref.getString("JOBLIST",null);
         String jobInfo = gson.toJson(jobList,type);
+
         if(isEditMode){
             Log.d("Saving job", "SAVING IN EDIT MODE");
             loadJobs();
@@ -157,9 +209,6 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
             editor.putString("JOBLIST", currentList.substring(0,currentList.length()-1)+","+jobInfo.substring(1));
         }else{
             editor.putString("JOBLIST",jobInfo);
-        }
-        for (Job j: jobList) {
-            Log.d("JOBS",j.toString());
         }
         editor.apply();
     }
@@ -211,8 +260,14 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
             for(SalaryRule salaryRule : salaryRulesArrayList){
                 salaryRuleStrings.add(salaryRule.toString());
             }
-
             selectedImagePath= jobIn.getImage();
+
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    deleteJob(jobIn);
+                }
+            });
         }
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,salaryRuleStrings);

@@ -36,7 +36,7 @@ public class NotificationService extends Service {
     Timer timer ;
     TimerTask timerTask ;
     String TAG = "Timers" ;
-    int timerInterval = 60;
+    int timerInterval = 1800;
     List<WorkdayEvent> workdayEvents = new ArrayList<>();
 
     private void loadEvents(){
