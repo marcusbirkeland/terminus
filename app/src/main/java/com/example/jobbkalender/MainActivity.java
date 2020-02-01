@@ -19,10 +19,12 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 public class MainActivity extends AppCompatActivity {
+    public static final int CREATE_ALARM = 45456;
     public static final int DELETE_EVENT = 2321;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Sjekker om alarm allerede eksisterer
         createAlarm();
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -32,6 +34,11 @@ public class MainActivity extends AppCompatActivity {
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
         }
+        if(ContextCompat.checkSelfPermission(this,Manifest.permission.RECEIVE_BOOT_COMPLETED)
+                != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.RECEIVE_BOOT_COMPLETED},1);
+        }
+
 
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
@@ -49,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
         AlarmManager alarmManager;
         PendingIntent alarmIntent;
         alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlarmReceiver.class);
-        alarmIntent = PendingIntent.getBroadcast(this,0,intent,0);
-        alarmManager.set(AlarmManager.RTC_WAKEUP,System.currentTimeMillis() + 60 *1000, alarmIntent);
+        Intent intent = new Intent(this,AlarmReceiver.class);
+        alarmIntent = PendingIntent.getBroadcast(this,CREATE_ALARM,intent,0);
+        alarmManager.set(AlarmManager.RTC_WAKEUP,System.currentTimeMillis() + 10 *1000, alarmIntent);
     }
 }

@@ -57,23 +57,25 @@
         android:id="@+id/buttonAddEvent"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="64dp"
         android:backgroundTint="@color/colorAccent"
         android:text="Ny vakt"
         android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listViewEventList" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ListView
         android:id="@+id/listViewEventList"
         android:layout_width="0dp"
-        android:layout_height="125dp"
-        android:layout_marginTop="12dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:fadeScrollbars="false"
         android:isScrollContainer="true"
         android:scrollbarAlwaysDrawVerticalTrack="true"
         android:scrollbarThumbVertical="@color/colorAccentTransparent"
+        app:layout_constraintBottom_toTopOf="@+id/buttonAddEvent"
         app:layout_constraintEnd_toEndOf="@+id/compactCalendarView"
         app:layout_constraintStart_toStartOf="@+id/compactCalendarView"
         app:layout_constraintTop_toBottomOf="@+id/compactCalendarView" />

@@ -5,6 +5,8 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -33,8 +35,18 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="startNotificationService" />
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </receiver>
+
+        <receiver
+            android:name=".AlarmRebootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+
         <service android:name=".NotificationService" tools:ignore="ExtraText">
             <intent-filter>
                 <action

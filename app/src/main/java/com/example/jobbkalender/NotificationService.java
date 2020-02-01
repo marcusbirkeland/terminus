@@ -27,6 +27,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.jobbkalender.MainActivity.CREATE_ALARM;
+
 public class NotificationService extends IntentService {
     public static final String NOTIFICATION_CHANNEL_ID = "10001" ;
     private static final String notification_channel_name = "Varsler for arbeidsdag";
@@ -34,6 +36,22 @@ public class NotificationService extends IntentService {
 
     public NotificationService() {
         super("notificationService");
+
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        createNotificationChannel();
+        createNotification(getTodaysEvent());
+
+        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,CREATE_ALARM,alarmIntent,0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        // Setter ny alarm som restarter denne tjenesten.
+        long interval = 1*60*60*1000; // 1 time.
+        alarmManager.set(AlarmManager.RTC_WAKEUP,System.currentTimeMillis() + interval,pendingIntent);
+        stopSelf();
     }
 
     private void loadEvents(){
@@ -55,7 +73,7 @@ public class NotificationService extends IntentService {
         createNotification(getTodaysEvent());
 
         Intent alarmIntent = new Intent(this, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,0,alarmIntent,0);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,CREATE_ALARM,alarmIntent,0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         // Setter ny alarm som restarter denne tjenesten.
         long interval = 1*60*60*1000; // 1 time.
