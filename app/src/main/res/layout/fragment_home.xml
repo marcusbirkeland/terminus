@@ -55,9 +55,11 @@
 
     <Button
         android:id="@+id/buttonAddEvent"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="64dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="64dp"
+        android:layout_marginEnd="64dp"
+        android:layout_marginBottom="72dp"
         android:backgroundTint="@color/colorAccent"
         android:text="Ny vakt"
         android:textColor="#FFFFFF"

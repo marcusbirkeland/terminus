@@ -18,13 +18,12 @@
 
     <TextView
         android:id="@+id/timeInputFromCreateSalaryRule"
-        android:layout_width="117dp"
-        android:layout_height="47dp"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
         android:ems="24"
         android:text="16:00"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         android:textColor="@color/colorAccent"
-        android:textSize="40sp"
+        android:textSize="40dp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/textView17"
         app:layout_constraintTop_toBottomOf="@+id/textView17" />
@@ -39,26 +38,30 @@
 
     <TextView
         android:id="@+id/timeInputToCreateSalaryRule"
-        android:layout_width="108dp"
-        android:layout_height="50dp"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
         android:ems="10"
         android:inputType="time"
         android:text="20:00"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="@color/colorAccent"
-        android:textSize="40sp"
+        android:textSize="40dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/buttonSubmitSalaryRule"
         app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
     <EditText
         android:id="@+id/editTextNameSalaryRule"
-        android:layout_width="200dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="64dp"
         android:hint="Navn på regel"
         android:maxLength="50"
         android:singleLine="true"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/timeInputFromCreateSalaryRule"
         app:layout_constraintTop_toBottomOf="@+id/timeInputFromCreateSalaryRule" />
 
@@ -75,7 +78,7 @@
 
     <CheckBox
         android:id="@+id/checkBoxWeekdays"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:text="Ukedager"
@@ -84,7 +87,7 @@
 
     <CheckBox
         android:id="@+id/checkBoxSaturday"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Lørdager"
         app:layout_constraintStart_toStartOf="@+id/checkBoxWeekdays"
@@ -92,18 +95,20 @@
 
     <Button
         android:id="@+id/buttonSubmitSalaryRule"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="32dp"
         android:backgroundTint="@color/colorAccent"
         android:text="Lagre"
         android:textColor="#fff"
-        app:layout_constraintStart_toStartOf="@+id/checkBoxSunday"
-        app:layout_constraintTop_toBottomOf="@+id/checkBoxSunday" />
+        app:layout_constraintBottom_toTopOf="@+id/buttonEditSalaryRuleDelete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/checkBoxSunday" />
 
     <CheckBox
         android:id="@+id/checkBoxSunday"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Søndager"
         app:layout_constraintStart_toStartOf="@+id/checkBoxSaturday"
@@ -124,13 +129,13 @@
         android:id="@+id/buttonEditSalaryRuleDelete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="64dp"
         android:backgroundTint="@color/colorAccent"
         android:text="Slett"
         android:textColor="@android:color/white"
         android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/buttonSubmitSalaryRule"
-        app:layout_constraintTop_toBottomOf="@+id/buttonSubmitSalaryRule"
         tools:visibility="visible" />
 
 

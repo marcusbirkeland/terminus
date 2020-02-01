@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:text="Legg til jobb"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             app:layout_constraintStart_toStartOf="parent"
@@ -60,21 +60,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Navn på jobb"
-                    android:maxLength="40"
-                    android:singleLine="true"
-                    app:layout_constraintStart_toEndOf="@+id/imageViewCreateJob"
-                    app:layout_constraintTop_toTopOf="@+id/imageViewCreateJob" />
+                    android:maxLength="30"
+                    android:singleLine="true" />
 
                 <EditText
                     android:id="@+id/editTextSalaryCreateJob"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
                     android:hint="Timelønn"
                     android:inputType="numberDecimal"
-                    android:maxLength="8"
-                    app:layout_constraintLeft_toLeftOf="@+id/editTextNameJob"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextNameJob" />
+                    android:maxLength="8" />
             </LinearLayout>
         </LinearLayout>
 
@@ -160,8 +155,8 @@
             android:backgroundTint="@color/colorAccent"
             android:text="Slett jobb"
             android:textColor="#fff"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-            app:layout_constraintEnd_toEndOf="@+id/linearLayout" />
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+            app:layout_constraintTop_toTopOf="@+id/textViewCreateJobTitle" />
 
         <TextView
             android:id="@+id/textViewCreateJobErrorMessage"

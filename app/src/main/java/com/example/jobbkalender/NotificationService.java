@@ -82,7 +82,15 @@ public class NotificationService extends IntentService {
     }
 
     private void createNotification(WorkdayEvent event){
-        Bitmap icon = BitmapFactory.decodeFile(event.getJob().getImage());
+        if (event == null)
+            return;
+        Bitmap icon;
+        try{
+            icon = BitmapFactory.decodeFile(event.getJob().getImage());
+        } catch (NullPointerException e){
+            icon = null;
+        }
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
                 .setSmallIcon(R.drawable.coin_icon).setLargeIcon(icon)
                 .setContentTitle(event.getJob().getName())

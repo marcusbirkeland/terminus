@@ -15,16 +15,25 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ViewEvent" />
-        <activity android:name=".CreateSalaryRuleActivity" />
-        <activity android:name=".CreateJobActivity" android:windowSoftInputMode="adjustNothing"></activity>
-        <activity android:name=".CreateEvent" />
+        <activity android:name=".ViewEvent"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".CreateSalaryRuleActivity"
+            android:screenOrientation="portrait"
+            android:label="Lønnstillegg"/>
+
+        <activity android:name=".CreateJobActivity"
+            android:windowSoftInputMode="adjustNothing"
+            android:screenOrientation="portrait"
+            android:label="Jobb"/>
+        <activity android:name=".CreateEvent"
+            android:label="Ny vakt"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

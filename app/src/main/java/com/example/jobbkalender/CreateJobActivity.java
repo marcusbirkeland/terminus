@@ -224,7 +224,7 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
     @Override
     public void onValueChange(NumberPicker numberPicker, int i, int i1) {
         TextView editTextSalaryPeriod = findViewById(R.id.editTextSetSalaryPeriod);
-        editTextSalaryPeriod.setText("Hver "+ numberPicker.getValue() +"." );
+        editTextSalaryPeriod.setText(numberPicker.getValue() +"." + " hver måned");
         salaryPeriodDate = numberPicker.getValue();
         Log.d("Selected date", "" +  numberPicker.getValue());
     }
@@ -251,13 +251,15 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
         buttonDelete.setVisibility(View.INVISIBLE);
 
         if(bundle != null && bundle.getBoolean("EDITMODE")){
+            TextView textViewTitle = findViewById(R.id.textViewCreateJobTitle);
+            textViewTitle.setText("Rediger jobb");
             editMode = true;
             Button deleteButton = findViewById(R.id.buttonDeleteJob);
             deleteButton.setVisibility(View.VISIBLE);
             jobIn = (Job) bundle.getSerializable("JOB");
             editTextJobName.setText(jobIn.getName());
             editTextEnterSalary.setText(jobIn.getSalary()+"");
-            editTextsetSalaryPeriod.setText("Hver " +  jobIn.getSalaryPeriodDate()+".");
+            editTextsetSalaryPeriod.setText(jobIn.getSalaryPeriodDate()+"." + " hver måned");
             checkBoxPaidBreak.setChecked(jobIn.hasPaidBreak());
             if(jobIn.getImage() != null) {
                 Uri uri = Uri.parse(jobIn.getImage());
@@ -335,15 +337,15 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
             public void onClick(View v) {
                 String name = editTextJobName.getText().toString();
                 loadJobs();
-                for (Job job : savedJobs){
-                    if(job.getName().equals(name)){
-                        TextView textViewErrorMessage = findViewById(R.id.textViewCreateJobErrorMessage);
-                        textViewErrorMessage.setText("Du har allerede registrert denne jobben!");
-                        return;
+                if(savedJobs != null) {
+                    for (Job job : savedJobs) {
+                        if (!editMode && job.getName().equals(name)) {
+                            TextView textViewErrorMessage = findViewById(R.id.textViewCreateJobErrorMessage);
+                            textViewErrorMessage.setText("Du har allerede registrert denne jobben!");
+                            return;
+                        }
                     }
-
                 }
-
                 if(!name.equals("") && !editTextEnterSalary.getText().toString().equals("")) {
                     double salary= Double.parseDouble(editTextEnterSalary.getText().toString());
                     Job job = new Job(name, salary, salaryPeriodDate, salaryRulesArrayList,checkBoxPaidBreak.isChecked());

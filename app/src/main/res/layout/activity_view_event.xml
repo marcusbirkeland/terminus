@@ -8,38 +8,39 @@
 
     <TextView
         android:id="@+id/timeInputToViewEvent"
-        android:layout_width="117dp"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
         android:ems="24"
         android:text="20.00"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         android:textColor="@color/colorAccent"
-        android:textSize="40sp"
+        android:textSize="40dp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/textView38"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayoutJobViewCreateEvent"
         app:layout_constraintTop_toBottomOf="@+id/textView38" />
 
     <TextView
         android:id="@+id/textView38"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="180dp"
         android:text="@string/to"
-        app:layout_constraintStart_toStartOf="@+id/textView37"
+        app:layout_constraintStart_toStartOf="@+id/timeInputToViewEvent"
         app:layout_constraintTop_toTopOf="@+id/textView37" />
 
     <TextView
         android:id="@+id/timeInputFromViewEvent"
-        android:layout_width="117dp"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:ems="24"
         android:text="16:00"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         android:textColor="@color/colorAccent"
-        android:textSize="40sp"
+        android:textSize="40dp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/textView37"
-        app:layout_constraintTop_toBottomOf="@+id/textView37" />
+        app:layout_constraintTop_toBottomOf="@+id/textView37"
+        tools:text="16:00" />
 
     <TextView
         android:id="@+id/textView37"
@@ -75,13 +76,16 @@
 
     <LinearLayout
         android:id="@+id/linearLayoutJobViewCreateEvent"
-        android:layout_width="300dp"
-        android:layout_height="80dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
         android:backgroundTint="@color/colorPrimaryDark"
         android:backgroundTintMode="src_atop"
         android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="@+id/timeInputFromViewEvent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/timeInputFromViewEvent">
 
         <ImageView
@@ -103,14 +107,17 @@
 
     <Button
         android:id="@+id/buttonViewEventDelete"
-        android:layout_width="300dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="32dp"
         android:layout_marginBottom="64dp"
         android:backgroundTint="@color/colorAccent"
         android:text="Slett"
         android:textColor="#fff"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/linearLayoutJobViewCreateEvent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textViewViewEventSalaryDescription"
