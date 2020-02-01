@@ -1,22 +1,21 @@
 package com.example.jobbkalender;
 
+import android.app.AlarmManager;
+import android.app.IntentService;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.Service;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
-import android.os.Handler;
-import android.os.IBinder;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
-import com.example.jobbkalender.DataClasses.Job;
 import com.example.jobbkalender.DataClasses.WorkdayEvent;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -27,17 +26,15 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
-public class NotificationService extends Service {
+public class NotificationService extends IntentService {
     public static final String NOTIFICATION_CHANNEL_ID = "10001" ;
     private static final String notification_channel_name = "Varsler for arbeidsdag";
-    Timer timer ;
-    TimerTask timerTask ;
-    String TAG = "Timers" ;
-    int timerInterval = 1800;
     List<WorkdayEvent> workdayEvents = new ArrayList<>();
+
+    public NotificationService() {
+        super("notificationService");
+    }
 
     private void loadEvents(){
         // Laster listen med lagrede jobber.
@@ -53,60 +50,17 @@ public class NotificationService extends Service {
     }
 
     @Override
-    public IBinder onBind (Intent arg0) {
-        return null;
-    }
-    @Override
-    public int onStartCommand (Intent intent , int flags , int startId) {
-        Log. e ( TAG , "onStartCommand" ) ;
-        super .onStartCommand(intent , flags , startId) ;
-        startTimer() ;
-        return START_STICKY ;
-    }
-    @Override
-    public void onCreate () {
-        Log. e ( TAG , "NotificationService created" ) ;
+    protected void onHandleIntent(@Nullable Intent intent) {
         createNotificationChannel();
-    }
-    @Override
-    public void onDestroy () {
-        Log. e ( TAG , "NotificationService destroyed");
-        super .onDestroy() ;
-        stopTimerTask() ;
-        Intent broadcastIntent = new Intent();
-        broadcastIntent.setAction("restartservice");
-        broadcastIntent.setClass(this, ServiceRestarter.class);
-        this.sendBroadcast(broadcastIntent);
-    }
-    final Handler handler = new Handler() ;
-    public void startTimer () {
-        timer = new Timer() ;
-        initializeTimerTask() ;
-        timer .schedule( timerTask , 5000 , timerInterval * 1000 ) ; //
-    }
-    public void stopTimerTask () {
-        if ( timer != null ) {
-            timer.cancel() ;
-            timer = null;
-        }
-    }
-    public void initializeTimerTask () {
-        timerTask = new TimerTask() {
-            public void run () {
-                handler .post( new Runnable() {
-                    public void run () {
-                        WorkdayEvent event = getTodaysEvent();
-                        try{
-                            Log.d("Notification Service","Making notification");
-                            createNotification(event) ;
-                            timerInterval = 1800;
-                    }catch (NullPointerException e){
-                            Log.e("NULL", "No events today");
-                        }
-                    }
-                }) ;
-            }
-        } ;
+        createNotification(getTodaysEvent());
+
+        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,0,alarmIntent,0);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        // Setter ny alarm som restarter denne tjenesten.
+        long interval = 1*60*60*1000; // 1 time.
+        alarmManager.set(AlarmManager.RTC_WAKEUP,System.currentTimeMillis() + interval,pendingIntent);
+        stopSelf();
     }
 
     private void createNotification(WorkdayEvent event){

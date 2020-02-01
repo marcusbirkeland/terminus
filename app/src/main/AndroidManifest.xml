@@ -28,11 +28,11 @@
         </activity>
 
         <receiver
-            android:name=".ServiceRestarter"
+            android:name=".AlarmReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="restartservice" />
+                <action android:name="startNotificationService" />
             </intent-filter>
         </receiver>
         <service android:name=".NotificationService" tools:ignore="ExtraText">

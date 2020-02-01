@@ -195,6 +195,10 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
                 final ToggleRadioButton radioButtonRepeatEachWeek = findViewById(R.id.radioButtonRepeatEachWeek);
                 final ToggleRadioButton radioButtonRepeatEveryOtherWeek = findViewById(R.id.radioButtonRepeatEveryOtherWeek);
 
+                textViewErrorMessage.setText("");
+                cancelSubmit = false;
+                errorMessage = "";
+
                 LocalTime startTime = LocalTime.parse(timeInputFrom.getText().toString(), dateTimeFormatter.ofPattern("HH:mm"));
                 LocalTime endTime = LocalTime.parse(timeInputTo.getText().toString(), dateTimeFormatter.ofPattern("HH:mm"));
                 if(startTime.equals(endTime)){
@@ -211,7 +215,7 @@ public class CreateEvent extends AppCompatActivity implements TimePickerDialogFr
                     Log.d("Create Event: ", "Invalid time for night shift");
                     cancelSubmit = true;
                 }
-                else if (jobName.equals("") ){
+                else if (selectedJob == null){
                     errorMessage = "Velg en jobb først!";
                     Log.e("Error", "Please fill all fields");
                     cancelSubmit = true;
