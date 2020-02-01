@@ -40,9 +40,12 @@ import static com.example.jobbkalender.MainActivity.DELETE_EVENT;
 public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
 
     private Context mContext;
+    private final static int VIEW_DATE = 1;
+    private int viewMode;
     public EventListAdapter(@NonNull Context context, int resource, @NonNull List<WorkdayEvent> objects) {
         super(context, resource, objects);
         mContext = context;
+        viewMode = resource;
     }
 
     @SuppressLint("ViewHolder")
@@ -80,10 +83,18 @@ public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
         if(event.isNightShift()){
             textView2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 11);
         }
+        if(viewMode != VIEW_DATE)
+            textView1.setText(jobName);
+        else{
 
-        textView1.setText(jobName);
+            LocalDate date = LocalDate.parse(event.getDate(),DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            String dateString = date.getDayOfMonth() + "." + date.getMonthValue() + "." + date.getYear();
+            textView1.setText(jobName + "\n" + dateString);
+        }
+
         textView2.setText(eventTimeSpan);
         textView3.setText(salary);
+
         ImageLoader imageLoader = ImageLoader.getInstance();
         int defaultImage = mContext.getResources().getIdentifier("@drawable/contacts",null,mContext.getPackageName());
         DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)

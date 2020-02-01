@@ -5,7 +5,7 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -15,25 +15,30 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ViewEvent"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".CreateSalaryRuleActivity"
+        <activity android:name=".ViewAllEventsActivity"></activity>
+        <activity
+            android:name=".ViewEvent"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CreateSalaryRuleActivity"
+            android:label="Lønnstillegg"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".CreateJobActivity"
+            android:label="Jobb"
             android:screenOrientation="portrait"
-            android:label="Lønnstillegg"/>
-
-        <activity android:name=".CreateJobActivity"
-            android:windowSoftInputMode="adjustNothing"
-            android:screenOrientation="portrait"
-            android:label="Jobb"/>
-        <activity android:name=".CreateEvent"
+            android:windowSoftInputMode="adjustNothing" />
+        <activity
+            android:name=".CreateEvent"
             android:label="Ny vakt"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -44,23 +49,25 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="startNotificationService" />
-                <category android:name="android.intent.category.DEFAULT"/>
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
-
-        <receiver
-            android:name=".AlarmRebootReceiver">
+        <receiver android:name=".AlarmRebootReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
 
-        <service android:name=".NotificationService" tools:ignore="ExtraText">
+        <service
+            android:name=".NotificationService"
+            tools:ignore="ExtraText">
             <intent-filter>
-                <action
-                    android:name = ".NotificationService" />
-                <category android:name= "android.intent.category.DEFAULT" />
+                <action android:name=".NotificationService" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
     </application>
