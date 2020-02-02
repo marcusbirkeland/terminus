@@ -43,11 +43,11 @@ public class SettingsFragment extends Fragment {
 
         Setting setting = new Setting("Om appen", android.R.drawable.ic_menu_info_details);
         settingsList.add(setting);
-        setting = new Setting("Administer jobber", android.R.drawable.sym_contact_card);
+        setting = new Setting("Administer jobber", android.R.drawable.ic_menu_my_calendar);
         settingsList.add(setting);
-        setting = new Setting("Administer vakter",android.R.drawable.ic_menu_my_calendar);
+        setting = new Setting("Administer vakter",android.R.drawable.ic_menu_day);
         settingsList.add(setting);
-        setting = new Setting("Slett all data", android.R.drawable.ic_delete);
+        setting = new Setting("Slett all data", android.R.drawable.ic_menu_delete);
         settingsList.add(setting);
         SettingsAdapter settingsAdapter= new SettingsAdapter(getContext(),0,settingsList);
         listView.setAdapter(settingsAdapter);
