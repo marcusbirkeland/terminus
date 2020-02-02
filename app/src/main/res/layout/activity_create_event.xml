@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreateEventActivity">
+    tools:context="com.birkeland.terminus.CreateEventActivity">
 
     <TextView
         android:id="@+id/textView7"
@@ -167,14 +167,14 @@
         app:layout_constraintStart_toStartOf="@+id/timeInputToCreateEvent"
         app:layout_constraintTop_toBottomOf="@+id/textView3">
 
-        <com.example.jobbkalender.customViews.ToggleRadioButton
+        <com.birkeland.terminus.customViews.ToggleRadioButton
             android:id="@+id/radioButtonRepeatEachWeek"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Hver uke"
             android:textSize="12sp" />
 
-        <com.example.jobbkalender.customViews.ToggleRadioButton
+        <com.birkeland.terminus.customViews.ToggleRadioButton
             android:id="@+id/radioButtonRepeatEveryOtherWeek"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

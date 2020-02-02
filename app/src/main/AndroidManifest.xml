@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.jobbkalender">
+    package="com.birkeland.terminus">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -15,26 +15,26 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ViewAllJobsActivity"></activity>
-        <activity android:name=".ViewAllEventsActivity" />
+        <activity android:name="com.birkeland.terminus.ViewAllJobsActivity"></activity>
+        <activity android:name="com.birkeland.terminus.ViewAllEventsActivity" />
         <activity
-            android:name=".ViewEventActivity"
+            android:name="com.birkeland.terminus.ViewEventActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".CreateSalaryRuleActivity"
+            android:name="com.birkeland.terminus.CreateSalaryRuleActivity"
             android:label="Lønnstillegg"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".CreateJobActivity"
+            android:name="com.birkeland.terminus.CreateJobActivity"
             android:label="Jobb"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" />
         <activity
-            android:name=".CreateEventActivity"
+            android:name="com.birkeland.terminus.CreateEventActivity"
             android:label="Ny vakt"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MainActivity"
+            android:name="com.birkeland.terminus.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -45,7 +45,7 @@
         </activity>
 
         <receiver
-            android:name=".broadcastReceivers.AlarmReceiver"
+            android:name="com.birkeland.terminus.broadcastReceivers.AlarmReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -54,7 +54,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".broadcastReceivers.AlarmRebootReceiver">
+        <receiver android:name="com.birkeland.terminus.broadcastReceivers.AlarmRebootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
 
@@ -63,7 +63,7 @@
         </receiver>
 
         <service
-            android:name=".NotificationService"
+            android:name="com.birkeland.terminus.NotificationService"
             tools:ignore="ExtraText">
             <intent-filter>
                 <action android:name=".NotificationService" />
