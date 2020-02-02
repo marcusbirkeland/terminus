@@ -18,7 +18,7 @@
         <activity android:name=".ViewAllJobsActivity"></activity>
         <activity android:name=".ViewAllEventsActivity" />
         <activity
-            android:name=".ViewEvent"
+            android:name=".ViewEventActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".CreateSalaryRuleActivity"
@@ -30,7 +30,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" />
         <activity
-            android:name=".CreateEvent"
+            android:name=".CreateEventActivity"
             android:label="Ny vakt"
             android:screenOrientation="portrait" />
         <activity
@@ -45,7 +45,7 @@
         </activity>
 
         <receiver
-            android:name=".AlarmReceiver"
+            android:name=".broadcastReceivers.AlarmReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -54,7 +54,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".AlarmRebootReceiver">
+        <receiver android:name=".broadcastReceivers.AlarmRebootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
 

@@ -3,7 +3,10 @@ package com.example.jobbkalender;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -25,7 +28,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ViewEvent extends AppCompatActivity {
+import static com.example.jobbkalender.CreateJobActivity.DELETE_JOB;
+
+public class ViewEventActivity extends AppCompatActivity {
 
     private List<WorkdayEvent> workdayEvents = new ArrayList<>();
     private int eventIndex = -1;
@@ -85,6 +90,8 @@ public class ViewEvent extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == DELETE_JOB)
+            finish();
         loadEvents();
         final WorkdayEvent event = workdayEvents.get(eventIndex);
         final TextView textViewJobName = findViewById(R.id.textViewViewEventJobName);
@@ -114,7 +121,6 @@ public class ViewEvent extends AppCompatActivity {
                 bundle.putBoolean("EDITMODE",true);
                 intent.putExtra("BUNDLE",bundle);
                 startActivityForResult(intent, 1);
-                // TODO ikkje bra practice, da man kan få forskjellige instanser av job klassen dersom man har endret. Burde heller bare vise data.
             }
         });
     }
@@ -156,14 +162,8 @@ public class ViewEvent extends AppCompatActivity {
             deleteEvent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    loadEvents();
-                    int index = getEventIndex(event);
-                    if(index > -1) {
-                        workdayEvents.remove(index);
-                    }
-                    saveEvents();
-                    setResult(RESULT_OK);
-                    finish();
+                    Dialog deleteDialog = makeDeleteEventDialog(event);
+                    deleteDialog.show();
                 }
             });
             LinearLayout linearLayoutJobView = findViewById(R.id.linearLayoutJobViewCreateEvent);
@@ -180,5 +180,31 @@ public class ViewEvent extends AppCompatActivity {
                 }
             });
 
+        }
+        private void deleteEvent(WorkdayEvent event){
+            loadEvents();
+            int index = getEventIndex(event);
+            if(index > -1) {
+                workdayEvents.remove(index);
+            }
+            saveEvents();
+            setResult(RESULT_OK);
+            finish();
+        }
+
+        private Dialog makeDeleteEventDialog (final WorkdayEvent event){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Slett vakt?")
+                    .setPositiveButton("Slett vakt", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            deleteEvent(event);
+                        }
+                    })
+                    .setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // Do nothing
+                        }
+                    });
+            return builder.create();
         }
     }

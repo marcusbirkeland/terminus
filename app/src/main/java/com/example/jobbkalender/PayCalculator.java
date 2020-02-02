@@ -19,7 +19,9 @@ public class PayCalculator {
 
     private String startDateStr;
     private String endDateStr;
-    public PayCalculator(List<WorkdayEvent> workdayEvents) {}
+    public PayCalculator(List<WorkdayEvent> workdayEvents) {
+        // Tom konstruktør
+    }
 
     public String getStartDateStr() {
         return startDateStr;

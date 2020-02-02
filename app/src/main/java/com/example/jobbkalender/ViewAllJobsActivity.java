@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.jobbkalender.Adapters.JobListAdapter;
 import com.example.jobbkalender.DataClasses.Job;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

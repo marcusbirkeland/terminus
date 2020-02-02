@@ -2,17 +2,10 @@ package com.example.jobbkalender.ui.home;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.EventLog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,32 +18,24 @@ import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.example.jobbkalender.CreateEvent;
-import com.example.jobbkalender.CreateSalaryRuleActivity;
+import com.example.jobbkalender.CreateEventActivity;
 import com.example.jobbkalender.DataClasses.WorkdayEvent;
-import com.example.jobbkalender.EventListAdapter;
+import com.example.jobbkalender.Adapters.EventListAdapter;
 import com.example.jobbkalender.R;
-import com.example.jobbkalender.ViewEvent;
+import com.example.jobbkalender.ViewEventActivity;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.w3c.dom.Text;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -217,7 +202,7 @@ public class HomeFragment extends Fragment{
         Button buttonAddEvent = view.findViewById(R.id.buttonAddEvent);
         buttonAddEvent.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), CreateEvent.class);
+                Intent intent = new Intent(getContext(), CreateEventActivity.class);
                 intent.putExtra("DATE", dateToString(selectedDay,selectedMonth,selectedYear));
 
                 startActivityForResult(intent,CREATE_EVENT);
@@ -317,7 +302,7 @@ public class HomeFragment extends Fragment{
     private void startViewEvent(WorkdayEvent event) {
         Bundle bundle = new Bundle();
         bundle.putSerializable("EVENT",event);
-        Intent intent = new Intent(getContext(), ViewEvent.class);
+        Intent intent = new Intent(getContext(), ViewEventActivity.class);
         intent.putExtra("EVENTBUNDLE",bundle);
         startActivityForResult(intent,DELETE_EVENT);
     }

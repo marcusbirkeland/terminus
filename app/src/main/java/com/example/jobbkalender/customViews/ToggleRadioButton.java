@@ -1,4 +1,4 @@
-package com.example.jobbkalender;
+package com.example.jobbkalender.customViews;
 
 import android.annotation.TargetApi;
 import android.content.Context;

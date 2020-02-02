@@ -1,14 +1,11 @@
 package com.example.jobbkalender;
 
 import android.Manifest;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 
+import com.example.jobbkalender.broadcastReceivers.AlarmReceiver;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -24,8 +21,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Sjekker om alarm allerede eksisterer
-        createAlarm();
+        Intent i = new Intent(this, NotificationService.class);
+        startService(i);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
@@ -53,11 +50,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createAlarm () {
-        AlarmManager alarmManager;
-        PendingIntent alarmIntent;
-        alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this,AlarmReceiver.class);
-        alarmIntent = PendingIntent.getBroadcast(this,CREATE_ALARM,intent,0);
-        alarmManager.set(AlarmManager.RTC_WAKEUP,System.currentTimeMillis() + 10 *1000, alarmIntent);
+       // AlarmManager  alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        // PendingIntent alarmIntent = PendingIntent.getBroadcast(this,CREATE_ALARM,intent,0);
+        sendBroadcast(intent);
     }
 }

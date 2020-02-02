@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.jobbkalender.DataClasses.Job;
 import com.example.jobbkalender.DataClasses.WorkdayEvent;
+import com.example.jobbkalender.customViews.ToggleRadioButton;
 import com.example.jobbkalender.dialogFragments.ChooseWorkplaceDialogFragment;
 import com.example.jobbkalender.dialogFragments.TimePickerDialogFragment;
 import com.google.gson.Gson;
@@ -31,9 +32,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.example.jobbkalender.CreateJobActivity.DELETE_JOB;
-import static com.example.jobbkalender.MainActivity.DELETE_EVENT;
 
-public class CreateEvent extends AppCompatActivity implements TimePickerDialogFragment.OnInputListener, ChooseWorkplaceDialogFragment.OnInputListener {
+public class CreateEventActivity extends AppCompatActivity implements TimePickerDialogFragment.OnInputListener, ChooseWorkplaceDialogFragment.OnInputListener {
 
     int editTextToChange = 0;
     TimePickerDialogFragment timePickerDialogFragment = new TimePickerDialogFragment();

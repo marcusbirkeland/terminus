@@ -11,12 +11,14 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.os.SystemClock;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 import com.example.jobbkalender.DataClasses.WorkdayEvent;
+import com.example.jobbkalender.broadcastReceivers.AlarmReceiver;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -39,21 +41,6 @@ public class NotificationService extends IntentService {
 
     }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        createNotificationChannel();
-        createNotification(getTodaysEvent());
-
-        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,CREATE_ALARM,alarmIntent,0);
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        // Setter ny alarm som restarter denne tjenesten.
-        long interval = 1*60*60*1000; // 1 time.
-        alarmManager.set(AlarmManager.RTC_WAKEUP,System.currentTimeMillis() + interval,pendingIntent);
-        stopSelf();
-    }
-
     private void loadEvents(){
         // Laster listen med lagrede jobber.
         SharedPreferences pref = getSharedPreferences("SHARED PREFERENCES", Context.MODE_PRIVATE);
@@ -71,13 +58,12 @@ public class NotificationService extends IntentService {
     protected void onHandleIntent(@Nullable Intent intent) {
         createNotificationChannel();
         createNotification(getTodaysEvent());
-
         Intent alarmIntent = new Intent(this, AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this,CREATE_ALARM,alarmIntent,0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         // Setter ny alarm som restarter denne tjenesten.
-        long interval = 1*60*60*1000; // 1 time.
-        alarmManager.set(AlarmManager.RTC_WAKEUP,System.currentTimeMillis() + interval,pendingIntent);
+        long interval = 60*60*1000; // 1 time.
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + interval,pendingIntent);
         stopSelf();
     }
 

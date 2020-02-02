@@ -1,4 +1,4 @@
-package com.example.jobbkalender;
+package com.example.jobbkalender.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.jobbkalender.DataClasses.Job;
+import com.example.jobbkalender.R;
 
 import java.util.List;
 

@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.jobbkalender.Adapters.EventListAdapter;
 import com.example.jobbkalender.DataClasses.WorkdayEvent;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -64,7 +65,7 @@ public class ViewAllEventsActivity extends AppCompatActivity {
     private void startViewEvent(WorkdayEvent event) {
         Bundle bundle = new Bundle();
         bundle.putSerializable("EVENT",event);
-        Intent intent = new Intent(this, ViewEvent.class);
+        Intent intent = new Intent(this, ViewEventActivity.class);
         intent.putExtra("EVENTBUNDLE",bundle);
         startActivityForResult(intent,DELETE_EVENT);
     }

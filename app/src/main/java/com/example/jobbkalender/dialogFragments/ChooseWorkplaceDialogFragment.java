@@ -1,38 +1,23 @@
 package com.example.jobbkalender.dialogFragments;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.fragment.app.DialogFragment;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.jobbkalender.CreateEvent;
 import com.example.jobbkalender.CreateJobActivity;
 import com.example.jobbkalender.DataClasses.Job;
-import com.example.jobbkalender.DataClasses.SalaryRule;
-import com.example.jobbkalender.MainActivity;
-import com.example.jobbkalender.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;

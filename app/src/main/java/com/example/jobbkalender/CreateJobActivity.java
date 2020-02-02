@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -147,9 +150,9 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
             newJobList.remove(index);
             deleteAllEventsWithJob(job);
             saveJobList(newJobList);
-            Intent intent = new Intent();
-            setResult(DELETE_JOB);
         }
+        Intent intent = new Intent();
+        setResult(DELETE_JOB,intent);
         finish();
     }
 
@@ -256,9 +259,10 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
             TextView textViewTitle = findViewById(R.id.textViewCreateJobTitle);
             textViewTitle.setText("Rediger jobb");
             editMode = true;
-            Button deleteButton = findViewById(R.id.buttonDeleteJob);
+            final Button deleteButton = findViewById(R.id.buttonDeleteJob);
             deleteButton.setVisibility(View.VISIBLE);
             jobIn = (Job) bundle.getSerializable("JOB");
+            salaryPeriodDate = jobIn.getSalaryPeriodDate();
             editTextJobName.setText(jobIn.getName());
             editTextEnterSalary.setText(jobIn.getSalary()+"");
             editTextsetSalaryPeriod.setText(jobIn.getSalaryPeriodDate()+"." + " hver måned");
@@ -276,7 +280,8 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    deleteJob(jobIn);
+                    Dialog deleteDialog = makeDeleteDialog();
+                    deleteDialog.show();
                 }
             });
         }
@@ -349,22 +354,8 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
                     }
                 }
                 if(!name.equals("") && !editTextEnterSalary.getText().toString().equals("")) {
-                    double salary= Double.parseDouble(editTextEnterSalary.getText().toString());
-                    Job job = new Job(name, salary, salaryPeriodDate, salaryRulesArrayList,checkBoxPaidBreak.isChecked());
-                    job.setImage(selectedImagePath);
-                    jobList.add(job);
-                    if(!editMode) {
-                        saveJob(false);
-                    }else{
-                        saveJob(true);
-                        Bundle bundle = new Bundle();
-                        bundle.putSerializable("EDITED_JOB",job);
-                        bundle.putString("OLD_JOB_NAME",jobIn.getName());
-                        Intent intent = new Intent();
-                        intent.putExtra("BUNDLE",bundle);
-                        setResult(Activity.RESULT_OK,intent);
-                    }
-                    finish();
+                    Dialog editDialog = makeEditDialog();
+                    editDialog.show();
                 }
             }
         });
@@ -428,5 +419,58 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
              Log.e("FileSelectorActivity", "File select error", e);
          }
      }
+    }
+
+    private Dialog makeDeleteDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Slett jobb?\n Fremtidige vakter med denne jobben vil bli slettet.")
+                .setPositiveButton("Slett jobb", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        deleteJob(jobIn);
+                    }
+                })
+                .setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Do nothing
+                    }
+                });
+        return builder.create();
+    }
+    private Dialog makeEditDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Rediger jobb?\nLønn og tillegg vil kun bli endret på fremtidige vakter.")
+                .setPositiveButton("Rediger", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        editJob();
+                    }
+                })
+                .setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Do nothing
+                    }
+                });
+        return builder.create();
+    }
+    private void editJob(){
+        final EditText editTextEnterSalary = findViewById(R.id.editTextSalaryCreateJob);
+        final CheckBox checkBoxPaidBreak = findViewById(R.id.checkBoxPaidBreak);
+        final EditText editTextJobName = findViewById(R.id.editTextNameJob);
+        String name = editTextJobName.getText().toString();
+        double salary= Double.parseDouble(editTextEnterSalary.getText().toString());
+        Job job = new Job(name, salary, salaryPeriodDate, salaryRulesArrayList,checkBoxPaidBreak.isChecked());
+        job.setImage(selectedImagePath);
+        jobList.add(job);
+        if(!editMode) {
+            saveJob(false);
+        }else{
+            saveJob(true);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("EDITED_JOB",job);
+            bundle.putString("OLD_JOB_NAME",jobIn.getName());
+            Intent intent = new Intent();
+            intent.putExtra("BUNDLE",bundle);
+            setResult(Activity.RESULT_OK,intent);
+        }
+        finish();
     }
 }

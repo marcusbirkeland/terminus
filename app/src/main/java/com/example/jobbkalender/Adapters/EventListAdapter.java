@@ -1,4 +1,4 @@
-package com.example.jobbkalender;
+package com.example.jobbkalender.Adapters;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -21,6 +21,8 @@ import androidx.annotation.Nullable;
 
 import com.example.jobbkalender.DataClasses.Job;
 import com.example.jobbkalender.DataClasses.WorkdayEvent;
+import com.example.jobbkalender.PayCalculator;
+import com.example.jobbkalender.R;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;

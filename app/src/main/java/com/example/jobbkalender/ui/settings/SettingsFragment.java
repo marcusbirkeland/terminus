@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -23,13 +22,12 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.jobbkalender.DataClasses.Setting;
 import com.example.jobbkalender.R;
-import com.example.jobbkalender.SettingsAdapter;
+import com.example.jobbkalender.Adapters.SettingsAdapter;
 import com.example.jobbkalender.ViewAllEventsActivity;
 import com.example.jobbkalender.ViewAllJobsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import static android.content.Context.MODE_PRIVATE;
 
