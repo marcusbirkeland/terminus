@@ -11,9 +11,11 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <TextView
             android:id="@+id/textView12"
@@ -70,20 +72,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/editTextTaxPercentage"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
-            android:ems="10"
-            android:hint="Skatt"
-            android:inputType="numberDecimal"
-            android:maxLength="5"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-            android:textSize="22sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView10"
@@ -114,27 +102,60 @@
             app:layout_constraintStart_toStartOf="@+id/textView11"
             app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
-        <Button
-            android:id="@+id/buttonSaveTaxPercentage"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:backgroundTint="@color/colorAccent"
-            android:text="lagre"
-            android:textColor="#fff"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@+id/textView2"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView19">
+
+            <EditText
+                android:id="@+id/editTextTaxPercentage"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Skatt"
+                android:inputType="numberDecimal"
+                android:maxLength="5"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="22sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="%"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                app:layout_constraintBottom_toBottomOf="@+id/editTextTaxPercentage"
+                app:layout_constraintStart_toEndOf="@+id/editTextTaxPercentage"
+                app:layout_constraintTop_toTopOf="@+id/editTextTaxPercentage" />
+
+            <Button
+                android:id="@+id/buttonSaveTaxPercentage"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:backgroundTint="@color/colorAccent"
+                android:text="lagre"
+                android:textColor="#fff"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView2"
+                app:layout_constraintTop_toTopOf="@+id/editTextTaxPercentage" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/textView13"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
             android:text="@string/total_yearly_salary_gross"
-            app:layout_constraintStart_toStartOf="@+id/editTextTaxPercentage"
-            app:layout_constraintTop_toBottomOf="@+id/editTextTaxPercentage" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
 
         <Spinner
             android:id="@+id/spinnerSelectJob"
@@ -168,22 +189,15 @@
             app:layout_constraintStart_toStartOf="@+id/spinnerSelectJob"
             app:layout_constraintTop_toBottomOf="@+id/spinnerSelectJob" />
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="%"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            app:layout_constraintBottom_toBottomOf="@+id/editTextTaxPercentage"
-            app:layout_constraintStart_toEndOf="@+id/editTextTaxPercentage"
-            app:layout_constraintTop_toTopOf="@+id/editTextTaxPercentage" />
 
         <TextView
             android:id="@+id/textView19"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="Skatt"
-            app:layout_constraintBottom_toTopOf="@+id/editTextTaxPercentage"
-            app:layout_constraintStart_toStartOf="@+id/editTextTaxPercentage" />
+            android:textColor="?attr/textColor"
+            app:layout_constraintStart_toStartOf="@+id/constraintLayout2"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

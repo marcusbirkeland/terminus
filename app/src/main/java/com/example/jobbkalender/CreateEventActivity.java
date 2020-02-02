@@ -143,6 +143,14 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        SharedPreferences pref = this.getSharedPreferences("DARKMODE",MODE_PRIVATE);
+        boolean isDarkMode = pref.getBoolean("isDarkMode",false);
+        if(isDarkMode){
+            setTheme(R.style.AppThemeDark);
+        }else{
+            setTheme(R.style.AppTheme);
+        }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
         TextView timeInputFrom = findViewById(R.id.timeInputFromCreateEvent);

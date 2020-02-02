@@ -5,9 +5,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import com.example.jobbkalender.broadcastReceivers.AlarmReceiver;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -33,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
             setTheme(R.style.AppTheme);
         }
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
@@ -45,9 +51,12 @@ public class MainActivity extends AppCompatActivity {
                 != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.RECEIVE_BOOT_COMPLETED},1);
         }
-
-
         setContentView(R.layout.activity_main);
+        if(isDarkMode){
+            ImageView logo = findViewById(R.id.imageViewLogo);
+            logo.setImageResource(R.drawable.terminus_name_white);
+        }
+
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.

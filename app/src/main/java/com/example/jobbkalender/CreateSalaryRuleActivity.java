@@ -1,8 +1,10 @@
 package com.example.jobbkalender;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.opengl.Visibility;
 import android.os.Bundle;
 import android.util.Log;
@@ -71,6 +73,13 @@ public class CreateSalaryRuleActivity extends AppCompatActivity implements TimeP
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences pref = this.getSharedPreferences("DARKMODE",MODE_PRIVATE);
+        boolean isDarkMode = pref.getBoolean("isDarkMode",false);
+        if(isDarkMode){
+            setTheme(R.style.AppThemeDark);
+        }else{
+            setTheme(R.style.AppTheme);
+        }
         setContentView(R.layout.activity_create_salary_rule);
         final TextView textViewTimeFrom = findViewById(R.id.timeInputFromCreateSalaryRule);
         final TextView textViewTimeTo = findViewById(R.id.timeInputToCreateSalaryRule);

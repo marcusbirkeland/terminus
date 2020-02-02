@@ -1,6 +1,7 @@
 package com.example.jobbkalender;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -129,6 +130,13 @@ public class ViewEventActivity extends AppCompatActivity {
     @Override
         protected void onCreate (Bundle savedInstanceState){
             super.onCreate(savedInstanceState);
+            SharedPreferences pref = this.getSharedPreferences("DARKMODE",MODE_PRIVATE);
+            boolean isDarkMode = pref.getBoolean("isDarkMode",false);
+            if(isDarkMode){
+                setTheme(R.style.AppThemeDark);
+            }else{
+                setTheme(R.style.AppTheme);
+            }
             setContentView(R.layout.activity_view_event);
             loadEvents();
             Intent intent = getIntent();

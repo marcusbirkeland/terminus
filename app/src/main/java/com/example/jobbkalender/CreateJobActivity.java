@@ -1,6 +1,7 @@
 package com.example.jobbkalender;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -242,6 +243,13 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences pref = this.getSharedPreferences("DARKMODE",MODE_PRIVATE);
+        boolean isDarkMode = pref.getBoolean("isDarkMode",false);
+        if(isDarkMode){
+            setTheme(R.style.AppThemeDark);
+        }else{
+            setTheme(R.style.AppTheme);
+        }
         setContentView(R.layout.activity_create_job);
         //Setter default bilde-path for editMode
 
@@ -355,7 +363,12 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
                 }
                 if(!name.equals("") && !editTextEnterSalary.getText().toString().equals("")) {
                     Dialog editDialog = makeEditDialog();
-                    editDialog.show();
+                    if(editMode){
+                        editDialog.show();
+                        return;
+                    }else{
+                        editJob();
+                    }
                 }
             }
         });

@@ -78,7 +78,7 @@ public class NotificationService extends IntentService {
         }
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-                .setSmallIcon(R.drawable.coin_icon).setLargeIcon(icon)
+                .setSmallIcon(R.drawable.ic_action_name).setLargeIcon(icon)
                 .setContentTitle(event.getJob().getName())
                 .setContentText("Fra " + event.getStartTime() + " til " + event.getEndTime())
                 .setSubText("I dag")
