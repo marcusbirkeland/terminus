@@ -3,6 +3,7 @@ package com.example.jobbkalender;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -72,7 +73,6 @@ public class ViewEventActivity extends AppCompatActivity {
                     e.getStartTime().equals(event.getStartTime()) &&
                     e.getEndTime().equals(event.getEndTime())
             ){
-                Log.d("WAHOOO","FOUND INDEX: " + i);
                 return i;
             }
         }
@@ -125,6 +125,7 @@ public class ViewEventActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
         protected void onCreate (Bundle savedInstanceState){
             super.onCreate(savedInstanceState);
@@ -141,13 +142,19 @@ public class ViewEventActivity extends AppCompatActivity {
             final TextView textViewTimeTo = findViewById(R.id.timeInputToViewEvent);
             final TextView textViewJobName = findViewById(R.id.textViewViewEventJobName);
             final TextView textViewSalary = findViewById(R.id.textViewViewEventSalary);
+            final TextView textViewBreak = findViewById(R.id.textViewViewEventBreak);
             final ImageView imageView = findViewById(R.id.imageViewViewEvent);
 
             LocalDate eventDate = LocalDate.parse(event.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            textViewDate.setText(formatDate(eventDate));
+            if (event.isNightShift()){
+                textViewDate.setText(formatDate(eventDate) + " - " + formatDate(eventDate.plusDays(1)));
+            }else{
+                textViewDate.setText(formatDate(eventDate));
+            }
             textViewTimeFrom.setText(event.getStartTime());
             textViewTimeTo.setText(event.getEndTime());
             textViewJobName.setText(event.getJob().getName());
+            textViewBreak.setText(event.getBreakTime() + " min");
             // Regn ut total lønn for arbeidsdag
 
             textViewSalary.setText(getEventPay() + " kr");

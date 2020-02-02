@@ -7,6 +7,16 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/textViewViewEventBreak"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="30 min"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/textView23"
+        app:layout_constraintTop_toTopOf="@+id/textViewViewEventSalary" />
+
+    <TextView
         android:id="@+id/timeInputToViewEvent"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
@@ -123,7 +133,7 @@
         android:id="@+id/textViewViewEventSalaryDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:text="Lønn"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textSize="18sp"
@@ -135,9 +145,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Her vises lønn"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="@+id/textViewViewEventSalaryDescription"
-        app:layout_constraintTop_toBottomOf="@+id/textViewViewEventSalaryDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewViewEventSalaryDescription"
+        tools:text="123456 kr" />
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:text="Pause"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="18sp"
+        app:layout_constraintStart_toEndOf="@+id/textViewViewEventSalary"
+        app:layout_constraintTop_toTopOf="@+id/textViewViewEventSalaryDescription" />
 </androidx.constraintlayout.widget.ConstraintLayout>
