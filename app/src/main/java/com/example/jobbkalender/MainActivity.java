@@ -2,6 +2,7 @@ package com.example.jobbkalender;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
@@ -18,11 +19,20 @@ import androidx.navigation.ui.NavigationUI;
 public class MainActivity extends AppCompatActivity {
     public static final int CREATE_ALARM = 45456;
     public static final int DELETE_EVENT = 2321;
+    public boolean isDarkMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent i = new Intent(this, NotificationService.class);
         startService(i);
+        isDarkMode = getIsDarkMode();
+        if(isDarkMode){
+            setTheme(R.style.AppThemeDark);
+        }else{
+            setTheme(R.style.AppTheme);
+        }
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
@@ -48,11 +58,8 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
     }
-
-    private void createAlarm () {
-       // AlarmManager  alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlarmReceiver.class);
-        // PendingIntent alarmIntent = PendingIntent.getBroadcast(this,CREATE_ALARM,intent,0);
-        sendBroadcast(intent);
+    private boolean getIsDarkMode(){
+        SharedPreferences pref = this.getSharedPreferences("DARKMODE",MODE_PRIVATE);
+        return  pref.getBoolean("isDarkMode",false);
     }
 }

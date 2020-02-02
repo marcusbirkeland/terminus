@@ -11,7 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -21,6 +23,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.jobbkalender.DataClasses.Setting;
+import com.example.jobbkalender.MainActivity;
 import com.example.jobbkalender.R;
 import com.example.jobbkalender.Adapters.SettingsAdapter;
 import com.example.jobbkalender.ViewAllEventsActivity;
@@ -35,6 +38,10 @@ public class SettingsFragment extends Fragment {
 
     private SettingsViewModel settingsViewModel;
     private List<Setting> settingsList= new ArrayList<>();
+    private boolean getIsDarkMode (){
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("DARKMODE",MODE_PRIVATE);
+        return sharedPreferences.getBoolean("isDarkMode",false);
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -82,6 +89,15 @@ public class SettingsFragment extends Fragment {
                 }
             }
         });
+        final Switch switchNightmode = view.findViewById(R.id.switchNightMode);
+        switchNightmode.setChecked(getIsDarkMode());
+        switchNightmode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                setDarkMode(isChecked);
+                restartApp();
+            }
+        });
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -125,4 +141,19 @@ public class SettingsFragment extends Fragment {
                 "v.1.0");
         return builder.create();
     }
+
+    private void setDarkMode(boolean state){
+        SharedPreferences pref = getActivity().getSharedPreferences("DARKMODE", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putBoolean("isDarkMode",state);
+        editor.apply();
+    }
+    private void restartApp(){
+        Intent i = getActivity().getPackageManager().
+                getLaunchIntentForPackage(getActivity().getPackageName());
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
+    }
 }
+

@@ -94,8 +94,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Pause"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="#000000"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="@+id/timeInputFromCreateEvent"
         app:layout_constraintTop_toBottomOf="@+id/checkBoxNightshift" />
 
@@ -123,6 +122,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="24dp"
+            android:textColor="?attr/textColor"
             android:textSize="24dp" />
 
     </LinearLayout>
@@ -146,7 +146,7 @@
         android:layout_marginTop="24dp"
         android:text="@string/workplace"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="#000000"
+        android:textColor="@color/darkModeTextColor"
         app:layout_constraintStart_toStartOf="@+id/editTextBreakTime"
         app:layout_constraintTop_toBottomOf="@+id/radioGroupRepeat" />
 

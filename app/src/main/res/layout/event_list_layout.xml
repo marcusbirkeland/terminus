@@ -20,11 +20,10 @@
             android:id="@+id/textViewEventListName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:paddingLeft="8dp"
             android:layout_marginRight="8dp"
-            android:textColor="#000"
-            />
+            android:paddingLeft="8dp"
+            android:textColor="?attr/textColor"
+            android:textSize="16sp" />
 
     </LinearLayout>
 
@@ -41,9 +40,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="40"
-            android:text="Text2"
-            android:textColor="#000"
             android:paddingTop="4dp"
+            android:text="Text2"
             android:textSize="12sp" />
 
         <TextView
@@ -52,7 +50,6 @@
             android:layout_height="match_parent"
             android:layout_weight="60"
             android:text="Text3"
-            android:textColor="#000"
             android:textSize="12sp" />
     </LinearLayout>
 

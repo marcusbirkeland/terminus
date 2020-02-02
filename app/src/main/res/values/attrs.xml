@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="colorAccentTransparent" format="color"/>
+    <attr name="appBackgroundColor" format="color"/>
+    <attr name="textColor" format="color"/>
+</resources>
