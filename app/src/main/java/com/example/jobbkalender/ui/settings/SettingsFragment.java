@@ -25,6 +25,7 @@ import com.example.jobbkalender.DataClasses.Setting;
 import com.example.jobbkalender.R;
 import com.example.jobbkalender.SettingsAdapter;
 import com.example.jobbkalender.ViewAllEventsActivity;
+import com.example.jobbkalender.ViewAllJobsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,14 +59,18 @@ public class SettingsFragment extends Fragment {
                 switch (position){
                     case 0:
                         Log.d("Settings", "Showing about");
+                        Dialog aboutDialog = createAboutAlert();
+                        aboutDialog.show();
                         break;
                     case 1:
                         Log.d("Settings","Showing administer jobs");
+                        Intent viewAllJobs = new Intent(getActivity(), ViewAllJobsActivity.class);
+                        startActivity(viewAllJobs);
                         break;
                     case 2:
                         Log.d("Settings", "Showing adminster events");
-                        Intent intent = new Intent(getActivity(), ViewAllEventsActivity.class);
-                        startActivity(intent);
+                        Intent viewAllEvents = new Intent(getActivity(), ViewAllEventsActivity.class);
+                        startActivity(viewAllEvents);
                         break;
                     case 3:
                         Log.d("Settings", "Showing delete data fragment");
@@ -114,6 +119,12 @@ public class SettingsFragment extends Fragment {
                         // Do nothing
                     }
                 });
+        return builder.create();
+    }
+    private Dialog createAboutAlert(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("Laget av: Marcus B. Birkeland \n" +
+                "v.1.0");
         return builder.create();
     }
 }

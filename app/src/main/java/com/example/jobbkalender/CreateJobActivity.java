@@ -100,6 +100,8 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
     private void editAllEventsWithJob(Job prevJob, Job newJob){
         loadEvents();
         List<WorkdayEvent> newEventList = savedWorkdayEvents;
+        if (savedWorkdayEvents == null)
+            return;
         for(WorkdayEvent event : newEventList){
             if(event.getJob().getName().equals(prevJob.getName())){
                 LocalDate now = LocalDate.now();

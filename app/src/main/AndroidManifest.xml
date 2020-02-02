@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ViewAllEventsActivity"></activity>
+        <activity android:name=".ViewAllJobsActivity"></activity>
+        <activity android:name=".ViewAllEventsActivity" />
         <activity
             android:name=".ViewEvent"
             android:screenOrientation="portrait" />

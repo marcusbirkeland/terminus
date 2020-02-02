@@ -54,8 +54,6 @@
             android:text="Text3"
             android:textColor="#000"
             android:textSize="12sp" />
-
-
     </LinearLayout>
 
 </LinearLayout>
