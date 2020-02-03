@@ -57,13 +57,13 @@ public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
                         " (" + startDate.getDayOfMonth() + "." + startDate.getMonthValue() + ") " + "\n" +
                         mContext.getString(R.string.to)+" " + getItem(position).getEndTime() + " (" + endDate.getDayOfMonth() + "." + endDate.getMonthValue() + ") ";
             }else{
-                eventTimeSpan = "Fra " +event.getStartTime() + " til " + getItem(position).getEndTime();
+                eventTimeSpan = mContext.getString(R.string.from)+" " +event.getStartTime() + " " + mContext.getString(R.string.to) + " " + getItem(position).getEndTime();
             }
             List<WorkdayEvent> events = new ArrayList<>();
             events.add(event);
             PayCalculator payCalculator = new PayCalculator(events);
             event.setSalary(payCalculator.getEarnings(events));
-            String salary = "Lønn: " + event.getSalary() + " kr";
+            String salary = mContext.getString(R.string.pay)+": " + event.getSalary() + " kr";
             String src = event.getJob().getImage();
 
         LayoutInflater inflater = LayoutInflater.from(mContext);

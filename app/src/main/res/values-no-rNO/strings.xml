@@ -59,8 +59,17 @@
     <string name="choose_workplace">Velg jobb</string>
     <string name="add_workday">Legg til vakt</string>
     <string name="nightshift">Nattevakt</string>
+    <string name="repeat">Gjenta</string>
     <string name="each_week">Hver uke</string>
     <string name="every_other_week">Annenhver uke</string>
+    <string name="error_pick_other_time">Klokkeslettene kan ikke være like</string>
+    <string name="error_check_nightshift">Huk av boksen for nattevakt</string>
+    <string name="error_uncheck_nightshift">Dette er ikke en nattevakt</string>
+    <string name="error_pick_job">Velg en jobb først!</string>
+    <!--DialogFragment pick job-->
+    <string name="pick_job">Velg jobb</string>
+    <string name="new_job">Ny jobb</string>
+    <string name="add_new_job">Legg til jobb</string>
     <!--Create job activity -->
     <string name="add_job">Legg til jobb</string>
     <string name="job_name">Navn på jobb</string>
@@ -73,6 +82,7 @@
     <string name="error_enter_job_name">Venligst gi jobben et navn</string>
     <string name="error_enter_salary">Venligst angi timelønn</string>
     <string name="error_job_already_exists">Du har allerede registrert denne jobben!</string>
+    <string name="edit_job_title">Rediger jobb</string>
     <string name="dialog_delete_job">Slett jobb?
        Fremtidige vakter med denne jobben vil bli slettet.</string>
     <string name="dialog_edit_job">"Rediger jobb?

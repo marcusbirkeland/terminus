@@ -209,22 +209,22 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
                 LocalTime startTime = LocalTime.parse(timeInputFrom.getText().toString(), dateTimeFormatter.ofPattern("HH:mm"));
                 LocalTime endTime = LocalTime.parse(timeInputTo.getText().toString(), dateTimeFormatter.ofPattern("HH:mm"));
                 if(startTime.equals(endTime)){
-                    errorMessage = "Venligst velg et annet klokkelslett.";
+                    errorMessage = getString(R.string.error_pick_other_time);
                     Log.d("Create Event: ", "End time cannot be equal to start time");
                     cancelSubmit = true;
                 }
                 else if(startTime.isAfter(endTime) && !checkBoxIsNightShift.isChecked()){
-                    errorMessage = "Huk av boksen for nattevakt";
+                    errorMessage = getString(R.string.error_check_nightshift);
                     Log.d("Error", "Invalid time for regular shift");
                     cancelSubmit = true;
                 } else if(startTime.isBefore(endTime) && checkBoxIsNightShift.isChecked()){
-                    errorMessage = "Dette er ikke en nattevakt";
+                    errorMessage = getString(R.string.error_uncheck_nightshift);
                     Log.d("Create Event: ", "Invalid time for night shift");
                     cancelSubmit = true;
                 }
                 else if (selectedJob == null){
-                    errorMessage = "Velg en jobb først!";
-                    Log.e("Error", "Please fill all fields");
+                    errorMessage = getString(R.string.error_pick_job);
+                    Log.e("Error", "Please pick job");
                     cancelSubmit = true;
                 }
                 if(cancelSubmit){
@@ -276,20 +276,13 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
         saveEvent(eventList);
     }
 
-    private int getJobIndex(String jobName,List<Job> jobList){
-        for(int i =0; i < jobList.size();i++){
-            if(jobList.get(i).getName().equals(jobName)){
-                return i;
-            }
-        }
-        return -1;
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK){
             try{
+                LinearLayout linearLayout = findViewById(R.id.linearLayoutJobViewCreateEvent);
+                linearLayout.setVisibility(View.VISIBLE);
                 TextView t = findViewById(R.id.textViewCreateEventJobName);
                 ImageView imageView = findViewById(R.id.imageViewCreateEvent);
                 Bundle bundle = data.getBundleExtra("BUNDLE");

@@ -257,7 +257,7 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
 
         if(bundle != null && bundle.getBoolean("EDITMODE")){
             TextView textViewTitle = findViewById(R.id.textViewCreateJobTitle);
-            textViewTitle.setText("Rediger jobb");
+            textViewTitle.setText(getString(R.string.edit_job_title));
             editMode = true;
             final Button deleteButton = findViewById(R.id.buttonDeleteJob);
             deleteButton.setVisibility(View.VISIBLE);

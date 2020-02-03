@@ -13,6 +13,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.birkeland.terminus.CreateJobActivity;
 import com.birkeland.terminus.DataClasses.Job;
+import com.birkeland.terminus.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -35,7 +36,7 @@ public class ChooseWorkplaceDialogFragment extends DialogFragment {
         try {
             jobList= gson.fromJson(json,type);
         } catch (Exception e){
-            Log.e("Eroor","Failed to load jobs");
+            Log.e("Error","Failed to load jobs");
         }
     }
 
@@ -51,7 +52,7 @@ public class ChooseWorkplaceDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState){
         loadJobs();
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setPositiveButton("Ny jobb", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.new_job), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(getContext(), CreateJobActivity.class);
@@ -67,7 +68,7 @@ public class ChooseWorkplaceDialogFragment extends DialogFragment {
         }
         String[] jobNamesArray = jobNames.toArray(new String[0]);
 
-            builder.setTitle("Velg arbeidsplass")
+            builder.setTitle(getString(R.string.pick_job))
                     .setItems(jobNamesArray, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             final Job selectedItem = jobList.get(which);
@@ -75,8 +76,8 @@ public class ChooseWorkplaceDialogFragment extends DialogFragment {
                         }
                     });
         } else {
-            String [] emptyMessage = {"Legg til arbeidsplass"};
-            builder.setTitle("Velg arbeidsplass")
+            String [] emptyMessage = {getString(R.string.add_new_job)};
+            builder.setTitle(getString(R.string.pick_job))
                     .setItems(emptyMessage, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             Intent intent = new Intent(getContext(),CreateJobActivity.class);

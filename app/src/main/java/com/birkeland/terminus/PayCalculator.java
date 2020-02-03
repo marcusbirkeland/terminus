@@ -50,13 +50,21 @@ public class PayCalculator {
                         }
                     }
                 }
+                int breakMinutes = event.getBreakTime();
                 // Hopp over pause dersom den ikke er betalt
                 if (!event.getJob().hasPaidBreak()) {
-                    startTime = startTime.plusMinutes(event.getBreakTime());
+                    breakMinutes = event.getBreakTime();
                 }
                 double salary = event.getJob().getSalary();
                 // Itererer gjennom hvert minutt av arbeidsdagen og finner ut lønn
                 while (startTime.isBefore(endTime)) {
+                    // Hopper over pauseminutter
+                    if(breakMinutes > 0){
+                        breakMinutes--;
+                        startTime = startTime.plusMinutes(1);
+                        continue;
+
+                    }
                     // Sjekk lønnsregler for gjeldende minutt. Finn kr/min og legg til i gjeldende minuttlønn.
                     double currentSalary = salary;
                     for (SalaryRule salaryRule : salaryRulesList) {
@@ -93,14 +101,19 @@ public class PayCalculator {
                         }
                     }
                 }
+                int breakMinutes = 0;
                 // Hopp over pause dersom den ikke er betalt
                 if (!event.getJob().hasPaidBreak()) {
-                    startTime = startTime.plusMinutes(event.getBreakTime());
+                    breakMinutes = event.getBreakTime();
                 }
                 double salary = event.getJob().getSalary();
                 // Itererer gjennom hvert minutt av arbeidsdagen og finner ut lønn
                 while (!startTime.equals(endTime)) {
-                    // Sjekk lønnsregler for gjeldende minutt. Finn kr/min og legg til i gjeldende minuttlønn.
+                    if(breakMinutes > 0){
+                        breakMinutes--;
+                        startTime = startTime.plusMinutes(1);
+                        continue;
+                    }
                     double currentSalary = salary;
                     for (SalaryRule salaryRule : salaryRulesList) {
                         LocalTime ruleStartTime = LocalTime.parse(salaryRule.getStartTime(), DateTimeFormatter.ofPattern("HH:mm"));
@@ -164,11 +177,18 @@ public class PayCalculator {
                 LocalTime startTime = LocalTime.parse(event.getStartTime(), DateTimeFormatter.ofPattern("HH:mm"));
                 LocalTime endTime = LocalTime.parse(event.getEndTime(), DateTimeFormatter.ofPattern("HH:mm"));
                 // Hopp over pause dersom den ikke er betalt
+                int breakMinutes = 0;
                 if (!event.getJob().hasPaidBreak()) {
-                    startTime = startTime.plusMinutes(event.getBreakTime());
+                    breakMinutes = event.getBreakTime();
                 }
                 // Itererer gjennom hvert minutt av arbeidsdagen og finner ut lønn
                 while (!startTime.equals(endTime)) {
+                    if(breakMinutes > 0){
+                        breakMinutes--;
+                        startTime = startTime.plusMinutes(1);
+                        continue;
+
+                    }
                     // Sjekk lønnsregler for gjeldende minutt. Finn kr/min og legg til i gjeldende minuttlønn.
                     double currentSalary = salary;
                     for (SalaryRule salaryRule : salaryRulesList) {

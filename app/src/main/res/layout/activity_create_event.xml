@@ -58,6 +58,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:text="@string/from"
         app:layout_constraintStart_toStartOf="@+id/timeInputFromCreateEvent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -106,9 +107,11 @@
         android:backgroundTint="@color/colorPrimaryDark"
         android:backgroundTintMode="src_atop"
         android:orientation="horizontal"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonChooseWorkplaceCreateEvent">
+        app:layout_constraintTop_toBottomOf="@+id/buttonChooseWorkplaceCreateEvent"
+        tools:visibility="visible">
 
         <ImageView
             android:id="@+id/imageViewCreateEvent"
@@ -185,7 +188,7 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Gjenta"
+        android:text="@string/repeat"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/radioGroupRepeat"

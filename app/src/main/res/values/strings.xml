@@ -60,8 +60,18 @@
     <string name="choose_workplace">Choose job</string>
     <string name="add_workday">New shift</string>
     <string name="nightshift">Night-shift</string>
-    <string name="each_week">Each uke</string>
+    <string name="repeat">Repeat</string>
+    <string name="each_week">Each week</string>
     <string name="every_other_week">Every other week</string>
+    <string name="error_pick_other_time">Start and end time cannot be equal</string>
+    <string name="error_check_nightshift">Check box for night-shift!</string>
+    <string name="error_uncheck_nightshift">Uncheck box for night-shift!</string>
+    <string name="error_pick_job">Pick a job first!</string>
+    <!--DialogFragment pick job-->
+    <string name="pick_job">Pick job</string>
+    <string name="new_job">New job</string>
+    <string name="add_new_job">Add new job</string>
+
     <!--Create job activity -->
     <string name="add_job">Add job</string>
     <string name="job_name">Job name</string>
@@ -74,6 +84,7 @@
     <string name="error_enter_job_name">Give your job a name</string>
     <string name="error_enter_salary">Enter salary</string>
     <string name="error_job_already_exists">This job already exists!</string>
+    <string name="edit_job_title">Edit job</string>
     <string name="dialog_delete_job">Delete job?
        Only future shifts with this job will be deleted.</string>
     <string name="dialog_edit_job">Edit job?
