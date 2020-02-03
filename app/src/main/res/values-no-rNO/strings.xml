@@ -1,8 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- App -->
-    <string name="app_name" translatable="false">terminus</string>
-    <string name="version" translatable="false">v.0.1</string>
-    <string name="currency" translatable="false">kr</string>
+    <string name="app_name">terminus</string>
+
     <string name="title_calendar">Kalender</string>
     <string name="new_shift">Ny vakt</string>
     <string name="title_earnings">Lønn</string>
@@ -89,6 +88,5 @@
     <!--Misc.-->
     <string name="all_shifts">Alle arbeidsdager</string>
     <string name="all_active_jobs">Alle aktive jobber</string>
-
 
 </resources>
