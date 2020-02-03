@@ -3,92 +3,91 @@
     <string name="app_name" translatable="false">terminus</string>
     <string name="version" translatable="false">v.0.1</string>
     <string name="currency" translatable="false">kr</string>
-    <string name="title_calendar">Kalender</string>
-    <string name="new_shift">Ny vakt</string>
-    <string name="title_earnings">Lønn</string>
-    <string name="title_settings">Innstillinger</string>
-    <string name="title_view_event">Arbiedsdag</string>
-    <string name="title_salary_rule">Lønnstillegg</string>
-    <string name="title_job">Jobb</string>
-    <string name="title_new_shift">Ny vakt</string>
-    <string name="save">Lagre</string>
-    <string name="delete">Slett</string>
-    <string name="cancel">Avbryt</string>
-    <string name="edit">Endre</string>
-    <string name="from">Fra</string>
-    <string name="to">Til</string>
-    <string name="pay">Lønn</string>
+    <string name="title_calendar">Calendar</string>
+    <string name="new_shift">New shift</string>
+    <string name="title_earnings">Pay</string>
+    <string name="title_settings">Settings</string>
+    <string name="title_view_event">Workday</string>
+    <string name="title_salary_rule">Pay increases</string>
+    <string name="title_job">Job</string>
+    <string name="title_new_shift">New shift</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="edit">Edit</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="pay">Pay</string>
     <!--Months-->
-    <string name="January">Januar</string>
+    <string name="January">January</string>
     <string name="February">February</string>
-    <string name="March">Mars</string>
+    <string name="March">March</string>
     <string name="April">April</string>
-    <string name="May">Mai</string>
-    <string name="June">Juni</string>
+    <string name="May">May</string>
+    <string name="June">June</string>
     <string name="July">Juli</string>
     <string name="August">August</string>
     <string name="September">September</string>
-    <string name="October">Oktober</string>
+    <string name="October">October</string>
     <string name="November">November</string>
-    <string name="December">Desember</string>
+    <string name="December">December</string>
 
     <!--Salary page -->
-    <string name="total_yearly_salary_gross">Total lønn i år:</string>
-    <string name="total_yearly_salary_net">Total lønn i år netto:</string>
-    <string name="total_monthly_salary_gross">Månedslønn:</string>
-    <string name="total_monthly_salary_net"> Månedslønn netto:</string>
-    <string name="tax">Skatt</string>
-    <string name="paycheck">Lønnsslipp</string>
-    <string name="paycheck_period">Lønn i perioden:</string>
+    <string name="total_yearly_salary_gross">Total salary this year:</string>
+    <string name="total_yearly_salary_net">Total net salary:</string>
+    <string name="total_monthly_salary_gross">Monthly pay:</string>
+    <string name="total_monthly_salary_net"> Monthly net pay:</string>
+    <string name="tax">Tax</string>
+    <string name="paycheck">Paycheck</string>
+    <string name="paycheck_period">Pay in period:</string>
 
     <!--Settings -->
-    <string name="settings">Innstillinger</string>
-    <string name="about">Om</string>
-    <string name="about_info">Laget av Marcus B. Birkeland</string>
-    <string name="administer_jobs">Administrer jobber</string>
-    <string name="administer_shifts">Administrer vakter</string>
-    <string name="delete_all">Slett all data</string>
-    <string name="delte_dialog">Vil du slette alle jobber og vakter?</string>
-    <string name="confirm_delete_all">Ja,slett alt</string>
-    <string name="other_settings">Annet</string>
-    <string name="nightmode">Nattmodus</string>
+    <string name="settings">Settings</string>
+    <string name="about">About</string>
+    <string name="about_info">Made by Marcus B. Birkeland</string>
+    <string name="administer_jobs">Administer jobs</string>
+    <string name="administer_shifts">Administer shifts</string>
+    <string name="delete_all">Delete all data</string>
+    <string name="delte_dialog">Do you want to delete all jobs and shifts?</string>
+    <string name="confirm_delete_all">Yes, delete all</string>
+    <string name="other_settings">Other</string>
+    <string name="nightmode">Night-mode</string>
 
     <!--Create event activity -->
-    <string name="pick_time">Velg klokkelsett</string>
-    <string name="break_time">Pause</string>
-    <string name="workplace">Arbeidsplass</string>
-    <string name="choose_workplace">Velg jobb</string>
-    <string name="add_workday">Legg til vakt</string>
-    <string name="nightshift">Nattevakt</string>
-    <string name="each_week">Hver uke</string>
-    <string name="every_other_week">Annenhver uke</string>
+    <string name="pick_time">Pick time</string>
+    <string name="break_time">Break</string>
+    <string name="workplace">Workplace</string>
+    <string name="choose_workplace">Choose job</string>
+    <string name="add_workday">New shift</string>
+    <string name="nightshift">Night-shift</string>
+    <string name="each_week">Each uke</string>
+    <string name="every_other_week">Every other week</string>
     <!--Create job activity -->
-    <string name="add_job">Legg til jobb</string>
-    <string name="job_name">Navn på jobb</string>
-    <string name="salary">Timelønn</string>
-    <string name="salary_period">Lønningsperiode</string>
-    <string name="pick_date">Velg dato</string>
-    <string name="salary_period_desc">hver måned</string>
-    <string name="salary_rules">Tillegg + fradrag</string>
-    <string name="paid_break">Betalt pause</string>
-    <string name="error_enter_job_name">Venligst gi jobben et navn</string>
-    <string name="error_enter_salary">Venligst angi timelønn</string>
-    <string name="error_job_already_exists">Du har allerede registrert denne jobben!</string>
-    <string name="dialog_delete_job">Slett jobb?
-       Fremtidige vakter med denne jobben vil bli slettet.</string>
-    <string name="dialog_edit_job">"Rediger jobb?
-        Lønn og tillegg vil kun bli endret på fremtidige vakter."</string>
+    <string name="add_job">Add job</string>
+    <string name="job_name">Job name</string>
+    <string name="salary">Hourly salary</string>
+    <string name="salary_period">Paycheck period</string>
+    <string name="pick_date">Pick date</string>
+    <string name="salary_period_desc">each month</string>
+    <string name="salary_rules">Pay increases / decreases</string>
+    <string name="paid_break">Paid break</string>
+    <string name="error_enter_job_name">Give your job a name</string>
+    <string name="error_enter_salary">Enter salary</string>
+    <string name="error_job_already_exists">This job already exists!</string>
+    <string name="dialog_delete_job">Delete job?
+       Only future shifts with this job will be deleted.</string>
+    <string name="dialog_edit_job">Edit job?
+        Salary will only be adjusted for future shifts"</string>
     <!--Create salary-rule activity -->
-    <string name="pay_increases_title">Legg til lønnstillegg / fradrag</string>
-    <string name="name">Navn</string>
-    <string name="pay_difference">Lønnsendring</string>
-    <string name="weekdays">Ukedager</string>
-    <string name="saturday">Lørdager</string>
-    <string name="sundays">Søndager</string>
+    <string name="pay_increases_title">Add pay decrease / increase</string>
+    <string name="name">Name</string>
+    <string name="pay_difference">Difference in pay</string>
+    <string name="weekdays">Weekdays</string>
+    <string name="saturday">Saturdays</string>
+    <string name="sundays">Sundays</string>
 
     <!--Misc.-->
-    <string name="all_shifts">Alle arbeidsdager</string>
-    <string name="all_active_jobs">Alle aktive jobber</string>
-
+    <string name="all_shifts">All shifts</string>
+    <string name="all_active_jobs">All active jobs</string>
 
 </resources>
