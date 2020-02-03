@@ -47,13 +47,13 @@ public class SettingsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ListView listView = view.findViewById(R.id.listViewSettings);
 
-        Setting setting = new Setting("Om appen", android.R.drawable.ic_menu_info_details);
+        Setting setting = new Setting(getString(R.string.about), android.R.drawable.ic_menu_info_details);
         settingsList.add(setting);
-        setting = new Setting("Administer jobber", android.R.drawable.ic_menu_my_calendar);
+        setting = new Setting(getString(R.string.administer_jobs), android.R.drawable.ic_menu_my_calendar);
         settingsList.add(setting);
-        setting = new Setting("Administer vakter",android.R.drawable.ic_menu_day);
+        setting = new Setting(getString(R.string.administer_shifts),android.R.drawable.ic_menu_day);
         settingsList.add(setting);
-        setting = new Setting("Slett all data", android.R.drawable.ic_menu_delete);
+        setting = new Setting(getString(R.string.delete_all), android.R.drawable.ic_menu_delete);
         settingsList.add(setting);
         SettingsAdapter settingsAdapter= new SettingsAdapter(getContext(),0,settingsList);
         listView.setAdapter(settingsAdapter);
@@ -116,8 +116,8 @@ public class SettingsFragment extends Fragment {
 
     private Dialog createDeleteDataAlert (){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(" Vil du virkelig slette alle jobber og vakter?")
-                .setPositiveButton("Ja, slett alt", new DialogInterface.OnClickListener() {
+        builder.setMessage(getString(R.string.delte_dialog))
+                .setPositiveButton(getString(R.string.confirm_delete_all), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // Sletter all brukerdata
                         SharedPreferences pref = getActivity().getSharedPreferences("SHARED PREFERENCES", MODE_PRIVATE);
@@ -127,7 +127,7 @@ public class SettingsFragment extends Fragment {
                         //TODO slett alle bilder også
                     }
                 })
-                .setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // Do nothing
                     }
@@ -136,8 +136,8 @@ public class SettingsFragment extends Fragment {
     }
     private Dialog createAboutAlert(){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("Laget av: Marcus B. Birkeland \n" +
-                "v.1.0");
+        builder.setMessage(getString(R.string.about_info) +  "\n" +
+                getString(R.string.version));
         return builder.create();
     }
 

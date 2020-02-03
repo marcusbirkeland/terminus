@@ -222,7 +222,7 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
     @Override
     public void onValueChange(NumberPicker numberPicker, int i, int i1) {
         TextView editTextSalaryPeriod = findViewById(R.id.editTextSetSalaryPeriod);
-        editTextSalaryPeriod.setText(numberPicker.getValue() +"." + " hver måned");
+        editTextSalaryPeriod.setText(numberPicker.getValue() +". " + this.getString(R.string.salary_period_desc));
         salaryPeriodDate = numberPicker.getValue();
         Log.d("Selected date", "" +  numberPicker.getValue());
     }
@@ -265,7 +265,7 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
             salaryPeriodDate = jobIn.getSalaryPeriodDate();
             editTextJobName.setText(jobIn.getName());
             editTextEnterSalary.setText(jobIn.getSalary()+"");
-            editTextsetSalaryPeriod.setText(jobIn.getSalaryPeriodDate()+"." + " hver måned");
+            editTextsetSalaryPeriod.setText(jobIn.getSalaryPeriodDate()+". " + this.getString(R.string.salary_period_desc));
             checkBoxPaidBreak.setChecked(jobIn.hasPaidBreak());
             if(jobIn.getImage() != null) {
                 Uri uri = Uri.parse(jobIn.getImage());
@@ -348,12 +348,19 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
                     for (Job job : savedJobs) {
                         if (!editMode && job.getName().equals(name)) {
                             TextView textViewErrorMessage = findViewById(R.id.textViewCreateJobErrorMessage);
-                            textViewErrorMessage.setText("Du har allerede registrert denne jobben!");
+                            textViewErrorMessage.setText(getText(R.string.error_job_already_exists));
                             return;
                         }
                     }
                 }
-                if(!name.equals("") && !editTextEnterSalary.getText().toString().equals("")) {
+                if(name.equals("")){
+                    TextView textViewErrorMessage = findViewById(R.id.textViewCreateJobErrorMessage);
+                    textViewErrorMessage.setText(getText(R.string.error_enter_job_name));
+                }else if(editTextEnterSalary.getText().toString().equals("")){
+                    TextView textViewErrorMessage = findViewById(R.id.textViewCreateJobErrorMessage);
+                    textViewErrorMessage.setText(getText(R.string.error_enter_salary));
+                }
+                else{
                     Dialog editDialog = makeEditDialog();
                     if(editMode){
                         editDialog.show();
@@ -428,13 +435,13 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
 
     private Dialog makeDeleteDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Slett jobb?\n Fremtidige vakter med denne jobben vil bli slettet.")
-                .setPositiveButton("Slett jobb", new DialogInterface.OnClickListener() {
+        builder.setMessage(getString(R.string.dialog_delete_job))
+                .setPositiveButton(getString(R.string.delete), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         deleteJob(jobIn);
                     }
                 })
-                .setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // Do nothing
                     }
@@ -443,13 +450,13 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
     }
     private Dialog makeEditDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Rediger jobb?\nLønn og tillegg vil kun bli endret på fremtidige vakter.")
-                .setPositiveButton("Rediger", new DialogInterface.OnClickListener() {
+        builder.setMessage(getString(R.string.dialog_edit_job))
+                .setPositiveButton(getString(R.string.edit), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         editJob();
                     }
                 })
-                .setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // Do nothing
                     }

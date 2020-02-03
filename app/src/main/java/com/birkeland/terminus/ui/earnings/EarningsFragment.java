@@ -52,11 +52,11 @@ public class EarningsFragment extends Fragment {
         TextView textViewMonthPeriod = getView().findViewById(R.id.textViewMonthPeriod);
         TextView textViewMonthlyEarningsNet = getView().findViewById(R.id.textViewMonthlyEarningsNet);
         int monthlyGrossPay = payCalculator.getMonthlyEarnings(workdayEvents,selectedJob);
-        textViewMonthPeriod.setText("Lønn i perioden  " + payCalculator.getStartDateStr() + " - " + payCalculator.getEndDateStr());
-        textViewMonthlyEarningsGross.setText(monthlyGrossPay + " kr");
+        textViewMonthPeriod.setText(getString(R.string.paycheck_period) + " " + payCalculator.getStartDateStr() + " - " + payCalculator.getEndDateStr());
+        textViewMonthlyEarningsGross.setText(monthlyGrossPay + " " + getString(R.string.currency));
         Log.d("Selected job",selectedJob.toString());
         float monthlyNetPay = monthlyGrossPay*(1-taxPercentage/100);
-        textViewMonthlyEarningsNet.setText((int) monthlyNetPay + " kr");
+        textViewMonthlyEarningsNet.setText((int) monthlyNetPay + " " + getString(R.string.currency));
     }
 
     private void saveTaxPercentage (float percentage){
@@ -121,10 +121,10 @@ public class EarningsFragment extends Fragment {
         editTextTaxPercentage.setText(taxPercentage+ "");
         TextView textViewTotalEarningsGross = getView().findViewById(R.id.textViewGrossCurrentEarnings);
         currentEarnings = payCalculator.getYearlyEarnings(workdayEvents);
-        textViewTotalEarningsGross.setText("" + currentEarnings + " kr");
+        textViewTotalEarningsGross.setText("" + currentEarnings + " " + getString(R.string.currency));
         TextView textViewTotalEarningsNet = getView().findViewById(R.id.textViewNetCurrentEarnings);
         float netEarnings = currentEarnings*(1-(taxPercentage/100));
-        textViewTotalEarningsNet.setText("" + (int) netEarnings + " kr");
+        textViewTotalEarningsNet.setText("" + (int) netEarnings + " " + getString(R.string.currency));
         final Spinner jobSpinner = getView().findViewById(R.id.spinnerSelectJob);
         // Gjør spinner scrollable
         try {

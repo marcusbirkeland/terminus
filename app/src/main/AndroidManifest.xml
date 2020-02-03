@@ -15,23 +15,27 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.birkeland.terminus.ViewAllJobsActivity"></activity>
-        <activity android:name="com.birkeland.terminus.ViewAllEventsActivity" />
+        <activity android:name="com.birkeland.terminus.ViewAllJobsActivity"
+            android:label="@string/all_active_jobs"
+            />
+        <activity android:name="com.birkeland.terminus.ViewAllEventsActivity"
+            android:label="@string/all_shifts"/>
         <activity
             android:name="com.birkeland.terminus.ViewEventActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:label="@string/title_view_event"/>
         <activity
             android:name="com.birkeland.terminus.CreateSalaryRuleActivity"
-            android:label="Lønnstillegg"
+            android:label="@string/title_salary_rule"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.birkeland.terminus.CreateJobActivity"
-            android:label="Jobb"
+            android:label="@string/title_job"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name="com.birkeland.terminus.CreateEventActivity"
-            android:label="Ny vakt"
+            android:label="@string/title_new_shift"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.birkeland.terminus.MainActivity"

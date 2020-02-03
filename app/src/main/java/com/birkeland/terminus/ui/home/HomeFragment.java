@@ -57,42 +57,42 @@ public class HomeFragment extends Fragment{
         String currentDate = "";
         switch(date){
             case 1:
-                currentDate = "Januar";
+                currentDate = getString(R.string.January);
                 break;
             case 2:
-                currentDate = "Februar";
+                currentDate = getString(R.string.February);
                 break;
             case 3:
-                currentDate = "Mars";
+                currentDate = getString(R.string.March);
                 break;
             case 4:
-                currentDate = "April";
+                currentDate = getString(R.string.April);
                 break;
             case 5:
-                currentDate = "Mai";
+                currentDate = getString(R.string.May);
                 break;
             case 6:
-                currentDate = "Juni";
+                currentDate = getString(R.string.June);
                 break;
             case 7:
-                currentDate = "Juli";
+                currentDate = getString(R.string.July);
                 break;
             case 8:
-                currentDate = "August";
+                currentDate = getString(R.string.August);
                 break;
             case 9:
-                currentDate = "Sepember";
+                currentDate = getString(R.string.September);
                 break;
             case 10:
-                currentDate = "Oktober";
+                currentDate = getString(R.string.October);
                 break;
 
             case 11:
-                currentDate = "November";
+                currentDate = getString(R.string.November);
                 break;
 
             case 12:
-                currentDate = "Desember";
+                currentDate = getString(R.string.December);
                 break;
         }
         return currentDate;

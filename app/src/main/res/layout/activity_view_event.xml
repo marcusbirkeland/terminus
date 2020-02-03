@@ -24,7 +24,7 @@
         android:ems="24"
         android:text="20.00"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-        android:textColor="@color/colorAccent"
+        android:textColor="?attr/textColor"
         android:textSize="40dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/linearLayoutJobViewCreateEvent"
@@ -45,7 +45,7 @@
         android:ems="24"
         android:text="16:00"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-        android:textColor="@color/colorAccent"
+        android:textColor="?attr/textColor"
         android:textSize="40dp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/textView37"
@@ -62,26 +62,16 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewViewEventDate" />
 
     <TextView
-        android:id="@+id/textView36"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:text="Arbeidsdag"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
         android:id="@+id/textViewViewEventDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="DATO"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@+id/textView36"
-        app:layout_constraintTop_toBottomOf="@+id/textView36" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="DATO" />
 
     <LinearLayout
         android:id="@+id/linearLayoutJobViewCreateEvent"
@@ -109,9 +99,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="24dp"
-            android:text="JOBNAME"
             android:textColor="?attr/textColor"
-            android:textSize="24dp" />
+            android:textSize="24dp"
+            tools:text="job " />
 
     </LinearLayout>
 
@@ -123,7 +113,7 @@
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="64dp"
         android:backgroundTint="@color/colorAccent"
-        android:text="Slett"
+        android:text="@string/delete"
         android:textColor="#fff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -134,7 +124,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Lønn"
+        android:text="@string/pay"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/linearLayoutJobViewCreateEvent"
@@ -156,7 +146,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:text="Pause"
+        android:text="@string/break_time"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/textViewViewEventSalary"

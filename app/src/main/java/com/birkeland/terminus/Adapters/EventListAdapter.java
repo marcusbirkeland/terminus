@@ -53,9 +53,9 @@ public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
                 DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_TIME;
                 LocalDate startDate = LocalDate.parse(event.getDate(), dateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 LocalDate endDate = startDate.plusDays(1);
-                eventTimeSpan = "Fra : " + event.getStartTime() +
+                eventTimeSpan = mContext.getString(R.string.from) +" "+ event.getStartTime() +
                         " (" + startDate.getDayOfMonth() + "." + startDate.getMonthValue() + ") " + "\n" +
-                        "Til : " + getItem(position).getEndTime() + " (" + endDate.getDayOfMonth() + "." + endDate.getMonthValue() + ") ";
+                        mContext.getString(R.string.to)+" " + getItem(position).getEndTime() + " (" + endDate.getDayOfMonth() + "." + endDate.getMonthValue() + ") ";
             }else{
                 eventTimeSpan = "Fra " +event.getStartTime() + " til " + getItem(position).getEndTime();
             }

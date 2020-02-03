@@ -58,7 +58,6 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:text="@string/from"
         app:layout_constraintStart_toStartOf="@+id/timeInputFromCreateEvent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -93,7 +92,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Pause"
+        android:text="@string/break_time"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="@+id/timeInputFromCreateEvent"
         app:layout_constraintTop_toBottomOf="@+id/checkBoxNightshift" />
@@ -155,7 +154,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Nattevakt"
+        android:text="@string/nightshift"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@+id/timeInputFromCreateEvent"
         app:layout_constraintTop_toBottomOf="@+id/timeInputFromCreateEvent" />
@@ -171,14 +170,14 @@
             android:id="@+id/radioButtonRepeatEachWeek"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hver uke"
+            android:text="@string/each_week"
             android:textSize="12sp" />
 
         <com.birkeland.terminus.customViews.ToggleRadioButton
             android:id="@+id/radioButtonRepeatEveryOtherWeek"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Annenhver uke"
+            android:text="@string/every_other_week"
             android:textSize="12sp" />
     </RadioGroup>
 

@@ -58,7 +58,8 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="64dp"
-        android:hint="Navn på regel"
+        android:hint="@string/name"
+        android:inputType="text"
         android:maxLength="50"
         android:singleLine="true"
         app:layout_constraintEnd_toEndOf="parent"
@@ -70,7 +71,7 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:hint="Lønnsendring"
+        android:hint="@string/pay_difference"
         android:inputType="numberSigned|numberDecimal"
         android:maxLength="8"
         app:layout_constraintStart_toStartOf="@+id/editTextNameSalaryRule"
@@ -81,7 +82,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Ukedager"
+        android:text="@string/weekdays"
         app:layout_constraintStart_toStartOf="@+id/editTextSetSalaryRule"
         app:layout_constraintTop_toBottomOf="@+id/editTextSetSalaryRule" />
 
@@ -89,7 +90,7 @@
         android:id="@+id/checkBoxSaturday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Lørdager"
+        android:text="@string/saturday"
         app:layout_constraintStart_toStartOf="@+id/checkBoxWeekdays"
         app:layout_constraintTop_toBottomOf="@+id/checkBoxWeekdays" />
 
@@ -100,7 +101,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginEnd="32dp"
         android:backgroundTint="@color/colorAccent"
-        android:text="Lagre"
+        android:text="@string/save"
         android:textColor="#fff"
         app:layout_constraintBottom_toTopOf="@+id/buttonEditSalaryRuleDelete"
         app:layout_constraintEnd_toEndOf="parent"
@@ -110,7 +111,7 @@
         android:id="@+id/checkBoxSunday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Søndager"
+        android:text="@string/sundays"
         app:layout_constraintStart_toStartOf="@+id/checkBoxSaturday"
         app:layout_constraintTop_toBottomOf="@+id/checkBoxSaturday" />
 
@@ -120,7 +121,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
-        android:text="Legg til lønnstillegg / fradrag"
+        android:text="@string/pay_increases_title"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -131,7 +132,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="64dp"
         android:backgroundTint="@color/colorAccent"
-        android:text="Slett"
+        android:text="@string/delete"
         android:textColor="@android:color/white"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"

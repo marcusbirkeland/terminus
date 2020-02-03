@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
-            android:text="Legg til jobb"
+            android:text="@string/add_job"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -59,7 +59,7 @@
                     android:id="@+id/editTextNameJob"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Navn på jobb"
+                    android:hint="@string/job_name"
                     android:maxLength="30"
                     android:singleLine="true"
                     app:layout_constraintStart_toStartOf="parent"
@@ -69,7 +69,7 @@
                     android:id="@+id/editTextSalaryCreateJob"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Timelønn"
+                    android:hint="@string/salary"
                     android:inputType="numberDecimal"
                     android:maxLength="8"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -92,7 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="64dp"
             android:backgroundTint="@color/colorAccent"
-            android:text="Lagre"
+            android:text="@string/save"
             android:textColor="#fff"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/listViewSalaryrules" />
@@ -115,7 +115,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Tillegg + fradrag"
+            android:text="@string/salary_rules"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             app:layout_constraintStart_toStartOf="@+id/editTextSetSalaryPeriod"
             app:layout_constraintTop_toBottomOf="@+id/editTextSetSalaryPeriod" />
@@ -124,7 +124,7 @@
             android:id="@+id/checkBoxPaidBreak"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Betalt pause"
+            android:text="@string/paid_break"
             app:layout_constraintStart_toStartOf="@+id/textView8"
             app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
@@ -135,7 +135,7 @@
             android:ems="10"
             android:hint="Lønnsperiode"
             android:inputType="date"
-            android:text="Velg dato"
+            android:text="@string/pick_date"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             android:textColor="@color/colorAccent"
             android:textSize="24sp"
@@ -147,7 +147,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Lønnsperiode"
+            android:text="@string/salary_period"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             app:layout_constraintStart_toStartOf="@+id/linearLayout"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
@@ -157,7 +157,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorAccent"
-            android:text="Slett jobb"
+            android:text="@string/delete"
             android:textColor="#fff"
             app:layout_constraintEnd_toEndOf="@+id/linearLayout"
             app:layout_constraintTop_toTopOf="@+id/textViewCreateJobTitle" />

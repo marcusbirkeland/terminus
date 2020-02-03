@@ -1,27 +1,94 @@
 <resources>
     <!-- App -->
     <string name="app_name">terminus</string>
+    <string name="version">v.0.1</string>
+    <string name="currency">kr</string>
     <string name="title_calendar">Kalender</string>
+    <string name="new_shift">Ny vakt</string>
     <string name="title_earnings">Lønn</string>
     <string name="title_settings">Innstillinger</string>
+    <string name="title_view_event">Arbiedsdag</string>
+    <string name="title_salary_rule">Lønnstillegg</string>
+    <string name="title_job">Jobb</string>
+    <string name="title_new_shift">Ny vakt</string>
+    <string name="save">Lagre</string>
+    <string name="delete">Slett</string>
+    <string name="cancel">Avbryt</string>
+    <string name="edit">Endre</string>
+    <string name="from">Fra</string>
+    <string name="to">Til</string>
+    <string name="pay">Lønn</string>
+    <!--Months-->
+    <string name="January">Januar</string>
+    <string name="February">February</string>
+    <string name="March">Mars</string>
+    <string name="April">April</string>
+    <string name="May">Mai</string>
+    <string name="June">Juni</string>
+    <string name="July">Juli</string>
+    <string name="August">August</string>
+    <string name="September">September</string>
+    <string name="October">Oktober</string>
+    <string name="November">November</string>
+    <string name="December">Desember</string>
 
     <!--Salary page -->
-    <string name="edit">Endre</string>
-    <string name="total_yearly_salary_gross">Total lønn i år (brutto)</string>
-    <string name="total_yearly_salary_net">Total lønn i år (netto)</string>
-    <string name="total_yearly_taxes">Beregnet totalskatt i år</string>
-    <string name="total_monthly_salary_net">Beregnet månedslønn denne månden (netto):</string>
-    <string name="total_monthly_tax"> Skattefradrag denne månden</string>
-    <string name="total_yearly_estimate">Estimert årslønn (skattekort)</string>
-    <string name="true_earnings">Total inntekt hittil</string>
+    <string name="total_yearly_salary_gross">Total lønn i år:</string>
+    <string name="total_yearly_salary_net">Total lønn i år netto:</string>
+    <string name="total_monthly_salary_gross">Månedslønn:</string>
+    <string name="total_monthly_salary_net"> Månedslønn netto:</string>
+    <string name="tax">Skatt</string>
+    <string name="paycheck">Lønnsslipp</string>
+    <string name="paycheck_period">Lønn i perioden:</string>
 
+    <!--Settings -->
+    <string name="settings">Innstillinger</string>
+    <string name="about">Om</string>
+    <string name="about_info">Laget av Marcus B. Birkeland</string>
+    <string name="administer_jobs">Administrer jobber</string>
+    <string name="administer_shifts">Administrer vakter</string>
+    <string name="delete_all">Slett all data</string>
+    <string name="delte_dialog">Vil du slette alle jobber og vakter?</string>
+    <string name="confirm_delete_all">Ja,slett alt</string>
+    <string name="other_settings">Annet</string>
+    <string name="nightmode">Nattmodus</string>
 
     <!--Create event activity -->
     <string name="pick_time">Velg klokkelsett</string>
-    <string name="from">Fra</string>
-    <string name="to">Til</string>
-    <string name="break_time">Pausetid</string>
+    <string name="break_time">Pause</string>
     <string name="workplace">Arbeidsplass</string>
     <string name="choose_workplace">Velg jobb</string>
     <string name="add_workday">Legg til vakt</string>
+    <string name="nightshift">Nattevakt</string>
+    <string name="each_week">Hver uke</string>
+    <string name="every_other_week">Annenhver uke</string>
+    <!--Create job activity -->
+    <string name="add_job">Legg til jobb</string>
+    <string name="job_name">Navn på jobb</string>
+    <string name="salary">Timelønn</string>
+    <string name="salary_period">Lønningsperiode</string>
+    <string name="pick_date">Velg dato</string>
+    <string name="salary_period_desc">hver måned</string>
+    <string name="salary_rules">Tillegg + fradrag</string>
+    <string name="paid_break">Betalt pause</string>
+    <string name="error_enter_job_name">Venligst gi jobben et navn</string>
+    <string name="error_enter_salary">Venligst angi timelønn</string>
+    <string name="error_job_already_exists">Du har allerede registrert denne jobben!</string>
+    <string name="dialog_delete_job">Slett jobb?
+       Fremtidige vakter med denne jobben vil bli slettet.</string>
+    <string name="dialog_edit_job">"Rediger jobb?
+        Lønn og tillegg vil kun bli endret på fremtidige vakter."</string>
+    <!--Create salary-rule activity -->
+    <string name="pay_increases_title">Legg til lønnstillegg / fradrag</string>
+    <string name="name">Navn</string>
+    <string name="pay_difference">Lønnsendring</string>
+    <string name="weekdays">Ukedager</string>
+    <string name="saturday">Lørdager</string>
+    <string name="sundays">Søndager</string>
+
+    <!--Misc.-->
+    <string name="all_shifts">Alle arbeidsdager</string>
+    <string name="all_active_jobs">Aller aktive jobber</string>
+
+
 </resources>
