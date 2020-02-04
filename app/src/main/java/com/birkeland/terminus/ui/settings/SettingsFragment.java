@@ -6,12 +6,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -23,6 +26,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.birkeland.terminus.DataClasses.Setting;
+import com.birkeland.terminus.MainActivity;
 import com.birkeland.terminus.R;
 import com.birkeland.terminus.Adapters.SettingsAdapter;
 import com.birkeland.terminus.ViewAllEventsActivity;
@@ -64,12 +68,16 @@ public class SettingsFragment extends Fragment {
                 switch (position){
                     case 0 :
                         Log.d("Settings","Showing about");
+                        Dialog aboutDialog = createAboutAlert();
+                        aboutDialog.show();
                         break;
                     case 1 :
                         Log.d("Settings","Showing language picker");
                         break;
                     case 2:
                         Log.d("Settings","Showing currency picker");
+                        Dialog currencyDialog = createCurrencyDialog();
+                        currencyDialog.show();
                         break;
                         default:
                             Log.e("Settings","Listview item out of range!");
@@ -140,6 +148,41 @@ public class SettingsFragment extends Fragment {
         return root;
     }
 
+    private Dialog createCurrencyDialog(){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        final View dialogView = View.inflate(getContext(),R.layout.currency_dialog,null);
+        builder.setMessage(getString(R.string.currency_dialog_text))
+                .setView(dialogView)
+                .setPositiveButton(getString(R.string.save),new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        EditText editText = dialogView.findViewById(R.id.editTextCurrencyDialog);
+                        String currency = editText.getText().toString();
+                        Log.d("Currency Dialog", currency);
+                        if(!currency.equals("")){
+                            saveCurrency(editText.getText().toString());
+                        }else {
+                            Log.d("Currency Dialog","Please enter currency!");
+                        }
+                    }
+                }).setNegativeButton("", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Avbryt
+            }
+        });
+        return builder.create();
+    }
+
+    private void saveCurrency(String currency){
+        SharedPreferences pref = getActivity().getSharedPreferences("LOCALE", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("CURRENCY",currency);
+        editor.apply();
+    }
+    private String loadCurrency(){
+        SharedPreferences pref = getActivity().getSharedPreferences("LOCALE", MODE_PRIVATE);
+        return pref.getString("CURRENCY","");
+    }
     private Dialog createDeleteDataAlert (){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(getString(R.string.delte_dialog))

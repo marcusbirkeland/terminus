@@ -103,5 +103,9 @@
     <!--Misc.-->
     <string name="all_shifts">All shifts</string>
     <string name="all_active_jobs">All active jobs</string>
+    <string name="currency_text">Currency</string>
+    <string name="currency_hint">$</string>
+    <string name="currency_dialog_text">Enter your currency.
+        e.g: ($ , € , £ , kr)</string>
 
 </resources>
