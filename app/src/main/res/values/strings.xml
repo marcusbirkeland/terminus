@@ -43,8 +43,11 @@
 
     <!--Settings -->
     <string name="settings">Settings</string>
+    <string name="administer">Administer</string>
     <string name="about">About</string>
     <string name="about_info">Made by Marcus B. Birkeland</string>
+    <string name="choose_language">Choose language</string>
+    <string name="choose_currency">Choose currency</string>
     <string name="administer_jobs">Administer jobs</string>
     <string name="administer_shifts">Administer shifts</string>
     <string name="delete_all">Delete all data</string>

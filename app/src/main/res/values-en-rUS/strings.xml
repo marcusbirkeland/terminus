@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">terminus</string>
-    <string name="version">v.0.1</string>
     <string name="currency">kr</string>
     <string name="title_calendar">Calendar</string>
     <string name="new_shift">New shift</string>
@@ -43,6 +42,7 @@
 
     <!--Settings -->
     <string name="settings">Settings</string>
+    <string name="administer">Administer</string>
     <string name="about">About</string>
     <string name="about_info">Made by Marcus B. Birkeland</string>
     <string name="administer_jobs">Administer jobs</string>
@@ -99,5 +99,7 @@
     <!--Misc.-->
     <string name="all_shifts">All shifts</string>
     <string name="all_active_jobs">All active jobs</string>
+    <string name="choose_currency">Choose currency</string>
+    <string name="choose_language">Choose language</string>
 
 </resources>

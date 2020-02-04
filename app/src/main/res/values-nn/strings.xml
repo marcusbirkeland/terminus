@@ -42,6 +42,7 @@
 
     <!--Settings -->
     <string name="settings">Innstillinger</string>
+    <string name="administer">Administrer</string>
     <string name="about">Om</string>
     <string name="about_info">Laget av Marcus B. Birkeland</string>
     <string name="administer_jobs">Administrer jobber</string>
@@ -98,5 +99,7 @@
     <!--Misc.-->
     <string name="all_shifts">Alle arbeidsdager</string>
     <string name="all_active_jobs">Alle aktive jobber</string>
+    <string name="choose_currency">Velg valuta</string>
+    <string name="choose_language">Velg språk</string>
 
 </resources>

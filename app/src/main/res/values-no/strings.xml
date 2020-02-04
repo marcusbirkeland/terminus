@@ -98,5 +98,8 @@
     <!--Misc.-->
     <string name="all_shifts">Alle arbeidsdager</string>
     <string name="all_active_jobs">Alle aktive jobber</string>
+    <string name="administer">Administrer</string>
+    <string name="choose_currency">Velg valuta</string>
+    <string name="choose_language">Velg språk</string>
 
 </resources>

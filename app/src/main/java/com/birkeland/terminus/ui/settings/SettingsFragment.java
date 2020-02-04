@@ -36,7 +36,8 @@ import static android.content.Context.MODE_PRIVATE;
 public class SettingsFragment extends Fragment {
 
     private SettingsViewModel settingsViewModel;
-    private List<Setting> settingsList= new ArrayList<>();
+    private List<Setting> settingsListAdminister = new ArrayList<>();
+    private List<Setting> settingsListPrimary = new ArrayList<>();
     private boolean getIsDarkMode (){
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("DARKMODE",MODE_PRIVATE);
         return sharedPreferences.getBoolean("isDarkMode",false);
@@ -45,49 +46,74 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ListView listView = view.findViewById(R.id.listViewSettings);
+        ListView listViewSettings = view.findViewById(R.id.listViewSettings);
+        ListView listViewSettingsAdminister = view.findViewById(R.id.listViewAdminister);
 
         Setting setting = new Setting(getString(R.string.about), android.R.drawable.ic_menu_info_details);
-        settingsList.add(setting);
+        settingsListPrimary.add(setting);
+        setting = new Setting(getString(R.string.choose_language),android.R.drawable.ic_menu_manage);
+        settingsListPrimary.add(setting);
+        setting = new Setting(getString(R.string.choose_currency),android.R.drawable.ic_menu_manage);
+        settingsListPrimary.add(setting);
+
+        SettingsAdapter settingsAdapterPrimary = new SettingsAdapter(getContext(),0,settingsListPrimary);
+        listViewSettings.setAdapter(settingsAdapterPrimary);
+        listViewSettings.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position){
+                    case 0 :
+                        Log.d("Settings","Showing about");
+                        break;
+                    case 1 :
+                        Log.d("Settings","Showing language picker");
+                        break;
+                    case 2:
+                        Log.d("Settings","Showing currency picker");
+                        break;
+                        default:
+                            Log.e("Settings","Listview item out of range!");
+                            break;
+                }
+            }
+        });
+
         setting = new Setting(getString(R.string.administer_jobs), android.R.drawable.ic_menu_my_calendar);
-        settingsList.add(setting);
+        settingsListAdminister.add(setting);
         setting = new Setting(getString(R.string.administer_shifts),android.R.drawable.ic_menu_day);
-        settingsList.add(setting);
+        settingsListAdminister.add(setting);
         setting = new Setting(getString(R.string.delete_all), android.R.drawable.ic_menu_delete);
-        settingsList.add(setting);
-        SettingsAdapter settingsAdapter= new SettingsAdapter(getContext(),0,settingsList);
-        listView.setAdapter(settingsAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        settingsListAdminister.add(setting);
+
+        SettingsAdapter settingsAdapter= new SettingsAdapter(getContext(),0, settingsListAdminister);
+        listViewSettingsAdminister.setAdapter(settingsAdapter);
+        listViewSettingsAdminister.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position){
                     case 0:
-                        Log.d("Settings", "Showing about");
-                        Dialog aboutDialog = createAboutAlert();
-                        aboutDialog.show();
-                        break;
-                    case 1:
                         Log.d("Settings","Showing administer jobs");
                         Intent viewAllJobs = new Intent(getActivity(), ViewAllJobsActivity.class);
                         startActivity(viewAllJobs);
                         break;
-                    case 2:
+                    case 1:
                         Log.d("Settings", "Showing adminster events");
                         Intent viewAllEvents = new Intent(getActivity(), ViewAllEventsActivity.class);
                         startActivity(viewAllEvents);
                         break;
-                    case 3:
+                    case 2:
                         Log.d("Settings", "Showing delete data fragment");
                         Dialog dialog = createDeleteDataAlert();
                         dialog.show();
                         break;
 
-                        default:
-                            Log.e("Settings","Clicked item out of range");
-                            break;
+                    default:
+                        Log.e("Settings","Clicked item out of range");
+                        break;
                 }
             }
         });
+
         final Switch switchNightmode = view.findViewById(R.id.switchNightMode);
         switchNightmode.setChecked(getIsDarkMode());
         switchNightmode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
