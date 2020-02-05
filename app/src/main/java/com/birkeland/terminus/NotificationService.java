@@ -22,7 +22,6 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 import com.birkeland.terminus.DataClasses.WorkdayEvent;
-import com.birkeland.terminus.R;
 import com.birkeland.terminus.broadcastReceivers.AlarmReceiver;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -47,7 +46,6 @@ public class NotificationService extends IntentService {
         super("notificationService");
 
     }
-
     private void loadEvents(){
         // Laster listen med lagrede jobber.
         SharedPreferences pref = getSharedPreferences("SHARED PREFERENCES", Context.MODE_PRIVATE);
@@ -64,6 +62,8 @@ public class NotificationService extends IntentService {
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         int language = loadLanguage();
+        // Setter språk på notifikasjonen.
+        // Dette skjer også automatisk, men har med if statement for å styre brukervalg over systemdefault.
         if(language == NORWEGIAN){
             setLanguage("nb");
         }else if (language == ENGLISH){
@@ -74,8 +74,8 @@ public class NotificationService extends IntentService {
         Intent alarmIntent = new Intent(this, AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, MainActivity.CREATE_ALARM,alarmIntent,0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        // Setter ny alarm som restarter denne tjenesten.
-        long interval = 60*60*1000; // 1 time.
+        // Setter ny alarm som restarter denne tjenesten etter *interval* millisekunder.
+        long interval = 2*60*60*1000; // 2 timer.
         alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + interval,pendingIntent);
         stopSelf();
     }
@@ -102,7 +102,7 @@ public class NotificationService extends IntentService {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_action_name).setLargeIcon(icon)
                 .setContentTitle(event.getJob().getName())
-                .setContentText(getString(R.string.from) + " " + event.getStartTime() + " " + getString(R.string.to)+" " + event.getEndTime())
+                .setContentText(getString(R.string.from) + " " + event.getStartTime() + " " + getString(R.string.to).toLowerCase()+" " + event.getEndTime())
                 .setSubText(getString(R.string.today))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setCategory(NotificationCompat.CATEGORY_EVENT)
@@ -110,7 +110,7 @@ public class NotificationService extends IntentService {
                 .setContentIntent(resultPendingIntent);
         if(event.isNightShift()){
             builder.setContentText(getString(R.string.from) + " " + event.getStartTime() + " " +
-                    getString(R.string.tonight)+ " " + getString(R.string.to) + " " + event.getEndTime() + " " + getString(R.string.tomorrow));
+                    getString(R.string.tonight)+ " " + getString(R.string.to).toLowerCase() + " " + event.getEndTime() + " " + getString(R.string.tomorrow));
         }
         // notificationId is a unique int for each notification that you must define
         NotificationManager notificationManager = getSystemService(NotificationManager.class);

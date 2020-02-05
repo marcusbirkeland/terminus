@@ -94,7 +94,7 @@ public class ViewEventActivity extends AppCompatActivity {
     private int getEventPay(){
         final List<WorkdayEvent> eventToCalculate = new ArrayList<>();
         eventToCalculate.add(workdayEvents.get(eventIndex));
-        PayCalculator payCalculator = new PayCalculator(eventToCalculate);
+        PayCalculator payCalculator = new PayCalculator(eventToCalculate, this);
         return  payCalculator.getEarnings(eventToCalculate);
     }
 

@@ -1,5 +1,7 @@
 package com.birkeland.terminus;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.birkeland.terminus.DataClasses.Job;
@@ -18,12 +20,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static android.content.Context.MODE_PRIVATE;
+import static com.birkeland.terminus.MainActivity.NORWEGIAN;
+
 public class PayCalculator {
 
     private String startDateStr;
     private String endDateStr;
-    public PayCalculator(List<WorkdayEvent> workdayEvents) {
-        // Tom konstruktør
+    private Context mContext;
+    public PayCalculator(List<WorkdayEvent> workdayEvents , Context context) {
+        mContext = context;
     }
 
     public String getStartDateStr() {
@@ -136,6 +142,11 @@ public class PayCalculator {
             Log.e("Null","No workday events in list");
         }
         return (int) sum;
+    }
+
+    private int loadLanguage(){
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences("LOCALE",MODE_PRIVATE);
+        return sharedPreferences.getInt("LANGUAGE", 0);
     }
 
     private String formatDate(LocalDate date){

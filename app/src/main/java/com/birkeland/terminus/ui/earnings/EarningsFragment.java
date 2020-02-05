@@ -49,7 +49,7 @@ public class EarningsFragment extends Fragment {
         SharedPreferences locale = getActivity().getSharedPreferences("LOCALE",MODE_PRIVATE);
         return locale.getString("CURRENCY",getString(R.string.currency));
     }
-    PayCalculator payCalculator = new PayCalculator(workdayEvents);
+    PayCalculator payCalculator = new PayCalculator(workdayEvents,getContext());
 
     private void calculateMonthlyEarnings(int position){
         selectedJob = getJobByName(jobNames.get(position));

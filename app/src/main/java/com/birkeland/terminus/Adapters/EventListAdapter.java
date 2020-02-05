@@ -25,9 +25,13 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
+import java.text.DateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -53,6 +57,16 @@ public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
         SharedPreferences locale = mContext.getSharedPreferences("LOCALE",MODE_PRIVATE);
         return locale.getInt("LANGUAGE",0);
     }
+    private String formatDate(LocalDate date){
+        Instant instant = date.atStartOfDay(ZoneId.systemDefault()).toInstant();
+        Date date1 = new Date(instant.toEpochMilli());
+        // Formaterer etter system default språk
+        DateFormat df = DateFormat.getDateInstance(DateFormat.DATE_FIELD);
+        String dateString = df.format(date1);
+        // Returns string etter format: "dd/MM" eller "MM/dd".
+        String monthDayString = dateString.substring(0,dateString.length() - 3);
+        return monthDayString;
+    }
 
     @SuppressLint("ViewHolder")
     @NonNull
@@ -69,22 +83,16 @@ public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
                 DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_TIME;
                 LocalDate startDate = LocalDate.parse(event.getDate(), dateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 LocalDate endDate = startDate.plusDays(1);
-                // Setter på formatet: MM-dd for USA
-                if(Locale.getDefault().getDisplayCountry().equals("United States")){
                     eventTimeSpan = mContext.getString(R.string.from) + " " + event.getStartTime() +
-                            " (" + startDate.getMonthValue() + "." + startDate.getDayOfMonth() + ") " + "\n" +
-                            mContext.getString(R.string.to) + " " + getItem(position).getEndTime() + " (" + endDate.getDayOfMonth() + "." + endDate.getMonthValue() + ") ";
-                }else{
-                    eventTimeSpan = mContext.getString(R.string.from) + " " + event.getStartTime() +
-                            " (" + startDate.getDayOfMonth() + "." + startDate.getMonthValue() + ") " + "\n" +
-                            mContext.getString(R.string.to) + " " + getItem(position).getEndTime() + " (" + endDate.getDayOfMonth() + "." + endDate.getMonthValue() + ") ";
-                }
+                            " (" + formatDate(startDate) + ") " + "\n" +
+                            mContext.getString(R.string.to) + " " + getItem(position).getEndTime() + " (" + formatDate(endDate) + ") ";
+
             }else{
-                eventTimeSpan = mContext.getString(R.string.from)+" " +event.getStartTime() + " " + mContext.getString(R.string.to) + " " + getItem(position).getEndTime();
+                eventTimeSpan = mContext.getString(R.string.from)+" " +event.getStartTime() + " " + mContext.getString(R.string.to).toLowerCase() + " " + getItem(position).getEndTime();
             }
             List<WorkdayEvent> events = new ArrayList<>();
             events.add(event);
-            PayCalculator payCalculator = new PayCalculator(events);
+            PayCalculator payCalculator = new PayCalculator(events,getContext());
             event.setSalary(payCalculator.getEarnings(events));
             String salary = mContext.getString(R.string.pay)+": " + event.getSalary() + " " + currency;
             String src = event.getJob().getImage();
