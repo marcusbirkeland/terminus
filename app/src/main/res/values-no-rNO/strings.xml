@@ -101,5 +101,12 @@
     <string name="administer">Administrer</string>
     <string name="choose_currency">Velg valuta</string>
     <string name="choose_language">Velg språk</string>
+    <string name="currency" translatable="false">kr</string>
+    <string name="norwegian">Norsk</string>
+    <string name="english">Engelsk</string>
+    <string name="currency_text">Valuta</string>
+    <string name="currency_dialog_text">Skriv inn valuta, eks: (kr, £, $ osv.)</string>
+    <string name="currency_hint">kr</string>
+    <string name="pick_language">Velg språk</string>
 
 </resources>

@@ -25,6 +25,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.birkeland.terminus.DataClasses.Job;
 import com.birkeland.terminus.DataClasses.Setting;
 import com.birkeland.terminus.MainActivity;
 import com.birkeland.terminus.R;
@@ -36,6 +37,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.birkeland.terminus.MainActivity.ENGLISH;
+import static com.birkeland.terminus.MainActivity.NORWEGIAN;
 
 public class SettingsFragment extends Fragment {
 
@@ -73,6 +76,8 @@ public class SettingsFragment extends Fragment {
                         break;
                     case 1 :
                         Log.d("Settings","Showing language picker");
+                        Dialog languagePicker = createLanguagePicker();
+                        languagePicker.show();
                         break;
                     case 2:
                         Log.d("Settings","Showing currency picker");
@@ -179,10 +184,6 @@ public class SettingsFragment extends Fragment {
         editor.putString("CURRENCY",currency);
         editor.apply();
     }
-    private String loadCurrency(){
-        SharedPreferences pref = getActivity().getSharedPreferences("LOCALE", MODE_PRIVATE);
-        return pref.getString("CURRENCY","");
-    }
     private Dialog createDeleteDataAlert (){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(getString(R.string.delte_dialog))
@@ -209,7 +210,30 @@ public class SettingsFragment extends Fragment {
                 getString(R.string.version));
         return builder.create();
     }
+    private Dialog createLanguagePicker(){
+        String[] jobNamesArray = {getString(R.string.english),getString(R.string.norwegian)};
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(getString(R.string.pick_language))
+                .setItems(jobNamesArray, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(which == 0){
+                            setLanguage(ENGLISH);
+                            restartApp();
+                        }else if (which == 1){
+                            setLanguage(NORWEGIAN);
+                            restartApp();
+                        }
+                    }
+                });
+        return builder.create();
+    }
 
+    private void setLanguage (int language){
+        SharedPreferences pref = getActivity().getSharedPreferences("LOCALE",MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putInt("LANGUAGE",language);
+        editor.commit();
+    }
     private void setDarkMode(boolean state){
         SharedPreferences pref = getActivity().getSharedPreferences("DARKMODE", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();

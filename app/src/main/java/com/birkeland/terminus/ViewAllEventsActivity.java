@@ -28,6 +28,7 @@ public class ViewAllEventsActivity extends AppCompatActivity {
     List<WorkdayEvent> savedEvents;
 
     private void loadEvents(){
+        // Laster lagrede events fra applagring
         try {
         SharedPreferences pref = getSharedPreferences("SHARED PREFERENCES", Context.MODE_PRIVATE);
         Gson gson = new Gson();
@@ -84,6 +85,7 @@ public class ViewAllEventsActivity extends AppCompatActivity {
     }
 
     private void updateList(){
+        // Oppdaterer elementer i ListView
         try {
             loadEvents();
             ListView listView = findViewById(R.id.listViewViewAllEvents);

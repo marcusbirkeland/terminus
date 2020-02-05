@@ -4,7 +4,10 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.widget.ImageView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -18,16 +21,39 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import java.util.Locale;
+
 public class MainActivity extends AppCompatActivity {
     public static final int CREATE_ALARM = 45456;
     public static final int DELETE_EVENT = 2321;
+    public static final int NORWEGIAN = 1814;
+    public static final int ENGLISH = 1776;
     public boolean isDarkMode;
 
+    private int loadLanguage(){
+        SharedPreferences sharedPreferences = getSharedPreferences("LOCALE",MODE_PRIVATE);
+        return sharedPreferences.getInt("LANGUAGE", 0);
+    }
+    private void setLanguage(String countryCode){
+        Resources resources = getResources();
+        DisplayMetrics displayMetrics = resources.getDisplayMetrics();
+        Configuration configuration = resources.getConfiguration();
+        configuration.setLocale(new Locale(countryCode.toLowerCase()));
+        resources.updateConfiguration(configuration, displayMetrics);
+        configuration.locale = new Locale(countryCode.toLowerCase());
+        resources.updateConfiguration(configuration, displayMetrics);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent i = new Intent(this, NotificationService.class);
         startService(i);
+        int language = loadLanguage();
+        if(language == NORWEGIAN){
+            setLanguage("nb");
+        }else if (language == ENGLISH){
+            setLanguage("en-rUS");
+        }
         isDarkMode = getIsDarkMode();
         if(isDarkMode){
             setTheme(R.style.AppThemeDark);

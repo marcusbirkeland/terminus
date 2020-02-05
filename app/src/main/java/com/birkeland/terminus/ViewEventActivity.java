@@ -34,6 +34,11 @@ public class ViewEventActivity extends AppCompatActivity {
 
     private List<WorkdayEvent> workdayEvents = new ArrayList<>();
     private int eventIndex = -1;
+    private String currency;
+    private String loadCurrency(){
+        SharedPreferences locale = getSharedPreferences("LOCALE",MODE_PRIVATE);
+        return locale.getString("CURRENCY",getString(R.string.currency));
+    }
     private String formatDate(LocalDate date){
         return  date.getDayOfMonth() + "." + date.getMonthValue()+ "." + date.getYear();
     }
@@ -99,7 +104,7 @@ public class ViewEventActivity extends AppCompatActivity {
 
         textViewJobName.setText(event.getJob().getName());
         // Regn ut total lønn for arbeidsdag
-        textViewSalary.setText(getEventPay()+ " kr");
+        textViewSalary.setText(getEventPay()+ currency);
         // Finner bilde for imageView
         try {
             Uri uri = Uri.parse(event.getJob().getImage());
@@ -128,6 +133,7 @@ public class ViewEventActivity extends AppCompatActivity {
     @Override
         protected void onCreate (Bundle savedInstanceState){
             super.onCreate(savedInstanceState);
+            currency = loadCurrency();
             SharedPreferences pref = this.getSharedPreferences("DARKMODE",MODE_PRIVATE);
             boolean isDarkMode = pref.getBoolean("isDarkMode",false);
             if(isDarkMode){

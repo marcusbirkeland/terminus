@@ -2,6 +2,7 @@ package com.birkeland.terminus.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -29,15 +30,22 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
 
     private Context mContext;
     private final static int VIEW_DATE = 1;
     private int viewMode;
+    private String currency;
     public EventListAdapter(@NonNull Context context, int resource, @NonNull List<WorkdayEvent> objects) {
         super(context, resource, objects);
         mContext = context;
         viewMode = resource;
+    }
+    private String loadCurrency(){
+        SharedPreferences locale = mContext.getSharedPreferences("LOCALE",MODE_PRIVATE);
+        return locale.getString("CURRENCY",mContext.getString(R.string.currency));
     }
 
     @SuppressLint("ViewHolder")
@@ -46,6 +54,7 @@ public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         setupImageLoader();
         try {
+            currency = loadCurrency();
            final WorkdayEvent event = getItem(position);
             String jobName = event.getJob().getName();
             final String eventTimeSpan;
@@ -63,7 +72,7 @@ public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
             events.add(event);
             PayCalculator payCalculator = new PayCalculator(events);
             event.setSalary(payCalculator.getEarnings(events));
-            String salary = mContext.getString(R.string.pay)+": " + event.getSalary() + " kr";
+            String salary = mContext.getString(R.string.pay)+": " + event.getSalary() + " " + currency;
             String src = event.getJob().getImage();
 
         LayoutInflater inflater = LayoutInflater.from(mContext);

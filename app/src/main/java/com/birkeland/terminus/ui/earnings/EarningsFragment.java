@@ -40,10 +40,15 @@ public class EarningsFragment extends Fragment {
     private List<Job> jobs = new ArrayList<>();
     List<String> jobNames = new ArrayList<>();
     private Job selectedJob;
+    private String currency;
     private int currentEarnings;
     private float taxPercentage;
     private int spinnerPosition;
 
+    private String loadCurrency(){
+        SharedPreferences locale = getActivity().getSharedPreferences("LOCALE",MODE_PRIVATE);
+        return locale.getString("CURRENCY",getString(R.string.currency));
+    }
     PayCalculator payCalculator = new PayCalculator(workdayEvents);
 
     private void calculateMonthlyEarnings(int position){
@@ -53,10 +58,10 @@ public class EarningsFragment extends Fragment {
         TextView textViewMonthlyEarningsNet = getView().findViewById(R.id.textViewMonthlyEarningsNet);
         int monthlyGrossPay = payCalculator.getMonthlyEarnings(workdayEvents,selectedJob);
         textViewMonthPeriod.setText(getString(R.string.paycheck_period) + " " + payCalculator.getStartDateStr() + " - " + payCalculator.getEndDateStr());
-        textViewMonthlyEarningsGross.setText(monthlyGrossPay + " " + getString(R.string.currency));
+        textViewMonthlyEarningsGross.setText(monthlyGrossPay + " " + currency);
         Log.d("Selected job",selectedJob.toString());
         float monthlyNetPay = monthlyGrossPay*(1-taxPercentage/100);
-        textViewMonthlyEarningsNet.setText((int) monthlyNetPay + " " + getString(R.string.currency));
+        textViewMonthlyEarningsNet.setText((int) monthlyNetPay + " " + currency);
     }
 
     private void saveTaxPercentage (float percentage){
@@ -116,15 +121,16 @@ public class EarningsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         loadEvents();
         loadJobs();
+        currency = loadCurrency();
         taxPercentage = loadTaxPercentage();
         EditText editTextTaxPercentage = getView().findViewById(R.id.editTextTaxPercentage);
         editTextTaxPercentage.setText(taxPercentage+ "");
         TextView textViewTotalEarningsGross = getView().findViewById(R.id.textViewGrossCurrentEarnings);
         currentEarnings = payCalculator.getYearlyEarnings(workdayEvents);
-        textViewTotalEarningsGross.setText("" + currentEarnings + " " + getString(R.string.currency));
+        textViewTotalEarningsGross.setText("" + currentEarnings + " " + currency);
         TextView textViewTotalEarningsNet = getView().findViewById(R.id.textViewNetCurrentEarnings);
         float netEarnings = currentEarnings*(1-(taxPercentage/100));
-        textViewTotalEarningsNet.setText("" + (int) netEarnings + " " + getString(R.string.currency));
+        textViewTotalEarningsNet.setText("" + (int) netEarnings + " " + currency);
         final Spinner jobSpinner = getView().findViewById(R.id.spinnerSelectJob);
         // Gjør spinner scrollable
         try {

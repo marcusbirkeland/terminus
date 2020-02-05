@@ -2,7 +2,9 @@
     <!-- App -->
     <string name="app_name" translatable="false">terminus</string>
     <string name="version" translatable="false">v.0.1</string>
-    <string name="currency" translatable="false">kr</string>
+    <string name="currency">$</string>
+    <string name="english">English</string>
+    <string name="norwegian">Norwegian</string>
     <string name="title_calendar">Calendar</string>
     <string name="new_shift">New shift</string>
     <string name="title_earnings">Pay</string>
@@ -103,9 +105,9 @@
     <!--Misc.-->
     <string name="all_shifts">All shifts</string>
     <string name="all_active_jobs">All active jobs</string>
+    <string name="pick_language">Choose language</string>
     <string name="currency_text">Currency</string>
     <string name="currency_hint">$</string>
-    <string name="currency_dialog_text">Enter your currency.
-        e.g: ($ , € , £ , kr)</string>
+    <string name="currency_dialog_text">Enter your currency.         e.g: ($ , € , £ , kr)</string>
 
 </resources>
