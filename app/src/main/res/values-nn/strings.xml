@@ -108,5 +108,8 @@
     <string name="currency_dialog_text">Skriv inn valuta, eks: (kr, £, $ osv.)</string>
     <string name="currency_hint">kr</string>
     <string name="pick_language">Velg språk</string>
+    <string name="today">I dag</string>
+    <string name="tomorrow">i morgen</string>
+    <string name="tonight">i natt</string>
 
 </resources>

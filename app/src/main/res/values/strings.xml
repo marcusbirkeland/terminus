@@ -19,6 +19,9 @@
     <string name="edit">Edit</string>
     <string name="from">From</string>
     <string name="to">To</string>
+    <string name="today">Today</string>
+    <string name="tonight">tonight</string>
+    <string name="tomorrow">tomorrow</string>
     <string name="pay">Pay</string>
     <!--Months-->
     <string name="January">January</string>

@@ -5,13 +5,17 @@ import android.app.IntentService;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.SystemClock;
+import android.util.DisplayMetrics;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -29,6 +33,10 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
+import static com.birkeland.terminus.MainActivity.ENGLISH;
+import static com.birkeland.terminus.MainActivity.NORWEGIAN;
 
 public class NotificationService extends IntentService {
     public static final String NOTIFICATION_CHANNEL_ID = "10001" ;
@@ -55,6 +63,12 @@ public class NotificationService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
+        int language = loadLanguage();
+        if(language == NORWEGIAN){
+            setLanguage("nb");
+        }else if (language == ENGLISH){
+            setLanguage("en-rUS");
+        }
         createNotificationChannel();
         createNotification(getTodaysEvent());
         Intent alarmIntent = new Intent(this, AlarmReceiver.class);
@@ -76,19 +90,31 @@ public class NotificationService extends IntentService {
             icon = null;
         }
 
+        // Intent for å starte appen når man trykker på notifikasjonen. kode for dette hentet fra google documentasjon
+        Intent resultIntent = new Intent(this, MainActivity.class);
+        // Create the TaskStackBuilder and add the intent, which inflates the back stack
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addNextIntentWithParentStack(resultIntent);
+        // Get the PendingIntent containing the entire back stack
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        // Bygger notifikasjonen
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_action_name).setLargeIcon(icon)
                 .setContentTitle(event.getJob().getName())
-                .setContentText("Fra " + event.getStartTime() + " til " + event.getEndTime())
-                .setSubText("I dag")
+                .setContentText(getString(R.string.from) + " " + event.getStartTime() + " " + getString(R.string.to)+" " + event.getEndTime())
+                .setSubText(getString(R.string.today))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setCategory(NotificationCompat.CATEGORY_EVENT)
-                .setOnlyAlertOnce(true);
+                .setOnlyAlertOnce(true)
+                .setContentIntent(resultPendingIntent);
         if(event.isNightShift()){
-            builder.setContentText("Fra " + event.getStartTime() + " i kveld" + " til " + event.getEndTime() + " i morgen");
+            builder.setContentText(getString(R.string.from) + " " + event.getStartTime() + " " +
+                    getString(R.string.tonight)+ " " + getString(R.string.to) + " " + event.getEndTime() + " " + getString(R.string.tomorrow));
         }
         // notificationId is a unique int for each notification that you must define
         NotificationManager notificationManager = getSystemService(NotificationManager.class);
+
         notificationManager.notify(Integer.parseInt(NOTIFICATION_CHANNEL_ID),builder.build());
     }
     private void createNotificationChannel() {
@@ -125,5 +151,19 @@ public class NotificationService extends IntentService {
             Log.e("NotificationService","No events in list.");
         }
         return null;
+    }
+
+    private int loadLanguage(){
+        SharedPreferences sharedPreferences = getSharedPreferences("LOCALE",MODE_PRIVATE);
+        return sharedPreferences.getInt("LANGUAGE", 0);
+    }
+    private void setLanguage(String countryCode){
+        Resources resources = getResources();
+        DisplayMetrics displayMetrics = resources.getDisplayMetrics();
+        Configuration configuration = resources.getConfiguration();
+        configuration.setLocale(new Locale(countryCode.toLowerCase()));
+        resources.updateConfiguration(configuration, displayMetrics);
+        configuration.locale = new Locale(countryCode.toLowerCase());
+        resources.updateConfiguration(configuration, displayMetrics);
     }
 }
