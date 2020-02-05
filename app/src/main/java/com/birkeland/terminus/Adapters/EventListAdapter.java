@@ -29,8 +29,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static android.content.Context.MODE_PRIVATE;
+import static com.birkeland.terminus.MainActivity.NORWEGIAN;
 
 public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
 
@@ -47,6 +49,10 @@ public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
         SharedPreferences locale = mContext.getSharedPreferences("LOCALE",MODE_PRIVATE);
         return locale.getString("CURRENCY",mContext.getString(R.string.currency));
     }
+    private int loadLanguage(){
+        SharedPreferences locale = mContext.getSharedPreferences("LOCALE",MODE_PRIVATE);
+        return locale.getInt("LANGUAGE",0);
+    }
 
     @SuppressLint("ViewHolder")
     @NonNull
@@ -55,6 +61,7 @@ public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
         setupImageLoader();
         try {
             currency = loadCurrency();
+            int language = loadLanguage();
            final WorkdayEvent event = getItem(position);
             String jobName = event.getJob().getName();
             final String eventTimeSpan;
@@ -62,9 +69,16 @@ public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
                 DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_TIME;
                 LocalDate startDate = LocalDate.parse(event.getDate(), dateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 LocalDate endDate = startDate.plusDays(1);
-                eventTimeSpan = mContext.getString(R.string.from) +" "+ event.getStartTime() +
-                        " (" + startDate.getDayOfMonth() + "." + startDate.getMonthValue() + ") " + "\n" +
-                        mContext.getString(R.string.to)+" " + getItem(position).getEndTime() + " (" + endDate.getDayOfMonth() + "." + endDate.getMonthValue() + ") ";
+                // Setter på formatet: MM-dd for USA
+                if(Locale.getDefault().getDisplayCountry().equals("United States")){
+                    eventTimeSpan = mContext.getString(R.string.from) + " " + event.getStartTime() +
+                            " (" + startDate.getMonthValue() + "." + startDate.getDayOfMonth() + ") " + "\n" +
+                            mContext.getString(R.string.to) + " " + getItem(position).getEndTime() + " (" + endDate.getDayOfMonth() + "." + endDate.getMonthValue() + ") ";
+                }else{
+                    eventTimeSpan = mContext.getString(R.string.from) + " " + event.getStartTime() +
+                            " (" + startDate.getDayOfMonth() + "." + startDate.getMonthValue() + ") " + "\n" +
+                            mContext.getString(R.string.to) + " " + getItem(position).getEndTime() + " (" + endDate.getDayOfMonth() + "." + endDate.getMonthValue() + ") ";
+                }
             }else{
                 eventTimeSpan = mContext.getString(R.string.from)+" " +event.getStartTime() + " " + mContext.getString(R.string.to) + " " + getItem(position).getEndTime();
             }

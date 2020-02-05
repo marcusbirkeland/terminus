@@ -6,12 +6,17 @@ import com.birkeland.terminus.DataClasses.Job;
 import com.birkeland.terminus.DataClasses.SalaryRule;
 import com.birkeland.terminus.DataClasses.WorkdayEvent;
 
+import java.text.DateFormat;
 import java.time.DayOfWeek;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class PayCalculator {
 
@@ -134,7 +139,11 @@ public class PayCalculator {
     }
 
     private String formatDate(LocalDate date){
-        return  date.getDayOfMonth() + "." + date.getMonthValue();
+        Instant instant = date.atStartOfDay(ZoneId.systemDefault()).toInstant();
+        Date date1 = new Date(instant.toEpochMilli());
+        // Formaterer etter system default språk
+        DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
+        return df.format(date1);
     }
 
     public int getMonthlyEarnings(List<WorkdayEvent> workdayEvents, Job selectedJob) {

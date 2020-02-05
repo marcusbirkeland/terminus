@@ -25,10 +25,16 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.text.DateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ViewEventActivity extends AppCompatActivity {
 
@@ -40,7 +46,10 @@ public class ViewEventActivity extends AppCompatActivity {
         return locale.getString("CURRENCY",getString(R.string.currency));
     }
     private String formatDate(LocalDate date){
-        return  date.getDayOfMonth() + "." + date.getMonthValue()+ "." + date.getYear();
+        Instant instant = date.atStartOfDay(ZoneId.systemDefault()).toInstant();
+        Date date1 = new Date(instant.toEpochMilli());
+        DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
+        return df.format(date1);
     }
 
     private void loadEvents() {
@@ -67,7 +76,6 @@ public class ViewEventActivity extends AppCompatActivity {
         Log.d("Saving to sharedprefs: ", eventInfo);
         editor.apply();
     }
-
 
     private int getEventIndex(WorkdayEvent event){
         for (int i = 0; i<workdayEvents.size();i++){

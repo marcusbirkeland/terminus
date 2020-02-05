@@ -8,6 +8,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.widget.ImageView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Intent i = new Intent(this, NotificationService.class);
         startService(i);
+        Log.d("LANGUAGEE",Locale.getDefault().getDisplayCountry().toString());
         int language = loadLanguage();
         if(language == NORWEGIAN){
             setLanguage("nb");
