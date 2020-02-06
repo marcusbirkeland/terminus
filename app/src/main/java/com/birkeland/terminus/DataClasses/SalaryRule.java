@@ -1,8 +1,15 @@
 package com.birkeland.terminus.DataClasses;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import com.birkeland.terminus.R;
+
 import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class SalaryRule implements Serializable {
 
@@ -34,21 +41,24 @@ public class SalaryRule implements Serializable {
     public ArrayList<DayOfWeek> getDaysOfWeek(){
         return daysOfWeek;
     }
-    public String toString(){
+    public String toString(Context context){
+            SharedPreferences pref = context.getSharedPreferences("LOCALE",MODE_PRIVATE);
+            String currency = pref.getString("CURRENCY","");
+
         String out;
         out =  ruleName.toUpperCase() +":  ";
         if(changeInPay > 0)
             out+="+";
-        out += changeInPay + "kr" + '\n' +
-                "Fra "+startTime.toString() +
-                " til " + endTime.toString();
+        out += changeInPay + currency + '\n' +
+                context.getString(R.string.from)+" "+startTime +
+                " " + context.getString(R.string.to).toLowerCase()+ " " + endTime;
         if (daysOfWeek.contains(DayOfWeek.MONDAY)) {
-            out+=" (ukedager)";
+            out+=" (" + context.getString(R.string.weekdays)+")";
         }
         if(daysOfWeek.contains(DayOfWeek.SATURDAY)){
-            out+=" (lørdager)";
+            out+=" (" + context.getString(R.string.saturday)+")";
         }if (daysOfWeek.contains(DayOfWeek.SUNDAY)){
-            out+=" (søndager)";
+            out+=" (" +context.getString(R.string.sundays) + ")";
         }
         return  out;
     }

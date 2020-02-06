@@ -177,7 +177,7 @@ public class ViewEventActivity extends AppCompatActivity {
             textViewBreak.setText(event.getBreakTime() + " min");
             // Regn ut total lønn for arbeidsdag
 
-            textViewSalary.setText(getEventPay() + " kr");
+            textViewSalary.setText(getEventPay() + " " + currency);
             try {
                 Uri uri = Uri.parse(event.getJob().getImage());
                 imageView.setImageURI(uri);

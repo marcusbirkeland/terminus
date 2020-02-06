@@ -278,7 +278,7 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
             }
             salaryRulesArrayList = jobIn.getSalaryRules();
             for(SalaryRule salaryRule : salaryRulesArrayList){
-                salaryRuleStrings.add(salaryRule.toString());
+                salaryRuleStrings.add(salaryRule.toString(this));
             }
             selectedImagePath= jobIn.getImage();
 
@@ -408,11 +408,11 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
 
                 if(!bundle.getBoolean("DELETE")) {
                     salaryRulesArrayList.add(index, salaryRule);
-                    salaryRuleStrings.add(index, salaryRule.toString());
+                    salaryRuleStrings.add(index, salaryRule.toString(this));
                 }
             }else{
                 salaryRulesArrayList.add(salaryRule);
-                salaryRuleStrings.add(salaryRule.toString());
+                salaryRuleStrings.add(salaryRule.toString(this));
                 Log.d("SalaryRule:","NEW SALARY RULE: " + salaryRule.toString());
             }
             // Setter ListView.
