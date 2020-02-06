@@ -1,7 +1,7 @@
 <resources>
     <!-- App -->
     <string name="app_name" translatable="false">terminus</string>
-    <string name="version" translatable="false">v.0.1</string>
+    <string name="version" translatable="false">v.0.5</string>
     <string name="currency">$</string>
     <string name="english">English</string>
     <string name="norwegian">Norwegian</string>
