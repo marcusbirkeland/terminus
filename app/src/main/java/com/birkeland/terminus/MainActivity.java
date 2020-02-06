@@ -27,6 +27,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import java.util.Currency;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -69,23 +70,11 @@ public class MainActivity extends AppCompatActivity {
         }
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
-
+        // Finner lokal currency automatisk.
         if(getCurrency().equals("")){
-            createCurrencyDialog().show();
+            saveLocaleCurrency();
         }
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-        }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-        }
-        if(ContextCompat.checkSelfPermission(this,Manifest.permission.RECEIVE_BOOT_COMPLETED)
-                != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.RECEIVE_BOOT_COMPLETED},1);
-        }
         setContentView(R.layout.activity_main);
         if(isDarkMode){
             ImageView logo = findViewById(R.id.imageViewLogo);
@@ -106,39 +95,21 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences pref = this.getSharedPreferences("DARKMODE",MODE_PRIVATE);
         return  pref.getBoolean("isDarkMode",false);
     }
-    private Dialog createCurrencyDialog(){
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        final View dialogView = View.inflate(this,R.layout.currency_dialog,null);
-        builder.setMessage(getString(R.string.currency_dialog_text))
-                .setView(dialogView)
-                .setPositiveButton(getString(R.string.save),new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        EditText editText = dialogView.findViewById(R.id.editTextCurrencyDialog);
-                        String currency = editText.getText().toString();
-                        Log.d("Currency Dialog", currency);
-                        if(!currency.equals("")){
-                            saveCurrency(editText.getText().toString());
-                        }else {
-                            Log.d("Currency Dialog","Please enter currency!");
-                        }
-                    }
-                }).setNegativeButton("", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Avbryt
-            }
-        });
-        return builder.create();
-    }
 
+
+    private String getLocaleCurrency(){
+        Locale locale = Locale.getDefault();
+        Currency currency = Currency.getInstance(locale);
+        return currency.getSymbol();
+    }
     private String getCurrency(){
         SharedPreferences pref = getSharedPreferences("LOCALE",MODE_PRIVATE);
         return pref.getString("CURRENCY","");
     }
-    private void saveCurrency(String currency){
+    private void saveLocaleCurrency(){
         SharedPreferences pref = getSharedPreferences("LOCALE", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
-        editor.putString("CURRENCY",currency);
+        editor.putString("CURRENCY",getLocaleCurrency());
         editor.apply();
     }
 }

@@ -92,7 +92,7 @@
             android:layout_weight="90"
             android:text="@string/nightmode"
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="18sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView2"
             app:layout_constraintStart_toEndOf="@+id/imageView2"
             app:layout_constraintTop_toTopOf="@+id/imageView2" />

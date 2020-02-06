@@ -58,9 +58,9 @@ public class SettingsFragment extends Fragment {
 
         Setting setting = new Setting(getString(R.string.about), android.R.drawable.ic_menu_info_details);
         settingsListPrimary.add(setting);
-        setting = new Setting(getString(R.string.choose_language),android.R.drawable.ic_menu_manage);
+        setting = new Setting(getString(R.string.choose_language), R.drawable.language_icon);
         settingsListPrimary.add(setting);
-        setting = new Setting(getString(R.string.choose_currency),android.R.drawable.ic_menu_manage);
+        setting = new Setting(getString(R.string.choose_currency),R.drawable.dollar_sign);
         settingsListPrimary.add(setting);
 
         SettingsAdapter settingsAdapterPrimary = new SettingsAdapter(getContext(),0,settingsListPrimary);

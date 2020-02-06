@@ -1,8 +1,12 @@
 package com.birkeland.terminus;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -10,6 +14,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -324,17 +329,13 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
 
             @Override
             public void onClick(View v) {
-                Intent getIntent = new Intent();
-                getIntent.setType("image/*");
-                getIntent.setAction(Intent.ACTION_GET_CONTENT);
-                Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                pickIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                pickIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                pickIntent.setType("image/*");
-                Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
-                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
-                startActivityForResult(chooserIntent, PICK_IMAGE);
-
+                // Sjekker for tillatelse
+                if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(CreateJobActivity.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                }else {
+                    pickImage();
+                }
             }
         });
 
@@ -371,6 +372,24 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
                 }
             }
         });
+    }
+
+    private void pickImage (){
+        Intent getIntent = new Intent();
+        getIntent.setType("image/*");
+        getIntent.setAction(Intent.ACTION_GET_CONTENT);
+        Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        pickIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+        pickIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        pickIntent.setType("image/*");
+        Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{pickIntent});
+        startActivityForResult(chooserIntent, PICK_IMAGE);
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        pickImage();
     }
 
     @Override
