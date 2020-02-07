@@ -2,6 +2,7 @@ package com.birkeland.terminus;
 
 import android.app.AlarmManager;
 import android.app.IntentService;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -14,6 +15,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.os.RemoteException;
 import android.os.SystemClock;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -44,7 +46,6 @@ public class NotificationService extends IntentService {
 
     public NotificationService() {
         super("notificationService");
-
     }
     private void loadEvents(){
         // Laster listen med lagrede jobber.
@@ -61,22 +62,24 @@ public class NotificationService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        int language = loadLanguage();
-        // Setter språk på notifikasjonen.
-        // Dette skjer også automatisk, men har med if statement for å styre brukervalg over systemdefault.
-        if(language == NORWEGIAN){
-            setLanguage("nb");
-        }else if (language == ENGLISH){
-            setLanguage("en-rUS");
-        }
-        createNotificationChannel();
-        createNotification(getTodaysEvent());
+            int language = loadLanguage();
+            // Setter språk på notifikasjonen.
+            // Dette skjer også automatisk, men har med if statement for å styre brukervalg over systemdefault.
+            if (language == NORWEGIAN) {
+                setLanguage("nb");
+            } else if (language == ENGLISH) {
+                setLanguage("en-rUS");
+            }
+            createNotificationChannel();
+            createNotification(getTodaysEvent());
+
         Intent alarmIntent = new Intent(this, AlarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, MainActivity.CREATE_ALARM,alarmIntent,0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         // Setter ny alarm som restarter denne tjenesten etter *interval* millisekunder.
-        long interval = 2*60*60*1000; // 2 timer.
+        long interval = 10*1000; //2*60*60*1000;
         alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + interval,pendingIntent);
+
         stopSelf();
     }
 
@@ -107,14 +110,16 @@ public class NotificationService extends IntentService {
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setCategory(NotificationCompat.CATEGORY_EVENT)
                 .setOnlyAlertOnce(true)
-                .setContentIntent(resultPendingIntent);
+                .setContentIntent(resultPendingIntent)
+                .setColor(getColor(R.color.colorAccent));
         if(event.isNightShift()){
             builder.setContentText(getString(R.string.from) + " " + event.getStartTime() + " " +
                     getString(R.string.tonight)+ " " + getString(R.string.to).toLowerCase() + " " + event.getEndTime() + " " + getString(R.string.tomorrow));
         }
         // notificationId is a unique int for each notification that you must define
         NotificationManager notificationManager = getSystemService(NotificationManager.class);
-
+        Notification notification = builder.build();
+        startForeground(123,notification);
         notificationManager.notify(Integer.parseInt(NOTIFICATION_CHANNEL_ID),builder.build());
     }
     private void createNotificationChannel() {
@@ -126,6 +131,7 @@ public class NotificationService extends IntentService {
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, name, importance);
             channel.setDescription(description);
+            channel.setShowBadge(false);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
