@@ -77,7 +77,7 @@ public class NotificationService extends IntentService {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, MainActivity.CREATE_ALARM,alarmIntent,0);
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         // Setter ny alarm som restarter denne tjenesten etter *interval* millisekunder.
-        long interval = 10*1000; //2*60*60*1000;
+        long interval = 2*60*60*1000;
         alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + interval,pendingIntent);
 
         stopSelf();
