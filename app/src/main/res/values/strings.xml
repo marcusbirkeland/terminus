@@ -45,6 +45,7 @@
     <string name="tax">Tax</string>
     <string name="paycheck">Paycheck</string>
     <string name="paycheck_period">Pay in period:</string>
+    <string name="tax_table">Tax table</string>
 
     <!--Settings -->
     <string name="settings">Settings</string>

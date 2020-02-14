@@ -33,10 +33,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.birkeland.terminus.MainActivity.NORWEGIAN;
 
 public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
 

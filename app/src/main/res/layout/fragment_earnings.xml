@@ -104,47 +104,37 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout2"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginEnd="64dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView19">
 
-            <EditText
-                android:id="@+id/editTextTaxPercentage"
-                android:layout_width="100dp"
+            <TextView
+                android:id="@+id/textViewTaxPercentage"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="@string/tax"
-                android:inputType="numberDecimal"
-                android:maxLength="5"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textSize="22sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="%"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                app:layout_constraintBottom_toBottomOf="@+id/editTextTaxPercentage"
-                app:layout_constraintStart_toEndOf="@+id/editTextTaxPercentage"
-                app:layout_constraintTop_toTopOf="@+id/editTextTaxPercentage" />
+                android:textSize="24sp"
+                app:layout_constraintEnd_toStartOf="@+id/buttonEditTaxSettings"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Tabell 7700" />
 
             <Button
-                android:id="@+id/buttonSaveTaxPercentage"
+                android:id="@+id/buttonEditTaxSettings"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:backgroundTint="@color/colorAccent"
-                android:text="@string/save"
+                android:text="@string/edit"
                 android:textColor="#fff"
                 android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textViewTaxPercentage"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textView2"
-                app:layout_constraintTop_toTopOf="@+id/editTextTaxPercentage" />
+                app:layout_constraintTop_toTopOf="@+id/textViewTaxPercentage" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView

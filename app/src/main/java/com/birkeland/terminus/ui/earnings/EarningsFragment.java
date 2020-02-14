@@ -123,7 +123,7 @@ public class EarningsFragment extends Fragment {
         loadJobs();
         currency = loadCurrency();
         taxPercentage = loadTaxPercentage();
-        EditText editTextTaxPercentage = getView().findViewById(R.id.editTextTaxPercentage);
+        TextView editTextTaxPercentage = getView().findViewById(R.id.textViewTaxPercentage);
         editTextTaxPercentage.setText(taxPercentage+ "");
         TextView textViewTotalEarningsGross = getView().findViewById(R.id.textViewGrossCurrentEarnings);
         currentEarnings = payCalculator.getYearlyEarnings(workdayEvents);
@@ -166,11 +166,11 @@ public class EarningsFragment extends Fragment {
                 selectedJob = null;
             }
         });
-        Button buttonSaveTaxPercentage = getView().findViewById(R.id.buttonSaveTaxPercentage);
+        Button buttonSaveTaxPercentage = getView().findViewById(R.id.buttonEditTaxSettings);
         buttonSaveTaxPercentage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText editTextTaxPercentage = getView().findViewById(R.id.editTextTaxPercentage);
+                EditText editTextTaxPercentage = getView().findViewById(R.id.textViewTaxPercentage);
                 TextView textViewTotalEarningsNet = getView().findViewById(R.id.textViewNetCurrentEarnings);
                 if(editTextTaxPercentage.getText() != null && !editTextTaxPercentage.getText().toString().equals("")) {
                     taxPercentage = Float.parseFloat(editTextTaxPercentage.getText().toString());
