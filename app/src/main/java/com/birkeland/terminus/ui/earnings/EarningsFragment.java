@@ -1,11 +1,7 @@
 package com.birkeland.terminus.ui.earnings;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,17 +10,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -33,13 +24,9 @@ import com.birkeland.terminus.DataClasses.WorkdayEvent;
 import com.birkeland.terminus.PayCalculator;
 import com.birkeland.terminus.R;
 import com.birkeland.terminus.dialogFragments.EditTaxDialogFragment;
-import com.birkeland.terminus.dialogFragments.SalaryPeriodDatePicker;
-import com.birkeland.terminus.dialogFragments.TablePickerDialogFragment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -66,26 +53,42 @@ public class EarningsFragment extends Fragment {
     }
     PayCalculator payCalculator = new PayCalculator(workdayEvents,getContext());
 
-    private void calculateMonthlyEarnings(int position){
-        selectedJob = getJobByName(jobNames.get(position));
-        TextView textViewMonthlyEarningsGross = getView().findViewById(R.id.textViewMonthlyEarningsGross);
-        TextView textViewMonthPeriod = getView().findViewById(R.id.textViewMonthPeriod);
-        TextView textViewMonthlyEarningsNet = getView().findViewById(R.id.textViewMonthlyEarningsNet);
-        int monthlyGrossPay = payCalculator.getMonthlyEarnings(workdayEvents,selectedJob);
-        textViewMonthPeriod.setText(getString(R.string.paycheck_period) + " " + payCalculator.getStartDateStr() + " - " + payCalculator.getEndDateStr());
-        textViewMonthlyEarningsGross.setText(monthlyGrossPay + " " + currency);
-        Log.d("Selected job",selectedJob.toString());
-        float monthlyNetPay = monthlyGrossPay*(1-taxPercentage/100);
-        textViewMonthlyEarningsNet.setText((int) monthlyNetPay + " " + currency);
+    private int calculateYearlyEarningsNet(int totalEarnings){
+        SharedPreferences pref = getActivity().getSharedPreferences("SHARED PREFERENCES",MODE_PRIVATE);
+        boolean isTaxTable = pref.getBoolean("ISTAXTABLE",false);
+        PayCalculator payCalculator = new PayCalculator(workdayEvents,getActivity());
+        if(!isTaxTable){
+            return payCalculator.getNetEarningsWithPercentage(totalEarnings,pref.getFloat("TAXPERCENTAGE",0));
+        }else{
+            return payCalculator.getYearlyNetEarningsWithTable(workdayEvents,pref.getString("TAXTABLE","7700"));
+        }
     }
 
-    private float loadTaxPercentage(){
-        SharedPreferences pref = getActivity().getSharedPreferences("SHARED PREFERENCES",MODE_PRIVATE);
-        float percentage;
-        percentage = pref.getFloat("TAXPERCENTAGE", 0.0f);
-        Log.d("LOAD TAX","TAX:" + percentage);
-        return percentage;
+    private void calculateMonthlyEarnings(int position){
+        try {
+            selectedJob = getJobByName(jobNames.get(position));
+            TextView textViewMonthlyEarningsGross = getView().findViewById(R.id.textViewMonthlyEarningsGross);
+            TextView textViewMonthPeriod = getView().findViewById(R.id.textViewMonthPeriod);
+            TextView textViewMonthlyEarningsNet = getView().findViewById(R.id.textViewMonthlyEarningsNet);
+            int monthlyGrossPay = payCalculator.getPaycheckEarnings(workdayEvents, selectedJob);
+            textViewMonthPeriod.setText(getString(R.string.paycheck_period) + " " + payCalculator.getStartDateStr() + " - " + payCalculator.getEndDateStr());
+            textViewMonthlyEarningsGross.setText(monthlyGrossPay + " " + currency);
+
+            SharedPreferences pref = getActivity().getSharedPreferences("SHARED PREFERENCES", MODE_PRIVATE);
+            boolean isTaxTable = pref.getBoolean("ISTAXTABLE", false);
+            PayCalculator payCalculator = new PayCalculator(workdayEvents, getActivity());
+            float monthlyNetPay;
+            if (isTaxTable) {
+                monthlyNetPay = payCalculator.getMonthlyNetEarningsWithTable(monthlyGrossPay, pref.getString("TAXTABLE", "7700"));
+            } else {
+                monthlyNetPay = payCalculator.getNetEarningsWithPercentage(monthlyGrossPay, pref.getFloat("TAXPERCENTAGE", 0));
+            }
+            textViewMonthlyEarningsNet.setText((int) monthlyNetPay + " " + currency);
+        }catch (IndexOutOfBoundsException i){
+            Log.d("OUT OF BOUNDS",i + "");
+        }
     }
+
     private void loadJobs(){
         // Laster listen med lagrede jobber.
         SharedPreferences pref = getActivity().getSharedPreferences("SHARED PREFERENCES", MODE_PRIVATE);
@@ -124,7 +127,6 @@ public class EarningsFragment extends Fragment {
         }
     }
 
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -132,11 +134,12 @@ public class EarningsFragment extends Fragment {
         loadJobs();
         currency = loadCurrency();
         setTaxText();
+        calculateMonthlyEarnings(spinnerPosition);
         TextView textViewTotalEarningsGross = getView().findViewById(R.id.textViewGrossCurrentEarnings);
         currentEarnings = payCalculator.getYearlyEarnings(workdayEvents);
         textViewTotalEarningsGross.setText("" + currentEarnings + " " + currency);
         TextView textViewTotalEarningsNet = getView().findViewById(R.id.textViewNetCurrentEarnings);
-        float netEarnings = currentEarnings*(1-(taxPercentage/100));
+        float netEarnings = calculateYearlyEarningsNet(currentEarnings);
         textViewTotalEarningsNet.setText("" + (int) netEarnings + " " + currency);
         final Spinner jobSpinner = getView().findViewById(R.id.spinnerSelectJob);
         // Gjør spinner scrollable
@@ -192,6 +195,11 @@ public class EarningsFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode==TAX_SELECTED){
             setTaxText();
+            calculateMonthlyEarnings(spinnerPosition);
+            currentEarnings = payCalculator.getYearlyEarnings(workdayEvents);
+            TextView textViewTotalEarningsNet = getView().findViewById(R.id.textViewNetCurrentEarnings);
+            float netEarnings = calculateYearlyEarningsNet(currentEarnings);
+            textViewTotalEarningsNet.setText("" + (int) netEarnings + " " + currency);
         }
     }
 

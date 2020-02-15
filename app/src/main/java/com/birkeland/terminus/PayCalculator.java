@@ -8,6 +8,9 @@ import com.birkeland.terminus.DataClasses.Job;
 import com.birkeland.terminus.DataClasses.SalaryRule;
 import com.birkeland.terminus.DataClasses.WorkdayEvent;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.time.DayOfWeek;
 import java.time.Instant;
@@ -113,7 +116,7 @@ public class PayCalculator {
         return getEarnings(eventsToCalculate);
     }
 
-    public int getMonthlyEarnings(List<WorkdayEvent> workdayEvents, Job selectedJob) {
+    public int getPaycheckEarnings(List<WorkdayEvent> workdayEvents, Job selectedJob) {
         if(selectedJob == null){
             return 0;
         }
@@ -151,12 +154,70 @@ public class PayCalculator {
         return getEarnings(eventsToCalculate);
     }
 
-    public int getNetEarningsPercentage(int earnings, float percentage){
+
+    private int getMonthlyEarnings(List<WorkdayEvent> workdayEvents){
+        int pay = 0;
+        return pay;
+    }
+    public int getNetEarningsWithPercentage(int earnings, float percentage){
         float netEarnings = earnings*(1-(percentage/100));
         return (int) netEarnings;
     }
 
-    public int getNetEarningsTable(int earnings, String taxTableID){
-        return 0;
+    public int getYearlyNetEarningsWithTable(List<WorkdayEvent> eventList, String tableID) {
+        LocalDate startDate = LocalDate.of(LocalDate.now().getYear(), 1, 1);
+        LocalDate endDate = startDate.plusMonths(1);
+
+        int netEarnings = 0;
+        for(int i = 0; i < 12; i++){
+            List<WorkdayEvent> eventsInMonth = new ArrayList<>();
+            // Henter alle events for gjeldende månde
+            for (WorkdayEvent event : eventList) {
+                LocalDate tempDate = LocalDate.parse(event.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                if (tempDate.isBefore(endDate) && tempDate.isBefore(endDate.minusMonths(1))) {
+                    eventsInMonth.add(event);
+                }
+            }
+            // Regner ut nettolønn for gjeldende måned
+                netEarnings += getMonthlyNetEarningsWithTable(getEarnings(eventsInMonth), tableID);
+            // Hopper til neste måned
+            startDate = startDate.plusMonths(1);
+            endDate = endDate.plusMonths(1);
+        }
+        return netEarnings;
+    }
+
+    public int getMonthlyNetEarningsWithTable(int earnings, String taxTableID){
+        int basis = 0;
+        int tax = 0;
+        BufferedReader reader = null;
+        try{
+            // Last inn csv fil
+            reader = new BufferedReader( new InputStreamReader(mContext.getAssets().
+                    open("tabellene2020/" + taxTableID +".csv"), "UTF-8"));
+            String s;
+            //Les fil linje etter linje
+            while ((s = reader.readLine()) != null) {
+                // CSV FORMAT:
+                // 00000;00000
+                // Grunnlag (5-siffer), ';' , Skatt (5-siffer)
+                basis = Integer.parseInt(s.substring(0,5));
+                tax = Integer.parseInt(s.substring(6,12));
+
+                if(basis > earnings)
+                    break;
+            }
+        }catch(IOException e){
+            Log.e("Pay calculator","Failed to open .csv file");
+        }finally {
+            if(reader != null){
+                try {
+                    reader.close();
+                }catch(IOException e){
+                    Log.e("Pay calculator","Failed to close .csv file");
+                }
+            }
+        }
+        return earnings-tax;
     }
 }
