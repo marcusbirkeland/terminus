@@ -45,7 +45,12 @@
     <string name="tax">Tax</string>
     <string name="paycheck">Paycheck</string>
     <string name="paycheck_period">Pay in period:</string>
+    <string name="choose_tax_method">Choose tax method</string>
     <string name="tax_table">Tax table</string>
+    <string name="choose_tax_table">Choose tax-table</string>
+    <string name="error_eneter_tax_percentage">Please enter tax percentage</string>
+    <string name="error_eneter_tax_table">Please choose a tax table</string>
+    <string name="error_choose_a_tax_option">Please choose a tax option</string>
 
     <!--Settings -->
     <string name="settings">Settings</string>

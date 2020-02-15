@@ -150,4 +150,13 @@ public class PayCalculator {
         }
         return getEarnings(eventsToCalculate);
     }
+
+    public int getNetEarningsPercentage(int earnings, float percentage){
+        float netEarnings = earnings*(1-(percentage/100));
+        return (int) netEarnings;
+    }
+
+    public int getNetEarningsTable(int earnings, String taxTableID){
+        return 0;
+    }
 }

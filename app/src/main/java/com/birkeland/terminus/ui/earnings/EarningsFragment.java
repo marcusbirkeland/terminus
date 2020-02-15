@@ -1,6 +1,10 @@
 package com.birkeland.terminus.ui.earnings;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,7 +13,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +33,8 @@ import com.birkeland.terminus.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -166,28 +174,11 @@ public class EarningsFragment extends Fragment {
                 selectedJob = null;
             }
         });
-        Button buttonSaveTaxPercentage = getView().findViewById(R.id.buttonEditTaxSettings);
-        buttonSaveTaxPercentage.setOnClickListener(new View.OnClickListener() {
+        Button buttonEditTax = getView().findViewById(R.id.buttonEditTaxSettings);
+        buttonEditTax.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText editTextTaxPercentage = getView().findViewById(R.id.textViewTaxPercentage);
-                TextView textViewTotalEarningsNet = getView().findViewById(R.id.textViewNetCurrentEarnings);
-                if(editTextTaxPercentage.getText() != null && !editTextTaxPercentage.getText().toString().equals("")) {
-                    taxPercentage = Float.parseFloat(editTextTaxPercentage.getText().toString());
-                    if (taxPercentage > 100 ){
-                        taxPercentage = 100;
-                        // Lagrer skatteprosent i sharedprefs
-                        editTextTaxPercentage.setText("100");
-                    }
-                    saveTaxPercentage(taxPercentage);
-                    Toast toast =  Toast.makeText(getActivity(), "Skatteprosent lagret!", Toast.LENGTH_LONG);
-                    toast.show();
-                    // Setter netto-årslønn
-                    float netEarnings = currentEarnings*(1-(taxPercentage/100));
-                    textViewTotalEarningsNet.setText("" + (int) netEarnings);
-                    if(jobs != null)
-                        calculateMonthlyEarnings(spinnerPosition);
-                }
+                makeEditTaxDialog().show();
             }
         });
     }
@@ -205,5 +196,114 @@ public class EarningsFragment extends Fragment {
             }
         });
         return root;
+    }
+
+    private Dialog makeEditTaxDialog(){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        final View dialogView = View.inflate(getContext(),R.layout.select_tax_dialog_layout,null);
+        final TextView textViewErrorMessage = dialogView.findViewById(R.id.textViewSelectTaxError);
+        final TextView textViewSetTaxTable = dialogView.findViewById(R.id.textViewPickTaxTable);
+        final RadioButton radioButtonPercentage = dialogView.findViewById(R.id.radioButtonTaxPercentage);
+        final RadioButton radioButtonTable = dialogView.findViewById(R.id.radioButtonTaxTable);
+        // Har ikke satt radio buttons i noen gruppe, derfor må vi programmere de her:
+        radioButtonPercentage.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(radioButtonPercentage.isChecked())
+                    radioButtonTable.setChecked(false);
+            }
+        });
+        radioButtonTable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(radioButtonTable.isChecked())
+                    radioButtonPercentage.setChecked(false);
+            }
+        });
+
+        textViewSetTaxTable.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Åpne tabellpicker
+                    makeTablePicker().show();
+            }
+        });
+
+        builder.setMessage(getString(R.string.choose_tax_method))
+                .setView(dialogView)
+                .setPositiveButton(getString(R.string.save),new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        final EditText editTextTaxPercentage = dialogView.findViewById(R.id.editTextTaxPercentage);
+                        if(radioButtonPercentage.isChecked()){
+                            if(editTextTaxPercentage.getText().toString().equals("")){
+                                textViewErrorMessage.setText(getString(R.string.error_eneter_tax_percentage));
+                                return;
+                            }
+                            setTaxPercentage(editTextTaxPercentage.getText().toString());
+
+                        }else if(radioButtonTable.isChecked()){
+                            if(false){
+                                textViewErrorMessage.setText(getString(R.string.error_eneter_tax_table));
+                                return;
+                            }
+                        }else{
+                            textViewErrorMessage.setText(getString(R.string.error_choose_a_tax_option));
+                        }
+                    }
+                }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Avbryt
+            }
+        });
+        return builder.create();
+    }
+
+    private String[] reverseArray(String[] arrIn){
+        String[] reversedArray = arrIn.clone();
+        for(int i = 0;i < reversedArray.length;i++){
+            int j = reversedArray.length -(1+ i);
+               reversedArray[i] = arrIn[j];
+        }
+        return reversedArray;
+    }
+
+    private Dialog makeTablePicker() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        AssetManager assetManager = getContext().getAssets();
+        String[] tableIDs;
+        try {
+            tableIDs = assetManager.list("tabellene2020");
+            int i = 0;
+            for (String ID : tableIDs){
+                tableIDs[i]= ID.substring(0,ID.length()-4);
+                i++;
+            }
+
+        builder.setTitle(getString(R.string.choose_tax_table))
+        .setItems(reverseArray(tableIDs), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        }
+        catch (IOException e){
+            Log.e("Table picker","No files in assets");
+        }
+        return builder.create();
+    }
+
+    private void setTaxPercentage(String taxPercentageText){
+        if(taxPercentageText != null && !taxPercentageText.equals("")) {
+            taxPercentage = Float.parseFloat(taxPercentageText);
+            if (taxPercentage > 100 ){
+                taxPercentage = 100;
+            }
+            // Lagrer skatteprosent i sharedprefs
+            saveTaxPercentage(taxPercentage);
+        }
     }
 }
