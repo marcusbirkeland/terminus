@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">terminus</string>
     <string name="currency">$</string>
     <string name="title_calendar">Calendar</string>
     <string name="new_shift">New shift</string>
@@ -110,5 +109,13 @@
     <string name="today">Today</string>
     <string name="tomorrow">tomorrow</string>
     <string name="tonight">tonight</string>
+    <string name="error_choose_a_tax_option">Please choose a tax option</string>
+    <string name="error_eneter_tax_percentage">Please enter tax percentage</string>
+    <string name="error_eneter_tax_table">Velg en skattetabell</string>
+    <string name="table">Table</string>
+    <string name="tax_table">Tax table</string>
+    <string name="vacationpay">Vacationpay:</string>
+    <string name="choose_tax_method">Choose tax method</string>
+    <string name="choose_tax_table">Choose tax method</string>
 
 </resources>

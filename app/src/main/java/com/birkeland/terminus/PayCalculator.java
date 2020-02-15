@@ -31,6 +31,7 @@ public class PayCalculator {
     private String startDateStr;
     private String endDateStr;
     private Context mContext;
+    private double feriepengFaktor = 0.12;
     public PayCalculator(List<WorkdayEvent> workdayEvents , Context context) {
         mContext = context;
     }
@@ -154,11 +155,6 @@ public class PayCalculator {
         return getEarnings(eventsToCalculate);
     }
 
-
-    private int getMonthlyEarnings(List<WorkdayEvent> workdayEvents){
-        int pay = 0;
-        return pay;
-    }
     public int getNetEarningsWithPercentage(int earnings, float percentage){
         float netEarnings = earnings*(1-(percentage/100));
         return (int) netEarnings;
@@ -169,17 +165,22 @@ public class PayCalculator {
         LocalDate endDate = startDate.plusMonths(1);
 
         int netEarnings = 0;
-        for(int i = 0; i < 12; i++){
-            List<WorkdayEvent> eventsInMonth = new ArrayList<>();
+
             // Henter alle events for gjeldende månde
+        for (int i = 0; i< 12;i++) {
+            List<WorkdayEvent> eventsInMonth = new ArrayList<>();
             for (WorkdayEvent event : eventList) {
                 LocalDate tempDate = LocalDate.parse(event.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                if (tempDate.isBefore(endDate) && tempDate.isBefore(endDate.minusMonths(1))) {
+
+                if (tempDate.isBefore(LocalDate.now()) && tempDate.getYear() == LocalDate.now().getYear()
+                        && tempDate.isBefore(endDate) && tempDate.isAfter(endDate.minusMonths(1))) {
+                    Log.d("ADD EVENT: ", "DATE: " + tempDate.toString());
                     eventsInMonth.add(event);
                 }
             }
             // Regner ut nettolønn for gjeldende måned
-                netEarnings += getMonthlyNetEarningsWithTable(getEarnings(eventsInMonth), tableID);
+            netEarnings += getMonthlyNetEarningsWithTable(getEarnings(eventsInMonth), tableID);
+            Log.d("NET EARNINGS", "" + netEarnings);
             // Hopper til neste måned
             startDate = startDate.plusMonths(1);
             endDate = endDate.plusMonths(1);
@@ -187,9 +188,10 @@ public class PayCalculator {
         return netEarnings;
     }
 
-    public int getMonthlyNetEarningsWithTable(int earnings, String taxTableID){
+    public int getMonthlyNetEarningsWithTable(int earningsIn, String taxTableID){
         int basis = 0;
         int tax = 0;
+        double earnings = earningsIn* (1-feriepengFaktor);
         BufferedReader reader = null;
         try{
             // Last inn csv fil
@@ -202,10 +204,9 @@ public class PayCalculator {
                 // 00000;00000
                 // Grunnlag (5-siffer), ';' , Skatt (5-siffer)
                 basis = Integer.parseInt(s.substring(0,5));
-                tax = Integer.parseInt(s.substring(6,12));
-
                 if(basis > earnings)
                     break;
+                tax = Integer.parseInt(s.substring(6,12));
             }
         }catch(IOException e){
             Log.e("Pay calculator","Failed to open .csv file");
@@ -218,6 +219,6 @@ public class PayCalculator {
                 }
             }
         }
-        return earnings-tax;
+        return (int)earnings-tax;
     }
 }

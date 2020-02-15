@@ -1,7 +1,7 @@
 <resources>
     <!-- App -->
     <string name="app_name" translatable="false">terminus</string>
-    <string name="version" translatable="false">v.0.5</string>
+    <string name="version" translatable="false">v.0.9</string>
     <string name="currency">$</string>
     <string name="english">English</string>
     <string name="norwegian">Norwegian</string>
@@ -46,6 +46,7 @@
     <string name="paycheck">Paycheck</string>
     <string name="paycheck_period">Pay in period:</string>
     <string name="choose_tax_method">Choose tax method</string>
+    <string name="vacationpay">Vacationpay:</string>
     <string name="table">Table</string>
     <string name="tax_table">Tax table</string>
     <string name="choose_tax_table">Choose tax-table</string>

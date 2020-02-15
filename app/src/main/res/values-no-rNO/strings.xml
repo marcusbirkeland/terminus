@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">terminus</string>
 
     <string name="title_calendar">Kalender</string>
     <string name="new_shift">Ny vakt</string>
@@ -111,5 +110,13 @@
     <string name="today">I dag</string>
     <string name="tomorrow">i morgen</string>
     <string name="tonight">i natt</string>
+    <string name="error_choose_a_tax_option">Velg en skattemåte</string>
+    <string name="error_eneter_tax_percentage">Skriv inn en skatteprosent</string>
+    <string name="error_eneter_tax_table">Velg en skattetabell</string>
+    <string name="table">Tabell</string>
+    <string name="tax_table">Skattetabell</string>
+    <string name="vacationpay">Feriepenger:</string>
+    <string name="choose_tax_method">Velg skattemåte</string>
+    <string name="choose_tax_table">Velg skattetabell</string>
 
 </resources>

@@ -46,6 +46,7 @@ public class EarningsFragment extends Fragment {
     private float taxPercentage;
     private int spinnerPosition;
     private String selectedTable = "";
+    private static final double feriepengFaktor= 0.12;
 
     private String loadCurrency(){
         SharedPreferences locale = getActivity().getSharedPreferences("LOCALE",MODE_PRIVATE);
@@ -70,10 +71,12 @@ public class EarningsFragment extends Fragment {
             TextView textViewMonthlyEarningsGross = getView().findViewById(R.id.textViewMonthlyEarningsGross);
             TextView textViewMonthPeriod = getView().findViewById(R.id.textViewMonthPeriod);
             TextView textViewMonthlyEarningsNet = getView().findViewById(R.id.textViewMonthlyEarningsNet);
+            TextView textViewFeriepengMonth = getView().findViewById(R.id.textViewVacationPayMonth);
             int monthlyGrossPay = payCalculator.getPaycheckEarnings(workdayEvents, selectedJob);
             textViewMonthPeriod.setText(getString(R.string.paycheck_period) + " " + payCalculator.getStartDateStr() + " - " + payCalculator.getEndDateStr());
             textViewMonthlyEarningsGross.setText(monthlyGrossPay + " " + currency);
-
+            double feriepeng = monthlyGrossPay*feriepengFaktor;
+            textViewFeriepengMonth.setText((int) feriepeng + " " + currency);
             SharedPreferences pref = getActivity().getSharedPreferences("SHARED PREFERENCES", MODE_PRIVATE);
             boolean isTaxTable = pref.getBoolean("ISTAXTABLE", false);
             PayCalculator payCalculator = new PayCalculator(workdayEvents, getActivity());
@@ -136,9 +139,12 @@ public class EarningsFragment extends Fragment {
         setTaxText();
         calculateMonthlyEarnings(spinnerPosition);
         TextView textViewTotalEarningsGross = getView().findViewById(R.id.textViewGrossCurrentEarnings);
+        TextView textViewTotalEarningsNet = getView().findViewById(R.id.textViewNetCurrentEarnings);
+
         currentEarnings = payCalculator.getYearlyEarnings(workdayEvents);
         textViewTotalEarningsGross.setText("" + currentEarnings + " " + currency);
-        TextView textViewTotalEarningsNet = getView().findViewById(R.id.textViewNetCurrentEarnings);
+        // Setter feriepenger
+        double feriepeng = currentEarnings*feriepengFaktor;
         float netEarnings = calculateYearlyEarningsNet(currentEarnings);
         textViewTotalEarningsNet.setText("" + (int) netEarnings + " " + currency);
         final Spinner jobSpinner = getView().findViewById(R.id.spinnerSelectJob);
