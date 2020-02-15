@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.birkeland.terminus.dialogFragments.TablePickerDialogFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.ActionBar;
@@ -33,7 +34,7 @@ import androidx.navigation.ui.NavigationUI;
 import java.util.Currency;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
     public static final int CREATE_ALARM = 45456;
     public static final int DELETE_EVENT = 2321;
     public static final int NORWEGIAN = 1814;
@@ -115,4 +116,5 @@ public class MainActivity extends AppCompatActivity {
         editor.putString("CURRENCY",getLocaleCurrency());
         editor.apply();
     }
+
 }

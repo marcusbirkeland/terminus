@@ -46,7 +46,7 @@ public class ChooseWorkplaceDialogFragment extends DialogFragment {
     public interface OnInputListener{
         void sendWorkplace(Job job);
     }
-    public ChooseWorkplaceDialogFragment.OnInputListener mOnInputListener;
+    private ChooseWorkplaceDialogFragment.OnInputListener mOnInputListener;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){

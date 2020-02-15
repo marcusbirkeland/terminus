@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -43,13 +43,13 @@
 
         <EditText
             android:id="@+id/editTextTaxPercentage"
-            android:layout_width="100dp"
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
             android:ems="10"
-            android:gravity="center"
             android:inputType="numberDecimal"
             android:maxLength="4"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="22sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -76,24 +76,15 @@
             android:id="@+id/textViewPickTaxTable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
             android:text="@string/choose_tax_table"
             android:textColor="@color/colorPrimary"
-            android:textSize="20sp"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView420"
             app:layout_constraintTop_toBottomOf="@+id/textView420"
             tools:text="Velg skattetabell" />
-
-        <TextView
-            android:id="@+id/textViewSelectTaxError"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textColor="@android:color/holo_red_light"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/textViewPickTaxTable"
-            app:layout_constraintStart_toStartOf="@+id/radioButtonTaxTable"
-            app:layout_constraintTop_toBottomOf="@+id/textViewPickTaxTable"
-            tools:text="Error message" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
