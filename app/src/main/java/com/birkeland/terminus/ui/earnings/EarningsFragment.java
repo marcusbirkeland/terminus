@@ -156,9 +156,9 @@ public class EarningsFragment extends Fragment {
             android.widget.ListPopupWindow popupWindow = (android.widget.ListPopupWindow) popup.get(jobSpinner);
             // Set maxwidth for spinner window
             if(jobs  != null) {
-                popupWindow.setHeight(jobs.size() * 130);
-                if (jobs.size() > 390) {
-                    popupWindow.setHeight(390);
+                popupWindow.setHeight(jobs.size() * 100);
+                if (jobs.size() > 3) {
+                    popupWindow.setHeight(400);
                 }
             }
         }

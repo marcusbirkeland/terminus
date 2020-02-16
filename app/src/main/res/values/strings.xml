@@ -2,7 +2,7 @@
     <!-- App -->
     <string name="app_name" translatable="false">terminus</string>
     <string name="version" translatable="false">v.0.9</string>
-    <string name="currency">$</string>
+    <string name="currency" translatable="false">$</string>
     <string name="english">English</string>
     <string name="norwegian">Norwegian</string>
     <string name="title_calendar">Calendar</string>
