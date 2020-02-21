@@ -117,5 +117,8 @@
     <string name="vacationpay">Vacationpay:</string>
     <string name="choose_tax_method">Choose tax method</string>
     <string name="choose_tax_table">Choose tax method</string>
+    <string name="For">For</string>
+    <string name="month">month</string>
+    <string name="months">months</string>
 
 </resources>
