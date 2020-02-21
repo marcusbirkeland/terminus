@@ -42,7 +42,7 @@
         android:id="@+id/timeInputToCreateEvent"
         android:layout_width="110dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="32dp"
         android:ems="10"
         android:inputType="time"
         android:maxLength="5"
@@ -67,35 +67,36 @@
         android:id="@+id/buttonChooseWorkplaceCreateEvent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:backgroundTint="@color/colorPrimary"
         android:text="@string/choose_workplace"
         android:textColor="#fff"
         app:layout_constraintEnd_toEndOf="@+id/linearLayoutJobViewCreateEvent"
-        app:layout_constraintStart_toStartOf="@+id/timeInputToCreateEvent"
-        app:layout_constraintTop_toTopOf="@+id/textView5" />
+        app:layout_constraintStart_toStartOf="@+id/spinnerRepeatPeriod"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerRepeatPeriod" />
 
     <EditText
         android:id="@+id/editTextBreakTime"
         android:layout_width="70dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:ems="10"
         android:hint="30"
         android:inputType="number"
         android:maxLength="2"
         android:singleLine="true"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/textView6"
+        app:layout_constraintStart_toStartOf="@+id/checkBoxNightshift"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/break_time"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        app:layout_constraintStart_toStartOf="@+id/timeInputFromCreateEvent"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/editTextBreakTime"
         app:layout_constraintTop_toBottomOf="@+id/checkBoxNightshift" />
 
     <LinearLayout
@@ -145,12 +146,12 @@
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:text="@string/workplace"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@color/darkModeTextColor"
+        android:textColor="?attr/textColor"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonChooseWorkplaceCreateEvent"
         app:layout_constraintStart_toStartOf="@+id/editTextBreakTime"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroupRepeat" />
+        app:layout_constraintTop_toTopOf="@+id/buttonChooseWorkplaceCreateEvent" />
 
     <CheckBox
         android:id="@+id/checkBoxNightshift"
@@ -192,7 +193,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="@+id/radioGroupRepeat"
-        app:layout_constraintTop_toTopOf="@+id/textView6" />
+        app:layout_constraintTop_toTopOf="@+id/checkBoxNightshift" />
 
     <TextView
         android:id="@+id/textViewCreateEventError"
@@ -203,5 +204,23 @@
         app:layout_constraintBottom_toTopOf="@+id/buttonSubmitWorkday"
         app:layout_constraintStart_toStartOf="@+id/buttonSubmitWorkday"
         tools:text="Error message" />
+
+    <Spinner
+        android:id="@+id/spinnerRepeatPeriod"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="-16dp"
+        app:layout_constraintEnd_toEndOf="@+id/radioGroupRepeat"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/radioGroupRepeat"
+        app:layout_constraintTop_toBottomOf="@+id/textView18" />
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/For"
+        app:layout_constraintStart_toStartOf="@+id/radioGroupRepeat"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupRepeat" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

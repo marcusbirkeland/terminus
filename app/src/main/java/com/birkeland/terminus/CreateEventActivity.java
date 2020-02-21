@@ -9,11 +9,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.birkeland.terminus.DataClasses.Job;
@@ -25,6 +28,7 @@ import com.birkeland.terminus.dialogFragments.TimePickerDialogFragment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -39,6 +43,7 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
     ChooseWorkplaceDialogFragment chooseWorkplaceDialogFragment = new ChooseWorkplaceDialogFragment();
     List<Job> jobList = new ArrayList<>();
     String jobName = "";
+    private int spinnerPosition;
     private String errorMessage = "";
     private boolean cancelSubmit;
     private Job selectedJob;
@@ -143,6 +148,11 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        final String [] repeatPeriods;
+        repeatPeriods = new String[]{"1 " + getString(R.string.month),
+                "3 " + getString(R.string.months),
+                "6 " + getString(R.string.months),
+                "12 " + getString(R.string.months)};
         SharedPreferences pref = this.getSharedPreferences("DARKMODE",MODE_PRIVATE);
         boolean isDarkMode = pref.getBoolean("isDarkMode",false);
         if(isDarkMode){
@@ -189,6 +199,30 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
 
             }
         });
+        final Spinner jobSpinner = findViewById(R.id.spinnerRepeatPeriod);
+        // Gjør spinner scrollable
+        try {
+            Field popup = Spinner.class.getDeclaredField("mPopup");
+            popup.setAccessible(true);
+            // Get private mPopup member variable and try cast to ListPopupWindow
+            android.widget.ListPopupWindow popupWindow = (android.widget.ListPopupWindow) popup.get(jobSpinner);
+            // Set maxwidth for spinner window
+            popupWindow.setHeight(320);
+        }
+        catch (NoClassDefFoundError | ClassCastException | NoSuchFieldException | IllegalAccessException e) {
+        }
+        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<>(this,R.layout.spinner_item_small,repeatPeriods);
+        jobSpinner.setAdapter(spinnerAdapter);
+        jobSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                spinnerPosition = position;
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
         submitWorkday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -244,12 +278,30 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
                 WorkdayEvent workdayEvent = new WorkdayEvent(eventDate.toString(),startTime.toString(),endTime.toString(),breakTime,selectedJob);
                 workdayEvent.setDayOfWeek(eventDate.getDayOfWeek().name());
                 workdayEvent.setNightShift(checkBoxIsNightShift.isChecked());
+                int repeatPeriod = 0;
+                if(radioButtonRepeatEachWeek.isChecked() || radioButtonRepeatEveryOtherWeek.isChecked()){
 
+                    switch (spinnerPosition){
+                        case 0:
+                            repeatPeriod = 1;
+                            break;
+                        case 1:
+                            repeatPeriod = 3;
+                            break;
+                        case 2:
+                            repeatPeriod = 6;
+                            break;
+                        case 3:
+                            repeatPeriod = 12;
+                            default:
+                                Log.e("Create event", "Spinner position not recognized");
+                    }
+                }
                 // Lag event og lagre event
                 if(radioButtonRepeatEachWeek.isChecked()){
-                    repeatEvent(workdayEvent,eventDate,7);
+                    repeatEvent(workdayEvent,eventDate,7, repeatPeriod);
                 }else if(radioButtonRepeatEveryOtherWeek.isChecked()){
-                    repeatEvent(workdayEvent,eventDate,14);
+                    repeatEvent(workdayEvent,eventDate,14,repeatPeriod);
                 } else{
                 List<WorkdayEvent> eventList = new ArrayList<>();
                 eventList.add(workdayEvent);
@@ -260,11 +312,11 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
             }
         });
     }
-    private void repeatEvent(WorkdayEvent event, LocalDate eventDate, int dayInterval){
+    private void repeatEvent(WorkdayEvent event, LocalDate eventDate, int dayInterval, int period){
         LocalDate itterDate = eventDate;
-        int currentYear = itterDate.getYear();
+        LocalDate endDate = eventDate.plusMonths(period);
         List<WorkdayEvent> eventList = new ArrayList<>();
-        while(itterDate.getYear() != (currentYear + 1)){
+        while(itterDate.isBefore(endDate)){
             WorkdayEvent tempEvent = new WorkdayEvent(event);
             tempEvent.setDate(itterDate.toString());
             eventList.add(eventList.size(),tempEvent);
