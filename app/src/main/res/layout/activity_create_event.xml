@@ -209,16 +209,17 @@
         android:id="@+id/spinnerRepeatPeriod"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="-16dp"
-        app:layout_constraintEnd_toEndOf="@+id/radioGroupRepeat"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/radioGroupRepeat"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/textView18"
         app:layout_constraintTop_toBottomOf="@+id/textView18" />
 
     <TextView
         android:id="@+id/textView18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
         android:text="@string/For"
         app:layout_constraintStart_toStartOf="@+id/radioGroupRepeat"
         app:layout_constraintTop_toBottomOf="@+id/radioGroupRepeat" />
