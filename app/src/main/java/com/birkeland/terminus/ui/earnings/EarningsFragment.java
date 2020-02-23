@@ -86,7 +86,8 @@ public class EarningsFragment extends Fragment {
             } else {
                 monthlyNetPay = payCalculator.getNetEarningsWithPercentage(monthlyGrossPay, pref.getFloat("TAXPERCENTAGE", 0));
             }
-            textViewMonthlyEarningsNet.setText((int) monthlyNetPay + " " + currency);
+            int netMinusFeriepeng = (int)monthlyNetPay - (int)feriepeng;
+            textViewMonthlyEarningsNet.setText(netMinusFeriepeng + " " + currency);
         }catch (IndexOutOfBoundsException i){
             Log.d("OUT OF BOUNDS",i + "");
         }
@@ -158,7 +159,7 @@ public class EarningsFragment extends Fragment {
             if(jobs  != null) {
                 popupWindow.setHeight(jobs.size() * 100);
                 if (jobs.size() > 3) {
-                    popupWindow.setHeight(400);
+                    popupWindow.setHeight(420);
                 }
             }
         }
