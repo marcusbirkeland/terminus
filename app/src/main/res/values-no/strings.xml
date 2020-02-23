@@ -104,7 +104,7 @@
     <string name="norwegian">Norsk</string>
     <string name="english">Engelsk</string>
     <string name="currency_text">Valuta</string>
-    <string name="currency_dialog_text">Skriv inn valuta, eks: (kr, £, $ osv.)</string>
+    <string name="currency_dialog_text">Skriv inn valuta, eks: (kr, £, $, €)</string>
     <string name="currency_hint">kr</string>
     <string name="pick_language">Velg språk</string>
     <string name="today">I dag</string>
@@ -121,5 +121,7 @@
     <string name="For">For</string>
     <string name="month">måned</string>
     <string name="months">månder</string>
+    <string name="overtime">Overtid</string>
+    <string name="overtime_message">NB : Tillegg og fradrag for valgt jobb gjelder ikke for overtidsvakter</string>
 
 </resources>

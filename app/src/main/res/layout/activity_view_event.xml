@@ -151,4 +151,38 @@
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/textViewViewEventSalary"
         app:layout_constraintTop_toTopOf="@+id/textViewViewEventSalaryDescription" />
+
+    <TextView
+        android:id="@+id/textViewOvertimeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/overtime"
+        android:textColor="?attr/textColor"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="@+id/textViewViewEventSalaryDescription"
+        app:layout_constraintTop_toBottomOf="@+id/textViewViewEventSalary" />
+
+    <TextView
+        android:id="@+id/textViewViewEventOvertimePercentage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="?attr/textColor"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/textViewOvertimeLabel"
+        app:layout_constraintTop_toBottomOf="@+id/textViewOvertimeLabel"
+        tools:text="100 %" />
+
+    <TextView
+        android:id="@+id/textViewOvertimeMessage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/overtime_message"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewViewEventOvertimePercentage"
+        app:layout_constraintEnd_toEndOf="@+id/buttonViewEventDelete"
+        app:layout_constraintStart_toEndOf="@+id/textViewViewEventOvertimePercentage"
+        tools:text="NB - tillegg og fradrag blir ikke regnet med" />
 </androidx.constraintlayout.widget.ConstraintLayout>

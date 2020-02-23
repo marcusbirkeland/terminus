@@ -82,6 +82,7 @@
     <string name="For">For</string>
     <string name="month">month</string>
     <string name="months">months</string>
+    <string name="overtime">Overtime</string>
     <string name="error_pick_other_time">Start and end time cannot be equal</string>
     <string name="error_check_nightshift">Check box for night-shift!</string>
     <string name="error_uncheck_nightshift">Uncheck box for night-shift!</string>
@@ -117,11 +118,12 @@
     <string name="sundays">Sundays</string>
 
     <!--Misc.-->
+    <string name="overtime_message">Pay increases and decreases do not count when overtime is active</string>
     <string name="all_shifts">All shifts</string>
     <string name="all_active_jobs">All active jobs</string>
     <string name="pick_language">Choose language</string>
     <string name="currency_text">Currency</string>
     <string name="currency_hint">$</string>
-    <string name="currency_dialog_text">Enter your currency.         e.g: ($ , € , £ , kr)</string>
+    <string name="currency_dialog_text">Enter your currency. - ($ , € , £ , kr)</string>
 
 </resources>

@@ -120,5 +120,7 @@
     <string name="For">For</string>
     <string name="month">month</string>
     <string name="months">months</string>
+    <string name="overtime">Overtime</string>
+    <string name="overtime_message">Pay increases and decreases do not count when overtime is active</string>
 
 </resources>

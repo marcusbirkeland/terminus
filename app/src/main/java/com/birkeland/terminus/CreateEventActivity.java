@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -256,16 +257,34 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
             }
         });
 
+        final CheckBox checkBoxIsOvertime = findViewById(R.id.checkBoxOvertime);
+        checkBoxIsOvertime.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                final EditText editTextOvertimePercentage = findViewById(R.id.editTextOvertimePercentage);
+                final TextView suffix = findViewById(R.id.textViewPercentageSuffix);
+                if(isChecked){
+                    editTextOvertimePercentage.setVisibility(View.VISIBLE);
+                    suffix.setVisibility(View.VISIBLE);
+                }else{
+                    editTextOvertimePercentage.setVisibility(View.GONE);
+                    suffix.setVisibility(View.GONE);
+                }
+            }
+        });
+
         submitWorkday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadJobs();
                 DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_TIME;
-                EditText editTextBreakTime = findViewById(R.id.editTextBreakTime);
-                TextView timeInputFrom = findViewById(R.id.timeInputFromCreateEvent);
-                TextView timeInputTo = findViewById(R.id.timeInputToCreateEvent);
-                TextView textViewErrorMessage = findViewById(R.id.textViewCreateEventError);
-                CheckBox checkBoxIsNightShift = findViewById(R.id.checkBoxNightshift);
+                final EditText editTextBreakTime = findViewById(R.id.editTextBreakTime);
+                final EditText editTextOvertimePercentage = findViewById(R.id.editTextOvertimePercentage);
+                final TextView timeInputFrom = findViewById(R.id.timeInputFromCreateEvent);
+                final TextView timeInputTo = findViewById(R.id.timeInputToCreateEvent);
+                final TextView textViewErrorMessage = findViewById(R.id.textViewCreateEventError);
+                final CheckBox checkBoxIsNightShift = findViewById(R.id.checkBoxNightshift);
+                final CheckBox checkBoxIsOvertime = findViewById(R.id.checkBoxOvertime);
                 final ToggleRadioButton radioButtonRepeatEachWeek = findViewById(R.id.radioButtonRepeatEachWeek);
                 final ToggleRadioButton radioButtonRepeatEveryOtherWeek = findViewById(R.id.radioButtonRepeatEveryOtherWeek);
                 textViewErrorMessage.setText("");
@@ -311,6 +330,8 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
                 WorkdayEvent workdayEvent = new WorkdayEvent(eventDate.toString(),startTime.toString(),endTime.toString(),breakTime,selectedJob);
                 workdayEvent.setDayOfWeek(eventDate.getDayOfWeek().name());
                 workdayEvent.setNightShift(checkBoxIsNightShift.isChecked());
+                workdayEvent.setOvertime(checkBoxIsOvertime.isChecked());
+                workdayEvent.setOvertimePercentage(Integer.parseInt(editTextOvertimePercentage.getText().toString()));
                 int repeatPeriod = 0;
                 if(radioButtonRepeatEachWeek.isChecked() || radioButtonRepeatEveryOtherWeek.isChecked()){
 

@@ -50,13 +50,15 @@ public class PayCalculator {
             for (WorkdayEvent event : workdayEvents) {
                 LocalTime startTime = LocalTime.parse(event.getStartTime(), DateTimeFormatter.ofPattern("HH:mm"));
                 LocalTime endTime = LocalTime.parse(event.getEndTime(), DateTimeFormatter.ofPattern("HH:mm"));
-
                 List<SalaryRule> salaryRulesList = new ArrayList<>();
-                for (SalaryRule rule : event.getJob().getSalaryRules()) {
-                    for (DayOfWeek dayOfWeek : rule.getDaysOfWeek()) {
-                        if (dayOfWeek.toString().equals(event.getDayOfWeek())) {
-                            salaryRulesList.add(rule);
-                            Log.d("ADD", "Salary Rule added");
+                // Hopper over tillegg dersom vakten er overtid
+                if (!event.isOvertime()){
+                    for (SalaryRule rule : event.getJob().getSalaryRules()) {
+                        for (DayOfWeek dayOfWeek : rule.getDaysOfWeek()) {
+                            if (dayOfWeek.toString().equals(event.getDayOfWeek())) {
+                                salaryRulesList.add(rule);
+                                Log.d("ADD", "Salary Rule added");
+                            }
                         }
                     }
                 }
@@ -80,6 +82,9 @@ public class PayCalculator {
                         if (startTime.isAfter(ruleStartTime) && startTime.isBefore(ruleEndTime)) {
                             currentSalary += salaryRule.getChangeInPay();
                         }
+                    }
+                    if(event.isOvertime()){
+                        currentSalary += currentSalary*(event.getOvertimePercentage()/100);
                     }
                     // Legg til minutlønn i sum
                     sum += currentSalary / 60;

@@ -164,6 +164,17 @@ public class ViewEventActivity extends AppCompatActivity {
             final TextView textViewSalary = findViewById(R.id.textViewViewEventSalary);
             final TextView textViewBreak = findViewById(R.id.textViewViewEventBreak);
             final ImageView imageView = findViewById(R.id.imageViewViewEvent);
+            final TextView textViewOvertimeLabel = findViewById(R.id.textViewOvertimeLabel);
+            final TextView textViewOvertimePercentage = findViewById(R.id.textViewViewEventOvertimePercentage);
+            final TextView textViewOvertimeMessage = findViewById(R.id.textViewOvertimeMessage);
+
+            if(!event.isOvertime()){
+               textViewOvertimeLabel.setVisibility(View.GONE);
+               textViewOvertimePercentage.setVisibility(View.GONE);
+               textViewOvertimeMessage.setVisibility(View.GONE);
+            }else{
+                textViewOvertimePercentage.setText(event.getOvertimePercentage() + " %");
+            }
 
             LocalDate eventDate = LocalDate.parse(event.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             if (event.isNightShift()){
