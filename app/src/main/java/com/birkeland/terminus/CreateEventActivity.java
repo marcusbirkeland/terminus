@@ -331,7 +331,11 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
                 workdayEvent.setDayOfWeek(eventDate.getDayOfWeek().name());
                 workdayEvent.setNightShift(checkBoxIsNightShift.isChecked());
                 workdayEvent.setOvertime(checkBoxIsOvertime.isChecked());
-                workdayEvent.setOvertimePercentage(Integer.parseInt(editTextOvertimePercentage.getText().toString()));
+                if (editTextOvertimePercentage.getText().toString().equals("")){
+                    workdayEvent.setOvertimePercentage(0);
+                }else{
+                    workdayEvent.setOvertimePercentage(Integer.parseInt(editTextOvertimePercentage.getText().toString()));
+                }
                 int repeatPeriod = 0;
                 if(radioButtonRepeatEachWeek.isChecked() || radioButtonRepeatEveryOtherWeek.isChecked()){
 
