@@ -30,10 +30,15 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class CreateEventActivity extends AppCompatActivity implements TimePickerDialogFragment.OnInputListener, ChooseWorkplaceDialogFragment.OnInputListener {
@@ -47,6 +52,25 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
     private String errorMessage = "";
     private boolean cancelSubmit;
     private Job selectedJob;
+
+    private void saveSelectedTime(String timeFrom, String timeTo){
+        SharedPreferences sharedPreferences = getSharedPreferences("SHARED PREFERENCES",MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("lastSelectedTimeFrom",timeFrom);
+        editor.putString("lastSelectedTimeTo",timeTo);
+        editor.apply();
+    }
+    private String formatDate(LocalDate date){
+        Instant instant = date.atStartOfDay(ZoneId.systemDefault()).toInstant();
+        Date date1 = new Date(instant.toEpochMilli());
+        //For ukedag
+        SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
+        String dayOfWeek = sdf.format(date1);
+        dayOfWeek = dayOfWeek.substring(0,1).toUpperCase() + dayOfWeek.substring(1);
+        //For dato
+        DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
+        return dayOfWeek + " " + df.format(date1) ;
+    }
 
     private void startViewJob(Job job) {
         Intent intent = new Intent(getApplicationContext(),CreateJobActivity.class);
@@ -162,9 +186,18 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
-        TextView timeInputFrom = findViewById(R.id.timeInputFromCreateEvent);
-        TextView timeInputTo = findViewById(R.id.timeInputToCreateEvent);
+        final TextView dateView = findViewById(R.id.textViewCreateEventDate);
+        // Viser ukedag og dato
+        String date = getIntent().getStringExtra("DATE");
+        LocalDate eventDate = LocalDate.parse(date,DateTimeFormatter.ofPattern("ddMMyyyy"));
+        dateView.setText(formatDate(eventDate));
 
+        final TextView timeInputFrom = findViewById(R.id.timeInputFromCreateEvent);
+        final TextView timeInputTo = findViewById(R.id.timeInputToCreateEvent);
+        // Finner forige valgte tidspunkt
+        SharedPreferences preferences = getSharedPreferences("SHARED PREFERENCES",MODE_PRIVATE);
+        timeInputFrom.setText(preferences.getString("lastSelectedTimeFrom","16:00"));
+        timeInputTo.setText(preferences.getString("lastSelectedTimeTo","20:00"));
         // Input for å sette start og slutt-klokkeslett for arbeidsdagen
         timeInputFrom.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -235,7 +268,6 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
                 CheckBox checkBoxIsNightShift = findViewById(R.id.checkBoxNightshift);
                 final ToggleRadioButton radioButtonRepeatEachWeek = findViewById(R.id.radioButtonRepeatEachWeek);
                 final ToggleRadioButton radioButtonRepeatEveryOtherWeek = findViewById(R.id.radioButtonRepeatEveryOtherWeek);
-
                 textViewErrorMessage.setText("");
                 cancelSubmit = false;
                 errorMessage = "";
@@ -265,6 +297,7 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
                     textViewErrorMessage.setText(errorMessage);
                     return;
                 }
+                saveSelectedTime(timeInputFrom.getText().toString(),timeInputTo.getText().toString());
                 String date = getIntent().getStringExtra("DATE");
                 LocalDate eventDate = LocalDate.parse(date,dateTimeFormatter.ofPattern("ddMMyyyy"));
 

@@ -79,7 +79,7 @@
             android:layout_marginBottom="24dp"
             android:text="@string/choose_tax_table"
             android:textColor="@color/colorPrimary"
-            android:textSize="28sp"
+            android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView420"
