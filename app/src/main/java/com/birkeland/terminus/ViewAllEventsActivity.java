@@ -8,11 +8,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.birkeland.terminus.Adapters.EventListAdapter;
+import com.birkeland.terminus.Adapters.EventListAdapterCheckbox;
 import com.birkeland.terminus.DataClasses.WorkdayEvent;
 import com.birkeland.terminus.R;
 import com.google.gson.Gson;
@@ -39,6 +42,19 @@ public class ViewAllEventsActivity extends AppCompatActivity {
         } catch (Exception e){
             Log.e("Error","Failed to load events");
         }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_all_events,menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case R.id.action_delete:
+                return true;
+        }
+        return false;
     }
 
     @Override
@@ -89,7 +105,7 @@ public class ViewAllEventsActivity extends AppCompatActivity {
         try {
             loadEvents();
             ListView listView = findViewById(R.id.listViewViewAllEvents);
-            EventListAdapter listAdapter = new EventListAdapter(this, VIEW_DATE, savedEvents);
+            EventListAdapterCheckbox listAdapter = new EventListAdapterCheckbox(this, VIEW_DATE, savedEvents);
             listView.setAdapter(listAdapter);
         }catch (NullPointerException n){
             Log.e("View all events","No events to view");
