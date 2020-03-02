@@ -52,6 +52,8 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
     private int spinnerPosition;
     private String errorMessage = "";
     private boolean cancelSubmit;
+    private boolean editMode = false;
+    private WorkdayEvent eventToEdit = null;
     private Job selectedJob;
 
     private void saveSelectedTime(String timeFrom, String timeTo){

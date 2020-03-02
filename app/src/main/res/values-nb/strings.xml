@@ -123,5 +123,7 @@
     <string name="months">månder</string>
     <string name="overtime">Overtid</string>
     <string name="overtime_message">NB : Tillegg og fradrag for valgt jobb gjelder ikke for overtidsvakter</string>
+    <string name="delete_equal_shifts">Slett alle like vakter</string>
+    <string name="delete_shift">Slett vakt</string>
 
 </resources>

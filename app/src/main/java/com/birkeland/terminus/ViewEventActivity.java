@@ -90,6 +90,19 @@ public class ViewEventActivity extends AppCompatActivity {
         }
         return -1;
     }
+    private int getEqualEventIndex(WorkdayEvent event) {
+        for (int i = 0; i<workdayEvents.size();i++){
+            WorkdayEvent e = workdayEvents.get(i);
+            if(e.getDayOfWeek().equals(event.getDayOfWeek()) &&
+                    e.getJob().getName().equals(event.getJob().getName()) &&
+                    e.getStartTime().equals(event.getStartTime()) &&
+                    e.getEndTime().equals(event.getEndTime())
+            ){
+                return i;
+            }
+        }
+        return -1;
+    }
 
     private int getEventPay(){
         final List<WorkdayEvent> eventToCalculate = new ArrayList<>();
@@ -204,6 +217,13 @@ public class ViewEventActivity extends AppCompatActivity {
                     deleteDialog.show();
                 }
             });
+            final Button editEvent = findViewById(R.id.buttonViewEventEdit);
+            editEvent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
             LinearLayout linearLayoutJobView = findViewById(R.id.linearLayoutJobViewCreateEvent);
             linearLayoutJobView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -230,18 +250,31 @@ public class ViewEventActivity extends AppCompatActivity {
             finish();
         }
 
+        private void deleteEqualEvents (WorkdayEvent event){
+            loadEvents();
+            int index = getEqualEventIndex(event);
+            while (index != -1){
+                workdayEvents.remove(index);
+                index = getEqualEventIndex(event);
+            }
+            saveEvents();
+            setResult(RESULT_OK);
+            finish();
+        }
+
         private Dialog makeDeleteEventDialog (final WorkdayEvent event){
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage("Slett vakt?")
-                    .setPositiveButton("Slett vakt", new DialogInterface.OnClickListener() {
+            builder.setMessage(getString(R.string.delete_shift) + "?")
+                    .setNegativeButton(getString(R.string.delete_shift), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             deleteEvent(event);
                         }
                     })
-                    .setNegativeButton("Avbryt", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            // Do nothing
-                        }
+                    .setPositiveButton(getString(R.string.delete_equal_shifts), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteEqualEvents(event);
+                    }
                     });
             return builder.create();
         }

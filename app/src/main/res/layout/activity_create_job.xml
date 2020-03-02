@@ -88,13 +88,14 @@
 
         <Button
             android:id="@+id/buttonAddJob"
-            android:layout_width="200dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="64dp"
             android:backgroundTint="@color/colorAccent"
             android:text="@string/save"
             android:textColor="#fff"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout"
             app:layout_constraintStart_toStartOf="@+id/listViewSalaryrules" />
 
         <ListView

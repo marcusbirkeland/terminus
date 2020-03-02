@@ -107,17 +107,13 @@
 
     <Button
         android:id="@+id/buttonViewEventDelete"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="64dp"
         android:backgroundTint="@color/colorAccent"
         android:text="@string/delete"
         android:textColor="#fff"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/textViewViewEventDate"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayoutJobViewCreateEvent" />
 
     <TextView
         android:id="@+id/textViewViewEventSalaryDescription"
@@ -179,10 +175,25 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginEnd="24dp"
         android:text="@string/overtime_message"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/textViewViewEventOvertimePercentage"
-        app:layout_constraintEnd_toEndOf="@+id/buttonViewEventDelete"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textViewViewEventOvertimePercentage"
         tools:text="NB - tillegg og fradrag blir ikke regnet med" />
+
+    <Button
+        android:id="@+id/buttonViewEventEdit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="64dp"
+        android:backgroundTint="@color/colorAccent"
+        android:text="@string/edit"
+        android:textColor="#fff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
