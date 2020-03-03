@@ -52,7 +52,7 @@ public class WorkdayEvent implements Serializable {
         this.endTime = copyEvent.endTime;
         this.breakTime = copyEvent.breakTime;
         this.salary = copyEvent.salary;
-        this.job = copyEvent.job;
+        this.job = new Job(copyEvent.getJob());
     }
 
     public boolean isOvertime() {

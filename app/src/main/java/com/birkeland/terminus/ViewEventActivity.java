@@ -112,7 +112,7 @@ public class ViewEventActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == CreateJobActivity.DELETE_JOB)
+        if(resultCode == CreateJobActivity.DELETE_JOB || resultCode == CreateEventActivity.EDIT_SHIFT)
             finish();
         loadEvents();
         final WorkdayEvent event = workdayEvents.get(eventIndex);
@@ -222,7 +222,8 @@ public class ViewEventActivity extends AppCompatActivity {
                     intent.putExtra("eventToEdit",event);
                     intent.putExtra("editMode",true);
                     intent.putExtra("DATE",event.getDate());
-                    startActivityForResult(intent, 1);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivityForResult(intent,CreateEventActivity.EDIT_SHIFT );
                 }
             });
             LinearLayout linearLayoutJobView = findViewById(R.id.linearLayoutJobViewCreateEvent);

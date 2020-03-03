@@ -48,6 +48,7 @@ import java.util.List;
 
 public class CreateEventActivity extends AppCompatActivity implements TimePickerDialogFragment.OnInputListener, ChooseWorkplaceDialogFragment.OnInputListener {
 
+    public static  final int EDIT_SHIFT = 42069;
     int editTextToChange = 0;
     TimePickerDialogFragment timePickerDialogFragment = new TimePickerDialogFragment();
     ChooseWorkplaceDialogFragment chooseWorkplaceDialogFragment = new ChooseWorkplaceDialogFragment();
@@ -86,7 +87,6 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
         Log.d("Saving to sharedprefs: ", eventInfo);
         editor.apply();
     }
-
     private int getEventIndex(WorkdayEvent event){
         for (int i = 0; i<workdayEvents.size();i++){
             WorkdayEvent e = workdayEvents.get(i);
@@ -343,11 +343,13 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
         if(editMode){
             eventToEdit = (WorkdayEvent) getIntent().getSerializableExtra("eventToEdit");
             if(eventToEdit!= null){
+                eventToSave = new WorkdayEvent(eventToEdit);
                 timeInputFrom.setText(eventToEdit.getStartTime());
                 timeInputTo.setText(eventToEdit.getEndTime());
                 final EditText editTextBreakTime = findViewById(R.id.editTextBreakTime);
                 editTextBreakTime.setText("" + eventToEdit.getBreakTime());
                 selectedJob = new Job(eventToEdit.getJob());
+                Log.d("SELECTED JOB", selectedJob.toString());
                 final CheckBox checkBoxIsNightShift = findViewById(R.id.checkBoxNightshift);
                 checkBoxIsNightShift.setChecked(eventToEdit.isNightShift());
                 checkBoxIsOvertime.setChecked(eventToEdit.isOvertime());
@@ -369,6 +371,7 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
                     Log.e("Create event", "Failed to load image. Setting default" + e);
                     imageView.setImageResource(R.drawable.contacts);
                 }
+                eventToSave.setJob(new Job(eventToEdit.getJob()));
                 repeatText.setVisibility(View.INVISIBLE);
                 spinnerLabel.setVisibility(View.INVISIBLE);
                 editTextOvertimePercentage.setText(eventToEdit.getOvertimePercentage() + "");
@@ -423,7 +426,13 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
                 }
                 saveSelectedTime(timeInputFrom.getText().toString(),timeInputTo.getText().toString());
                 String date = getIntent().getStringExtra("DATE");
-                LocalDate eventDate = LocalDate.parse(date,dateTimeFormatter.ofPattern("ddMMyyyy"));
+                LocalDate eventDate = null;
+                try {
+                     eventDate = LocalDate.parse(date, dateTimeFormatter.ofPattern("ddMMyyyy"));
+                }catch(DateTimeParseException d) {
+                     eventDate = LocalDate.parse(date, dateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+                }
 
                 // Setter default verdi til pause
                 int breakTime = 30;
@@ -439,7 +448,11 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
                 if (editTextOvertimePercentage.getText().toString().equals("")){
                     eventToSave.setOvertimePercentage(0);
                 }else{
-                    eventToSave.setOvertimePercentage(Integer.parseInt(editTextOvertimePercentage.getText().toString()));
+                    try {
+                        eventToSave.setOvertimePercentage(Integer.parseInt(editTextOvertimePercentage.getText().toString()));
+                    }catch (NumberFormatException n){
+                        eventToSave.setOvertimePercentage(0);
+                    }
                 }
                 int repeatPeriod = 0;
                 if(radioButtonRepeatEachWeek.isChecked() || radioButtonRepeatEveryOtherWeek.isChecked()){
@@ -528,16 +541,18 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
                 .setNegativeButton(getString(R.string.edit), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         editEvent(eventToEdit,eventToSave);
-                        setResult(RESULT_OK);
-                        finish();
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
                     }
                 })
                 .setPositiveButton(getString(R.string.edit_equal_shifts), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         editEqualEvents(eventToEdit,eventToSave);
-                        setResult(RESULT_OK);
-                        finish();
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
                     }
                 });
         return builder.create();
@@ -547,17 +562,33 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
         loadEvents();
         int index = getEventIndex(eventToEdit);
         if(index > -1) {
+            eventToSave.setJob(selectedJob);
+           Log.d("JOBBB§!!!", eventToSave.getJob().toString());
             workdayEvents.remove(index);
             workdayEvents.add(index,eventToSave);
+            saveEvents();
         }else{
             return  false;
         }
-        saveEvents();
         return true;
     }
 
     private void editEqualEvents (WorkdayEvent eventToEdit, WorkdayEvent eventToSave){
-        while(editEvent(eventToEdit,eventToSave));
+        loadEvents();
+        int index = getEqualEventIndex(eventToEdit);
+        Log.d("Equal event index", index + "");
+        while(index > -1){
+            loadEvents();
+            WorkdayEvent tempEvent = workdayEvents.get(index);
+            String date = tempEvent.getDate();
+            eventToSave.setDate(date);
+            eventToSave.setJob(selectedJob);
+            workdayEvents.remove(index);
+            workdayEvents.add(index,eventToSave);
+            saveEvents();
+            index = getEqualEventIndex(eventToEdit);
+            Log.d("Equal event index", index + "");
+        }
     }
 
 }
