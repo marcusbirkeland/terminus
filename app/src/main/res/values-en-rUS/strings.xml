@@ -125,5 +125,7 @@
     <string name="total_hours">Total hours</string>
     <string name="delete_equal_shifts">Delete equal shifts</string>
     <string name="delete_shift">Delete shift</string>
+    <string name="dialog_edit_shift">Edit shift?</string>
+    <string name="edit_equal_shifts">Edit all equal shifts</string>
 
 </resources>

@@ -28,7 +28,7 @@ import static com.birkeland.terminus.MainActivity.NORWEGIAN;
 
 public class PayCalculator {
 
-    public double totalHours;
+    public int totalHours;
     private String startDateStr;
     private String endDateStr;
     private Context mContext;

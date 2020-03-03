@@ -218,7 +218,11 @@ public class ViewEventActivity extends AppCompatActivity {
             editEvent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Intent intent = new Intent (getApplicationContext(),CreateEventActivity.class);
+                    intent.putExtra("eventToEdit",event);
+                    intent.putExtra("editMode",true);
+                    intent.putExtra("DATE",event.getDate());
+                    startActivityForResult(intent, 1);
                 }
             });
             LinearLayout linearLayoutJobView = findViewById(R.id.linearLayoutJobViewCreateEvent);

@@ -126,5 +126,7 @@
     <string name="delete_equal_shifts">Slett alle like vakter</string>
     <string name="delete_shift">Slett vakt</string>
     <string name="total_hours">Antall timer</string>
+    <string name="dialog_edit_shift">Rediger vakt?</string>
+    <string name="edit_equal_shifts">Endre alle like vakter</string>
 
 </resources>

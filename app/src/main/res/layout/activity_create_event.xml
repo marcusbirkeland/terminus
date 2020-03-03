@@ -170,7 +170,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@+id/timeInputToCreateEvent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3">
+        app:layout_constraintTop_toBottomOf="@+id/textViewRepeatText">
 
         <com.birkeland.terminus.customViews.ToggleRadioButton
             android:id="@+id/radioButtonRepeatEachWeek"
@@ -188,7 +188,7 @@
     </RadioGroup>
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/textViewRepeatText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/repeat"
@@ -214,11 +214,11 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textView18"
-        app:layout_constraintTop_toBottomOf="@+id/textView18" />
+        app:layout_constraintStart_toStartOf="@+id/textViewSpinnerLabelFor"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSpinnerLabelFor" />
 
     <TextView
-        android:id="@+id/textView18"
+        android:id="@+id/textViewSpinnerLabelFor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

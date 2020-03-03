@@ -38,7 +38,6 @@
         <activity
             android:name="com.birkeland.terminus.CreateEventActivity"
             android:label="@string/title_new_shift"
-            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait" />
         <activity
             android:name="com.birkeland.terminus.MainActivity"

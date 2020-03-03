@@ -88,6 +88,8 @@
     <string name="error_check_nightshift">Check box for night-shift!</string>
     <string name="error_uncheck_nightshift">Uncheck box for night-shift!</string>
     <string name="error_pick_job">Pick a job first!</string>
+    <string name="dialog_edit_shift">Edit shift?</string>
+    <string name="edit_equal_shifts">Edit all equal shifts</string>
     <!--DialogFragment pick job-->
     <string name="pick_job">Pick job</string>
     <string name="new_job">New job</string>
@@ -108,8 +110,7 @@
     <string name="edit_job_title">Edit job</string>
     <string name="dialog_delete_job">Delete job?
        Only future shifts with this job will be deleted.</string>
-    <string name="dialog_edit_job">Edit job?
-        Salary will only be adjusted for future shifts"</string>
+    <string name="dialog_edit_job">Edit job? Salary will only be adjusted for future shifts"</string>
     <!--Create salary-rule activity -->
     <string name="pay_increases_title">Add pay decrease / increase</string>
     <string name="name">Name</string>
