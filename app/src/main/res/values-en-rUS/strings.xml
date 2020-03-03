@@ -31,10 +31,10 @@
     <string name="December">December</string>
 
     <!--Salary page -->
-    <string name="total_yearly_salary_gross">Total salary this year:</string>
-    <string name="total_yearly_salary_net">Total net salary:</string>
-    <string name="total_monthly_salary_gross">Monthly pay:</string>
-    <string name="total_monthly_salary_net"> Monthly net pay:</string>
+    <string name="total_yearly_salary_gross">Total salary this year</string>
+    <string name="total_yearly_salary_net">Total net salary</string>
+    <string name="total_monthly_salary_gross">Monthly pay</string>
+    <string name="total_monthly_salary_net">Monthly net pay</string>
     <string name="tax">Tax</string>
     <string name="paycheck">Paycheck</string>
     <string name="paycheck_period">Pay in period:</string>
@@ -122,5 +122,8 @@
     <string name="months">months</string>
     <string name="overtime">Overtime</string>
     <string name="overtime_message">Pay increases and decreases do not count when overtime is active</string>
+    <string name="total_hours">Total hours</string>
+    <string name="delete_equal_shifts">Delete equal shifts</string>
+    <string name="delete_shift">Delete shift</string>
 
 </resources>

@@ -20,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.birkeland.terminus.DataClasses.WorkdayEvent;
-import com.birkeland.terminus.R;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -30,11 +29,9 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class ViewEventActivity extends AppCompatActivity {
 

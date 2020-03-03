@@ -117,7 +117,7 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
     private Job getJobByName(String name){
         // Finn Job klasse etter navn i en liste. Brukes for å søke i shared preferences.
         for (Job job: jobList
-             ) {
+        ) {
             if(job.getName().equals(name)){
                 return job;
             }
@@ -353,8 +353,8 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
                             break;
                         case 3:
                             repeatPeriod = 12;
-                            default:
-                                Log.e("Create event", "Spinner position not recognized");
+                        default:
+                            Log.e("Create event", "Spinner position not recognized");
                     }
                 }
                 // Lag event og lagre event
@@ -363,8 +363,8 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
                 }else if(radioButtonRepeatEveryOtherWeek.isChecked()){
                     repeatEvent(workdayEvent,eventDate,14,repeatPeriod);
                 } else{
-                List<WorkdayEvent> eventList = new ArrayList<>();
-                eventList.add(workdayEvent);
+                    List<WorkdayEvent> eventList = new ArrayList<>();
+                    eventList.add(workdayEvent);
                     saveEvent(eventList);
                 }
                 setResult(RESULT_OK);

@@ -1,6 +1,13 @@
 package com.birkeland.terminus.DataClasses;
 
+import android.util.Log;
+
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 public class WorkdayEvent implements Serializable {
     private boolean isNightShift;
@@ -126,6 +133,18 @@ public class WorkdayEvent implements Serializable {
         return job;
     }
 
+    public double getLength(){
+
+        LocalDateTime startTime = LocalDateTime.parse(this.startTime + this.date,DateTimeFormatter.ofPattern("HH:mmyyyy-MM-dd"));
+        LocalDateTime endTime;
+        if (this.isNightShift){
+            endTime = LocalDateTime.parse(this.endTime + this.date, DateTimeFormatter.ofPattern("HH:mmyyyy-MM-dd")).plusDays(1);
+        }else{
+            endTime = LocalDateTime.parse(this.endTime + this.date, DateTimeFormatter.ofPattern("HH:mmyyyy-MM-dd"));
+        }
+        Log.d("Shift length; ", startTime.until(endTime, ChronoUnit.HOURS) + "");
+        return  startTime.until(endTime, ChronoUnit.HOURS);
+    }
 
 
 

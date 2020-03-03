@@ -43,6 +43,7 @@ public class EarningsFragment extends Fragment {
     private Job selectedJob;
     private String currency;
     private int currentEarnings;
+    private int monthOffset = 0;
     private float taxPercentage;
     private int spinnerPosition;
     private String selectedTable = "";
@@ -71,12 +72,10 @@ public class EarningsFragment extends Fragment {
             TextView textViewMonthlyEarningsGross = getView().findViewById(R.id.textViewMonthlyEarningsGross);
             TextView textViewMonthPeriod = getView().findViewById(R.id.textViewMonthPeriod);
             TextView textViewMonthlyEarningsNet = getView().findViewById(R.id.textViewMonthlyEarningsNet);
-            TextView textViewFeriepengMonth = getView().findViewById(R.id.textViewVacationPayMonth);
-            int monthlyGrossPay = payCalculator.getPaycheckEarnings(workdayEvents, selectedJob);
-            textViewMonthPeriod.setText(getString(R.string.paycheck_period) + " " + payCalculator.getStartDateStr() + " - " + payCalculator.getEndDateStr());
+            int monthlyGrossPay = payCalculator.getPaycheckEarnings(workdayEvents, selectedJob, monthOffset);
+            textViewMonthPeriod.setText(payCalculator.getStartDateStr() + " - " + payCalculator.getEndDateStr());
             textViewMonthlyEarningsGross.setText(monthlyGrossPay + " " + currency);
             double feriepeng = monthlyGrossPay*feriepengFaktor;
-            textViewFeriepengMonth.setText((int) feriepeng + " " + currency);
             SharedPreferences pref = getActivity().getSharedPreferences("SHARED PREFERENCES", MODE_PRIVATE);
             boolean isTaxTable = pref.getBoolean("ISTAXTABLE", false);
             PayCalculator payCalculator = new PayCalculator(workdayEvents, getActivity());
@@ -134,18 +133,24 @@ public class EarningsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        final TextView textViewTotalEarningsGross = getView().findViewById(R.id.textViewGrossCurrentEarnings);
+        final TextView textViewTotalEarningsNet = getView().findViewById(R.id.textViewNetCurrentEarnings);
+        final TextView textViewTotalHours = getView().findViewById(R.id.textViewTotalHours);
         loadEvents();
         loadJobs();
+        if(jobs != null) {
+            for (Job job : jobs) {
+                jobNames.add(job.getName());
+            }
+        }
         currency = loadCurrency();
         setTaxText();
         calculateMonthlyEarnings(spinnerPosition);
-        TextView textViewTotalEarningsGross = getView().findViewById(R.id.textViewGrossCurrentEarnings);
-        TextView textViewTotalEarningsNet = getView().findViewById(R.id.textViewNetCurrentEarnings);
-
+        textViewTotalHours.setText("" + payCalculator.totalHours);
         currentEarnings = payCalculator.getYearlyEarnings(workdayEvents);
         textViewTotalEarningsGross.setText("" + currentEarnings + " " + currency);
         // Setter feriepenger
-        double feriepeng = currentEarnings*feriepengFaktor;
+        //double feriepeng = currentEarnings*feriepengFaktor;
         float netEarnings = calculateYearlyEarningsNet(currentEarnings);
         textViewTotalEarningsNet.setText("" + (int) netEarnings + " " + currency);
         final Spinner jobSpinner = getView().findViewById(R.id.spinnerSelectJob);
@@ -157,7 +162,7 @@ public class EarningsFragment extends Fragment {
             android.widget.ListPopupWindow popupWindow = (android.widget.ListPopupWindow) popup.get(jobSpinner);
             // Set maxwidth for spinner window
             if(jobs  != null) {
-                popupWindow.setHeight(jobs.size() * 100);
+                popupWindow.setHeight(jobs.size() * 200);
                 if (jobs.size() > 3) {
                     popupWindow.setHeight(420);
                 }
@@ -165,24 +170,22 @@ public class EarningsFragment extends Fragment {
         }
         catch (NoClassDefFoundError | ClassCastException | NoSuchFieldException | IllegalAccessException e) {
         }
-        if(jobs != null) {
-            for (Job job : jobs) {
-                jobNames.add(job.getName());
-            }
-        }
         ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<>(getActivity(),R.layout.spinner_item,jobNames);
         jobSpinner.setAdapter(spinnerAdapter);
         jobSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 spinnerPosition = position;
+                monthOffset = 0;
                 calculateMonthlyEarnings(position);
+                textViewTotalHours.setText("" + payCalculator.totalHours);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 selectedJob = null;
             }
         });
+        // Endre skatteprosent eller tabell
         Button buttonEditTax = getView().findViewById(R.id.buttonEditTaxSettings);
         buttonEditTax.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -190,6 +193,26 @@ public class EarningsFragment extends Fragment {
                 showTaxDialog();
             }
         });
+        // Endre dato for lønnslipp
+        Button buttonPrevMonth = getView().findViewById(R.id.buttonPrevMonthEarnings);
+        Button buttonNextMonth = getView().findViewById(R.id.buttonNextMonthEarnings);
+        buttonPrevMonth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                monthOffset--;
+                calculateMonthlyEarnings(spinnerPosition);
+                textViewTotalHours.setText("" + payCalculator.totalHours);
+            }
+        });
+        buttonNextMonth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                monthOffset++;
+                calculateMonthlyEarnings(spinnerPosition);
+                textViewTotalHours.setText("" + payCalculator.totalHours);
+            }
+        });
+
     }
 
     private void showTaxDialog(){

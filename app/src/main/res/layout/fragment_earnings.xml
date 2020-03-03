@@ -18,23 +18,214 @@
         app:layout_constraintVertical_bias="0.0">
 
         <TextView
-            android:id="@+id/textView12"
-            android:layout_width="0dp"
+            android:id="@+id/textViewTaxPercentage"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:text="@string/total_monthly_salary_net"
-            app:layout_constraintEnd_toEndOf="@+id/spinnerSelectJob"
-            app:layout_constraintTop_toTopOf="@+id/textView11" />
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:ems="10"
+            android:includeFontPadding="false"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/colorPrimary"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView19"
+            tools:text="Tabell 7700" />
 
         <TextView
-            android:id="@+id/textViewMonthlyEarningsNet"
+            android:id="@+id/textView19"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="0"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/textView12"
-            app:layout_constraintTop_toBottomOf="@+id/textView12" />
+            android:layout_marginTop="24dp"
+            android:text="@string/tax"
+            android:textColor="?attr/textColor"
+            app:layout_constraintStart_toStartOf="@+id/textViewTaxPercentage"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/buttonEditTaxSettings"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:backgroundTint="@color/colorAccent"
+            android:text="@string/edit"
+            android:textColor="#fff"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewTaxPercentage"
+            app:layout_constraintEnd_toEndOf="@+id/constraintLayout3"
+            app:layout_constraintTop_toTopOf="@+id/textViewTaxPercentage" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/colorPrimary"
+            android:elevation="8dp"
+            android:fadingEdge="horizontal|vertical"
+            android:paddingTop="0dp"
+            android:paddingBottom="64dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buttonEditTaxSettings">
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="32dp"
+                android:text="@string/total_monthly_salary_gross"
+                android:textColor="#ddd"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewMonthPeriod" />
+
+            <TextView
+                android:id="@+id/textViewMonthlyEarningsGross"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:shadowColor="#0f0f0f"
+                android:shadowDx="1.5"
+                android:shadowDy="1.3"
+                android:shadowRadius="3"
+                android:text="0"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="#fff"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:typeface="normal"
+                app:layout_constraintEnd_toEndOf="@+id/textView11"
+                app:layout_constraintStart_toStartOf="@+id/textView11"
+                app:layout_constraintTop_toBottomOf="@+id/textView11" />
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@string/total_monthly_salary_net"
+                android:textColor="#ddd"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView11"
+                app:layout_constraintTop_toTopOf="@+id/textView11" />
+
+            <TextView
+                android:id="@+id/textViewMonthlyEarningsNet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:shadowColor="#0f0f0f"
+                android:shadowDx="1.5"
+                android:shadowDy="1.3"
+                android:shadowRadius="3"
+                android:text="0"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="#fff"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:typeface="normal"
+                app:layout_constraintEnd_toEndOf="@+id/textView12"
+                app:layout_constraintStart_toStartOf="@+id/textView12"
+                app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+            <TextView
+                android:id="@+id/textViewMonthPeriod"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:elevation="10dp"
+                android:shadowColor="#0f0f0f"
+                android:shadowDx="1.5"
+                android:shadowDy="1.3"
+                android:shadowRadius="3"
+                android:textAllCaps="true"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="#fff"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:typeface="normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spinnerSelectJob"
+                tools:text="1.2.2020 - 2.2.2020" />
+
+            <Button
+                android:id="@+id/buttonNextMonthEarnings"
+                android:layout_width="35dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="32dp"
+                android:backgroundTint="@color/colorAccent"
+                android:text=">"
+                android:textColor="#fff"
+                android:textSize="14dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/buttonPrevMonthEarnings" />
+
+            <Button
+                android:id="@+id/buttonPrevMonthEarnings"
+                android:layout_width="35dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="7dp"
+                android:backgroundTint="@color/colorAccent"
+                android:text="&lt;"
+                android:textColor="#fff"
+                android:textSize="14dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spinnerSelectJob" />
+
+            <TextView
+                android:id="@+id/textView26"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/total_hours"
+                android:textColor="#ddd"
+                app:layout_constraintEnd_toStartOf="@+id/textView11"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView11"
+                tools:text="Antall timer" />
+
+            <TextView
+                android:id="@+id/textViewTotalHours"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:paddingLeft="5sp"
+                android:shadowColor="#0f0f0f"
+                android:shadowDx="1.5"
+                android:shadowDy="1.3"
+                android:shadowRadius="3"
+                android:text="0"
+                android:textColor="#fff"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:typeface="normal"
+                app:layout_constraintEnd_toEndOf="@+id/textView26"
+                app:layout_constraintStart_toStartOf="@+id/textView26"
+                app:layout_constraintTop_toBottomOf="@+id/textView26" />
+
+            <Spinner
+                android:id="@+id/spinnerSelectJob"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:dropDownWidth="wrap_content"
+                android:gravity="center_horizontal"
+                android:spinnerMode="dialog"
+                app:layout_constraintEnd_toEndOf="@+id/buttonNextMonthEarnings"
+                app:layout_constraintStart_toEndOf="@+id/buttonPrevMonthEarnings"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/textViewNetCurrentEarnings"
@@ -77,139 +268,19 @@
             android:id="@+id/textView10"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
             android:text="@string/total_yearly_salary_net"
-            app:layout_constraintEnd_toEndOf="@+id/spinnerSelectJob"
+            app:layout_constraintStart_toEndOf="@+id/textView13"
             app:layout_constraintTop_toTopOf="@+id/textView13" />
-
-        <TextView
-            android:id="@+id/textView11"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/total_monthly_salary_gross"
-            app:layout_constraintStart_toStartOf="@+id/textViewMonthPeriod"
-            app:layout_constraintTop_toBottomOf="@+id/textViewMonthPeriod" />
-
-        <TextView
-            android:id="@+id/textViewMonthlyEarningsGross"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="0"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/textView11"
-            app:layout_constraintTop_toBottomOf="@+id/textView11" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
-            app:layout_constraintEnd_toEndOf="@+id/spinnerSelectJob"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView19">
-
-            <TextView
-                android:id="@+id/textViewTaxPercentage"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/colorPrimary"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toStartOf="@+id/buttonEditTaxSettings"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Tabell 7700" />
-
-            <Button
-                android:id="@+id/buttonEditTaxSettings"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/colorAccent"
-                android:text="@string/edit"
-                android:textColor="#fff"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="@+id/textViewTaxPercentage"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/textViewTaxPercentage" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/textView13"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="16dp"
             android:text="@string/total_yearly_salary_gross"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
+            app:layout_constraintStart_toStartOf="@+id/constraintLayout3"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout3" />
 
-        <Spinner
-            android:id="@+id/spinnerSelectJob"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="64dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView20" />
-
-        <TextView
-            android:id="@+id/textView20"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="@string/paycheck"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/colorPrimary"
-            android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="@+id/textViewGrossCurrentEarnings"
-            app:layout_constraintTop_toBottomOf="@+id/textViewGrossCurrentEarnings" />
-
-        <TextView
-            android:id="@+id/textViewMonthPeriod"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/colorAccent"
-            app:layout_constraintStart_toStartOf="@+id/spinnerSelectJob"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerSelectJob" />
-
-
-        <TextView
-            android:id="@+id/textView19"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/tax"
-            android:textColor="?attr/textColor"
-            app:layout_constraintStart_toStartOf="@+id/constraintLayout2"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView25"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/vacationpay"
-            app:layout_constraintStart_toStartOf="@+id/textViewMonthlyEarningsGross"
-            app:layout_constraintTop_toBottomOf="@+id/textViewMonthlyEarningsGross" />
-
-        <TextView
-            android:id="@+id/textViewVacationPayMonth"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="0"
-            android:textColor="?attr/textColor"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="@+id/textView25"
-            app:layout_constraintTop_toBottomOf="@+id/textView25" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

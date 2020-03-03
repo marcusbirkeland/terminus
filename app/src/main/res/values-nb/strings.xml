@@ -31,10 +31,10 @@
     <string name="December">Desember</string>
 
     <!--Salary page -->
-    <string name="total_yearly_salary_gross">Total lønn i år:</string>
-    <string name="total_yearly_salary_net">Total lønn i år netto:</string>
-    <string name="total_monthly_salary_gross">Månedslønn:</string>
-    <string name="total_monthly_salary_net"> Månedslønn netto:</string>
+    <string name="total_yearly_salary_gross">Total lønn i år</string>
+    <string name="total_yearly_salary_net">Total lønn i år netto</string>
+    <string name="total_monthly_salary_gross">Månedslønn</string>
+    <string name="total_monthly_salary_net">" Månedslønn netto"</string>
     <string name="tax">Skatt</string>
     <string name="paycheck">Lønnsslipp</string>
     <string name="paycheck_period">Lønn i perioden:</string>
@@ -125,5 +125,6 @@
     <string name="overtime_message">NB : Tillegg og fradrag for valgt jobb gjelder ikke for overtidsvakter</string>
     <string name="delete_equal_shifts">Slett alle like vakter</string>
     <string name="delete_shift">Slett vakt</string>
+    <string name="total_hours">Antall timer</string>
 
 </resources>

@@ -28,6 +28,7 @@ import static com.birkeland.terminus.MainActivity.NORWEGIAN;
 
 public class PayCalculator {
 
+    public double totalHours;
     private String startDateStr;
     private String endDateStr;
     private Context mContext;
@@ -101,7 +102,7 @@ public class PayCalculator {
         Instant instant = date.atStartOfDay(ZoneId.systemDefault()).toInstant();
         Date date1 = new Date(instant.toEpochMilli());
         // Formaterer etter system default språk
-        DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
+        DateFormat df = DateFormat.getDateInstance(DateFormat.DATE_FIELD);
         return df.format(date1);
     }
 
@@ -122,36 +123,50 @@ public class PayCalculator {
         return getEarnings(eventsToCalculate);
     }
 
-    public int getPaycheckEarnings(List<WorkdayEvent> workdayEvents, Job selectedJob) {
+
+    public int getPaycheckEarnings(List<WorkdayEvent> workdayEvents, Job selectedJob,int monthOffset) {
+        totalHours = 0;
         if(selectedJob == null){
             return 0;
         }
         List<WorkdayEvent> eventsToCalculate = new ArrayList<>();
         LocalDate now = LocalDate.now();
         LocalDate checkDate = LocalDate.of(now.getYear(), now.getMonthValue(), selectedJob.getSalaryPeriodDate());
+        LocalDate startDate;
+        LocalDate endDate;
+        // Setter hvilke månder neste lønningsperiode gjelder for.
+        if(monthOffset > 0){
+            if(now.isBefore(checkDate)){
+                startDate = checkDate.minusMonths(1).plusMonths(monthOffset);
+                endDate = checkDate.plusMonths(monthOffset);
+            }else{
+                startDate= checkDate.plusMonths(monthOffset);
+                endDate = checkDate.plusMonths(1+monthOffset);
+            }
+        }else{
+            if(now.isBefore(checkDate)){
+                startDate = checkDate.minusMonths(1-monthOffset);
+                endDate = checkDate.minusMonths(-monthOffset);
+            }else{
+                startDate= checkDate.minusMonths(-monthOffset);
+                endDate = checkDate.plusMonths(1+monthOffset);
+            }
+        }
+        startDateStr = formatDate(startDate);
+        endDateStr = formatDate(endDate);
         try {
 
             for (WorkdayEvent event : workdayEvents) {
                 LocalDate eventDate = LocalDate.parse(event.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                LocalDate startDate;
-                LocalDate endDate;
-                // Setter hvilke månder neste lønningsperiode gjelder for.
-                if(now.isBefore(checkDate)){
-                    startDate = checkDate.minusMonths(1);
-                    endDate = checkDate;
-                }else{
-                    startDate= checkDate;
-                    endDate = checkDate.plusMonths(1);
-                }
+
+
                 // Driter i events som ikke er for gjeldende jobb
                 if(!event.getJob().getName().equals(selectedJob.getName()) ||
                         eventDate.isBefore(startDate) || eventDate.isAfter(endDate)){
                     continue;
                 }
-
-                startDateStr = formatDate(startDate);
-                endDateStr = formatDate(endDate);
                 Log.d("Calculating on date","From " + startDate.toString() + " to " + endDate.toString());
+                totalHours+= event.getLength();
                 eventsToCalculate.add(event);
             }
         }catch (NullPointerException e){
