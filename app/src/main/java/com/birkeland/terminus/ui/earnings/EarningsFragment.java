@@ -74,18 +74,18 @@ public class EarningsFragment extends Fragment {
             TextView textViewMonthlyEarningsNet = getView().findViewById(R.id.textViewMonthlyEarningsNet);
             int monthlyGrossPay = payCalculator.getPaycheckEarnings(workdayEvents, selectedJob, monthOffset);
             textViewMonthPeriod.setText(payCalculator.getStartDateStr() + " - " + payCalculator.getEndDateStr());
-            textViewMonthlyEarningsGross.setText(monthlyGrossPay + " " + currency);
             double feriepeng = monthlyGrossPay*feriepengFaktor;
+            textViewMonthlyEarningsGross.setText(monthlyGrossPay +  " " + currency);
             SharedPreferences pref = getActivity().getSharedPreferences("SHARED PREFERENCES", MODE_PRIVATE);
             boolean isTaxTable = pref.getBoolean("ISTAXTABLE", false);
             PayCalculator payCalculator = new PayCalculator(workdayEvents, getActivity());
             float monthlyNetPay;
             if (isTaxTable) {
-                monthlyNetPay = payCalculator.getMonthlyNetEarningsWithTable(monthlyGrossPay, pref.getString("TAXTABLE", "7700"));
+                monthlyNetPay = payCalculator.getMonthlyNetEarningsWithTable((int)monthlyGrossPay, pref.getString("TAXTABLE", "7700"));
             } else {
-                monthlyNetPay = payCalculator.getNetEarningsWithPercentage(monthlyGrossPay, pref.getFloat("TAXPERCENTAGE", 0));
+                monthlyNetPay = payCalculator.getNetEarningsWithPercentage((int)monthlyGrossPay, pref.getFloat("TAXPERCENTAGE", 0));
             }
-            textViewMonthlyEarningsNet.setText((int)monthlyNetPay + " " + currency);
+            textViewMonthlyEarningsNet.setText(monthlyNetPay + " " + currency);
         }catch (IndexOutOfBoundsException i){
             Log.d("OUT OF BOUNDS",i + "");
         }
