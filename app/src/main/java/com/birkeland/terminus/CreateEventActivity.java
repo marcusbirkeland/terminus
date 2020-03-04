@@ -101,12 +101,21 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
         return -1;
     }
     private int getEqualEventIndex(WorkdayEvent event) {
+        LocalDate selectedDate = LocalDate.parse(event.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalDate checkDate;
         for (int i = 0; i<workdayEvents.size();i++){
             WorkdayEvent e = workdayEvents.get(i);
-            if(e.getDayOfWeek().equals(event.getDayOfWeek()) &&
+            checkDate = LocalDate.parse(e.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+            // Skip event if the event is before selected date, or is unequal
+            if((checkDate.isAfter(selectedDate) || checkDate.isEqual(selectedDate))&&
+                    e.getDayOfWeek().equals(event.getDayOfWeek()) &&
                     e.getJob().getName().equals(event.getJob().getName()) &&
                     e.getStartTime().equals(event.getStartTime()) &&
-                    e.getEndTime().equals(event.getEndTime())
+                    e.getEndTime().equals(event.getEndTime()) &&
+                    e.isOvertime() == event.isOvertime() &&
+                    e.getOvertimePercentage() == event.getOvertimePercentage() &&
+                    e.getBreakTime() == event.getBreakTime()
             ){
                 return i;
             }
@@ -374,7 +383,7 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
                 eventToSave.setJob(new Job(eventToEdit.getJob()));
                 repeatText.setVisibility(View.INVISIBLE);
                 spinnerLabel.setVisibility(View.INVISIBLE);
-                editTextOvertimePercentage.setText(eventToEdit.getOvertimePercentage() + "");
+                editTextOvertimePercentage.setText((int) eventToEdit.getOvertimePercentage() + "");
                 radioButtonRepeatEachWeek.setVisibility(View.INVISIBLE);
                 radioButtonRepeatEveryOtherWeek.setVisibility(View.INVISIBLE);
                 jobSpinner.setVisibility(View.INVISIBLE);
@@ -537,7 +546,8 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
 
     private Dialog makeEditDialog (){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(getString(R.string.dialog_edit_shift) + "?")
+        builder.setTitle(getString(R.string.dialog_edit_shift))
+                .setMessage(R.string.edit_shift_description)
                 .setNegativeButton(getString(R.string.edit), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         editEvent(eventToEdit,eventToSave);
@@ -576,9 +586,13 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
     private void editEqualEvents (WorkdayEvent eventToEdit, WorkdayEvent eventToSave){
         loadEvents();
         int index = getEqualEventIndex(eventToEdit);
+        int prevIndex = -1;
         Log.d("Equal event index", index + "");
         while(index > -1){
             loadEvents();
+            // Avslutt hvis ingenting er endret.
+            if(index == prevIndex)
+                break;
             WorkdayEvent tempEvent = workdayEvents.get(index);
             String date = tempEvent.getDate();
             eventToSave.setDate(date);
@@ -586,6 +600,7 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
             workdayEvents.remove(index);
             workdayEvents.add(index,eventToSave);
             saveEvents();
+            prevIndex = index;
             index = getEqualEventIndex(eventToEdit);
             Log.d("Equal event index", index + "");
         }

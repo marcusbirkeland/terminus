@@ -192,7 +192,7 @@ public class PayCalculator {
             for (WorkdayEvent event : eventList) {
                 LocalDate tempDate = LocalDate.parse(event.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-                if (tempDate.isBefore(LocalDate.now()) && tempDate.getYear() == LocalDate.now().getYear()
+                if (!tempDate.isAfter(LocalDate.now()) && tempDate.getYear() == LocalDate.now().getYear()
                         && tempDate.isBefore(endDate) && tempDate.isAfter(endDate.minusMonths(1))) {
                     Log.d("ADD EVENT: ", "DATE: " + tempDate.toString());
                     eventsInMonth.add(event);
@@ -205,6 +205,7 @@ public class PayCalculator {
             startDate = startDate.plusMonths(1);
             endDate = endDate.plusMonths(1);
         }
+        Log.d("PayCalculator", "NetEarnings yearly:" + netEarnings);
         return netEarnings;
     }
 

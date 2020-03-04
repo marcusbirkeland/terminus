@@ -85,8 +85,7 @@ public class EarningsFragment extends Fragment {
             } else {
                 monthlyNetPay = payCalculator.getNetEarningsWithPercentage(monthlyGrossPay, pref.getFloat("TAXPERCENTAGE", 0));
             }
-            int netMinusFeriepeng = (int)monthlyNetPay - (int)feriepeng;
-            textViewMonthlyEarningsNet.setText(netMinusFeriepeng + " " + currency);
+            textViewMonthlyEarningsNet.setText((int)monthlyNetPay + " " + currency);
         }catch (IndexOutOfBoundsException i){
             Log.d("OUT OF BOUNDS",i + "");
         }

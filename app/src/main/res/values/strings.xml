@@ -54,6 +54,7 @@
     <string name="error_eneter_tax_percentage">Please enter tax percentage</string>
     <string name="error_eneter_tax_table">Please choose a tax table</string>
     <string name="error_choose_a_tax_option">Please choose a tax option</string>
+    <string name="vactaion_pay_notice">Net monthly pay is subtracted 10,2% of gross pay (vacation pay).</string>
 
     <!--Settings -->
     <string name="settings">Settings</string>
@@ -90,6 +91,7 @@
     <string name="error_pick_job">Pick a job first!</string>
     <string name="dialog_edit_shift">Edit shift?</string>
     <string name="edit_equal_shifts">Edit all equal shifts</string>
+    <string name="edit_shift_description">If you choose "Edit equal shifts", equal events in the future will be altered.</string>
     <!--DialogFragment pick job-->
     <string name="pick_job">Pick job</string>
     <string name="new_job">New job</string>
@@ -121,6 +123,7 @@
 
     <!--Misc.-->
     <string name="delete_shift">Delete shift</string>
+    <string name="delete_shift_description">If you choose "Delete equal shifts", all future, equal events will be altered.</string>
     <string name="delete_equal_shifts">Delete equal shifts</string>
     <string name="overtime_message">Pay increases and decreases do not count when overtime is active</string>
     <string name="all_shifts">All shifts</string>

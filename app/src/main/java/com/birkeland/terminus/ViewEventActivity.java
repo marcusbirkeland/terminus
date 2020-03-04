@@ -88,9 +88,13 @@ public class ViewEventActivity extends AppCompatActivity {
         return -1;
     }
     private int getEqualEventIndex(WorkdayEvent event) {
+        LocalDate selectedDate = LocalDate.parse(event.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalDate checkDate;
         for (int i = 0; i<workdayEvents.size();i++){
             WorkdayEvent e = workdayEvents.get(i);
-            if(e.getDayOfWeek().equals(event.getDayOfWeek()) &&
+            checkDate = LocalDate.parse(e.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                if( (selectedDate.isBefore(checkDate) || selectedDate.isEqual(checkDate)) &&
+                    e.getDayOfWeek().equals(event.getDayOfWeek()) &&
                     e.getJob().getName().equals(event.getJob().getName()) &&
                     e.getStartTime().equals(event.getStartTime()) &&
                     e.getEndTime().equals(event.getEndTime())

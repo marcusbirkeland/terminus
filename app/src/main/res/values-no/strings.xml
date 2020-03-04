@@ -47,7 +47,7 @@
     <string name="administer_shifts">Administrer vakter</string>
     <string name="delete_all">Slett all data</string>
     <string name="delte_dialog">Vil du slette alle jobber og vakter?</string>
-    <string name="confirm_delete_all">Ja,slett alt</string>
+    <string name="confirm_delete_all">Ja, slett alt</string>
     <string name="other_settings">Annet</string>
     <string name="nightmode">Nattmodus</string>
 
@@ -84,8 +84,7 @@
     <string name="edit_job_title">Rediger jobb</string>
     <string name="dialog_delete_job">Slett jobb?
        Fremtidige vakter med denne jobben vil bli slettet.</string>
-    <string name="dialog_edit_job">"Rediger jobb?
-        Lønn og tillegg vil kun bli endret på fremtidige vakter."</string>
+    <string name="dialog_edit_job">Rediger jobb? Lønn og tillegg vil kun bli endret på fremtidige vakter.</string>
     <!--Create salary-rule activity -->
     <string name="pay_increases_title">Legg til lønnstillegg / fradrag</string>
     <string name="name">Navn</string>
@@ -128,5 +127,8 @@
     <string name="total_hours">Antall timer</string>
     <string name="dialog_edit_shift">Rediger vakt?</string>
     <string name="edit_equal_shifts">Endre alle like vakter</string>
+    <string name="vactaion_pay_notice">Netto måndeslønn er trukket fra 10,2% før skatt. (Feriepenger)</string>
+    <string name="edit_shift_description">Fremtidige vakter som er helt identiske vil bli endret dersom du velger å endre alle like</string>
+    <string name="delete_shift_description">Alle fremtidige, like vakter, vil bli slettet dersom du velger Slett alle like vakter</string>
 
 </resources>

@@ -56,7 +56,7 @@
         android:id="@+id/textView37"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:text="@string/from"
         app:layout_constraintStart_toStartOf="@+id/textViewViewEventDate"
         app:layout_constraintTop_toBottomOf="@+id/textViewViewEventDate" />
@@ -112,8 +112,8 @@
         android:backgroundTint="@color/colorAccent"
         android:text="@string/delete"
         android:textColor="#fff"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewViewEventDate"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayoutJobViewCreateEvent" />
+        app:layout_constraintEnd_toEndOf="@+id/linearLayoutJobViewCreateEvent"
+        app:layout_constraintTop_toTopOf="@+id/textViewViewEventDate" />
 
     <TextView
         android:id="@+id/textViewViewEventSalaryDescription"
