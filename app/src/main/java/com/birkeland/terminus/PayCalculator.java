@@ -176,7 +176,7 @@ public class PayCalculator {
     }
 
     public int getNetEarningsWithPercentage(int earnings, float percentage){
-        float netEarnings = earnings*(1-(percentage/100));
+        float netEarnings = (float) (earnings*(1-feriepengFaktor)*(1-(percentage/100)));
         return (int) netEarnings;
     }
 
