@@ -7,7 +7,7 @@ android {
         applicationId "com.birkeland.terminus"
         minSdkVersion 26
         targetSdkVersion 29
-        versionCode 12
+        versionCode 13
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
