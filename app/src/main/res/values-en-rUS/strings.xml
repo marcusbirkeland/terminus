@@ -130,5 +130,6 @@
     <string name="vactaion_pay_notice">Net monthly pay is subtracted 10,2% of gross pay (vacation pay).</string>
     <string name="edit_shift_description">If you choose Edit equal shifts, equal events in the future will be altered.</string>
     <string name="delete_shift_description">If you choose Delete equal shifts, all future, equal events will be altered.</string>
+    <string name="yearly_earnings">Yearly salary</string>
 
 </resources>

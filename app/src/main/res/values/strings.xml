@@ -55,6 +55,7 @@
     <string name="error_eneter_tax_table">Please choose a tax table</string>
     <string name="error_choose_a_tax_option">Please choose a tax option</string>
     <string name="vactaion_pay_notice">Net monthly pay is subtracted 10,2% of gross pay (vacation pay).</string>
+    <string name="yearly_earnings">Yearly salary</string>
 
     <!--Settings -->
     <string name="settings">Settings</string>

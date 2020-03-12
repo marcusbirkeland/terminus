@@ -130,5 +130,6 @@
     <string name="vactaion_pay_notice">Netto måndeslønn er trukket fra 10,2% før skatt. (Feriepenger)</string>
     <string name="edit_shift_description">Fremtidige vakter som er helt identiske vil bli endret dersom du velger å endre alle like</string>
     <string name="delete_shift_description">Alle fremtidige, like vakter, vil bli slettet dersom du velger Slett alle like vakter</string>
+    <string name="yearly_earnings">Lønn i år</string>
 
 </resources>

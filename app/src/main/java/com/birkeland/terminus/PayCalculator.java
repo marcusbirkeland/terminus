@@ -106,6 +106,26 @@ public class PayCalculator {
         return df.format(date1);
     }
 
+    public int getMonthlyEarnings(List<WorkdayEvent> workdayEvents ,int month){
+        LocalDate now = LocalDate.now();
+        List<WorkdayEvent> eventsToCalculate = new ArrayList<>();
+        try {
+            for (WorkdayEvent event : workdayEvents) {
+                LocalDate eventDate = LocalDate.parse(event.getDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                // Hopp over event dersom den ikke er i valgte måned og gjeldende år
+                if(eventDate.getMonthValue() != month ||eventDate.getYear()!= now.getYear() || eventDate.isAfter(now)){
+                    Log.d("skipping","month: " + eventDate.getMonthValue() + " month in: " + month);
+                    continue;
+                }
+                Log.d("calculate monthly earnings","adding event: " + event.getDate());
+                eventsToCalculate.add(event);
+            }
+        }catch (NullPointerException e){
+            Log.e("Null","No workday events in list");
+        }
+        return getEarnings(eventsToCalculate);
+    }
+
     public int getYearlyEarnings(List<WorkdayEvent> workdayEvents){
         LocalDate now = LocalDate.now();
         List<WorkdayEvent> eventsToCalculate = new ArrayList<>();
@@ -122,7 +142,6 @@ public class PayCalculator {
         }
         return getEarnings(eventsToCalculate);
     }
-
 
     public int getPaycheckEarnings(List<WorkdayEvent> workdayEvents, Job selectedJob,int monthOffset) {
         totalHours = 0;

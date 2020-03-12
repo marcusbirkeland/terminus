@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -24,11 +25,20 @@ import com.birkeland.terminus.DataClasses.WorkdayEvent;
 import com.birkeland.terminus.PayCalculator;
 import com.birkeland.terminus.R;
 import com.birkeland.terminus.dialogFragments.EditTaxDialogFragment;
+import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.jjoe64.graphview.DefaultLabelFormatter;
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.GridLabelRenderer;
+import com.jjoe64.graphview.Viewport;
+import com.jjoe64.graphview.series.BarGraphSeries;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import static android.content.Context.MODE_PRIVATE;
@@ -55,15 +65,17 @@ public class EarningsFragment extends Fragment {
     }
     PayCalculator payCalculator = new PayCalculator(workdayEvents,getContext());
 
-    private int calculateYearlyEarningsNet(int totalEarnings){
-        SharedPreferences pref = getActivity().getSharedPreferences("SHARED PREFERENCES",MODE_PRIVATE);
-        boolean isTaxTable = pref.getBoolean("ISTAXTABLE",false);
-        PayCalculator payCalculator = new PayCalculator(workdayEvents,getActivity());
-        if(!isTaxTable){
-            return payCalculator.getNetEarningsWithPercentage(totalEarnings,pref.getFloat("TAXPERCENTAGE",0));
-        }else{
-            return payCalculator.getYearlyNetEarningsWithTable(workdayEvents,pref.getString("TAXTABLE","7700"));
+    private BarGraphSeries<DataPoint> getYearlyEarningsGraph (){
+        loadEvents();
+        int currentMonth = LocalDate.now().getMonthValue();
+        DataPoint [] dataPoints = new DataPoint[currentMonth];
+        for(int i = 0; i<currentMonth; i++){
+            int monthlySalary = payCalculator.getMonthlyEarnings(workdayEvents,i+1);
+            DataPoint dataPoint = new DataPoint(i+1,monthlySalary);
+            Log.d("Insert data point: ", "x: " + (i+1) + " y: " + monthlySalary);
+            dataPoints[i] = dataPoint;
         }
+        return new BarGraphSeries<>(dataPoints);
     }
 
     private void calculateMonthlyEarnings(int position){
@@ -133,7 +145,7 @@ public class EarningsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final TextView textViewTotalEarningsGross = getView().findViewById(R.id.textViewGrossCurrentEarnings);
-        final TextView textViewTotalEarningsNet = getView().findViewById(R.id.textViewNetCurrentEarnings);
+        //final TextView textViewTotalEarningsNet = getView().findViewById(R.id.textViewNetCurrentEarnings);
         final TextView textViewTotalHours = getView().findViewById(R.id.textViewTotalHours);
         loadEvents();
         loadJobs();
@@ -150,8 +162,8 @@ public class EarningsFragment extends Fragment {
         textViewTotalEarningsGross.setText("" + currentEarnings + " " + currency);
         // Setter feriepenger
         //double feriepeng = currentEarnings*feriepengFaktor;
-        float netEarnings = calculateYearlyEarningsNet(currentEarnings);
-        textViewTotalEarningsNet.setText("" + (int) netEarnings + " " + currency);
+        //float netEarnings = calculateYearlyEarningsNet(currentEarnings);
+        //textViewTotalEarningsNet.setText("" + (int) netEarnings + " " + currency);
         final Spinner jobSpinner = getView().findViewById(R.id.spinnerSelectJob);
         // Gjør spinner scrollable
         try {
@@ -212,6 +224,59 @@ public class EarningsFragment extends Fragment {
             }
         });
 
+        TabLayout tabLayout = getView().findViewById(R.id.tabLayoutSalary);
+        final ConstraintLayout paycheckCard = getView().findViewById(R.id.constraintLayoutSalaryCard);
+        final ConstraintLayout graphCard = getView().findViewById(R.id.constraintLayoutGraphCard);
+        GraphView graph = getView().findViewById(R.id.graph);
+        BarGraphSeries<DataPoint> series = getYearlyEarningsGraph();
+        series.setSpacing(10);
+        graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.HORIZONTAL);
+        graph.getGridLabelRenderer().setTextSize(32);
+        graph.getGridLabelRenderer().setNumHorizontalLabels(14);
+        graph.addSeries(series);
+        graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
+            @Override
+            public String formatLabel(double value, boolean isValueX) {
+                if (isValueX) {
+                    // show normal x values
+                    return super.formatLabel(value, isValueX);
+                } else {
+                    // show currency for y values
+                    return super.formatLabel(value, isValueX) + currency;
+                }
+            }
+        });
+        graph.setTitle(getString(R.string.yearly_earnings));
+        Viewport viewport = graph.getViewport();
+        viewport.setXAxisBoundsManual(true);
+        viewport.setMinX(0);
+        viewport.setMaxX(13);
+        viewport.setScalableY(true);
+
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if(tab.getText().equals(getString(R.string.paycheck))){
+                    paycheckCard.setVisibility(View.VISIBLE);
+                }else if (tab.getText().equals(getString(R.string.yearly_earnings))){
+                    graphCard.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                if(tab.getText().equals(getString(R.string.paycheck))){
+                    paycheckCard.setVisibility(View.GONE);
+                }else if (tab.getText().equals(getString(R.string.yearly_earnings))){
+                    graphCard.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     private void showTaxDialog(){
@@ -226,9 +291,9 @@ public class EarningsFragment extends Fragment {
             setTaxText();
             calculateMonthlyEarnings(spinnerPosition);
             currentEarnings = payCalculator.getYearlyEarnings(workdayEvents);
-            TextView textViewTotalEarningsNet = getView().findViewById(R.id.textViewNetCurrentEarnings);
-            float netEarnings = calculateYearlyEarningsNet(currentEarnings);
-            textViewTotalEarningsNet.setText("" + (int) netEarnings + " " + currency);
+            //TextView textViewTotalEarningsNet = getView().findViewById(R.id.textViewNetCurrentEarnings);
+            //float netEarnings = calculateYearlyEarningsNet(currentEarnings);
+            //textViewTotalEarningsNet.setText("" + (int) netEarnings + " " + currency);
         }
     }
 

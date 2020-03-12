@@ -21,6 +21,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.jjoe64:graphview:4.2.2'
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
