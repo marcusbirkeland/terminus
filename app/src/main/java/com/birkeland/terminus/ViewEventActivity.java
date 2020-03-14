@@ -80,7 +80,9 @@ public class ViewEventActivity extends AppCompatActivity {
             if(e.getDate().equals(event.getDate()) &&
                     e.getJob().getName().equals(event.getJob().getName()) &&
                     e.getStartTime().equals(event.getStartTime()) &&
-                    e.getEndTime().equals(event.getEndTime())
+                    e.getEndTime().equals(event.getEndTime()) &&
+                    e.getBreakTime() == event.getBreakTime() &&
+                    e.getOvertimePercentage() == event.getOvertimePercentage()
             ){
                 return i;
             }

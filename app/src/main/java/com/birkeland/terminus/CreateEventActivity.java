@@ -258,6 +258,9 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
+        final EditText editTextBreakTime = findViewById(R.id.editTextBreakTime);
+        pref = this.getSharedPreferences("SHARED PREFERENCES" ,MODE_PRIVATE);
+        editTextBreakTime.setHint("" + pref.getInt("defaultBreakTime",30));
         final TextView dateView = findViewById(R.id.textViewCreateEventDate);
         // Viser ukedag og dato
         String date = getIntent().getStringExtra("DATE");
@@ -355,7 +358,6 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
                 eventToSave = new WorkdayEvent(eventToEdit);
                 timeInputFrom.setText(eventToEdit.getStartTime());
                 timeInputTo.setText(eventToEdit.getEndTime());
-                final EditText editTextBreakTime = findViewById(R.id.editTextBreakTime);
                 editTextBreakTime.setText("" + eventToEdit.getBreakTime());
                 selectedJob = new Job(eventToEdit.getJob());
                 Log.d("SELECTED JOB", selectedJob.toString());
@@ -443,12 +445,17 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
 
                 }
 
-                // Setter default verdi til pause
-                int breakTime = 30;
+                // Setter default verdi for pause
+                int breakTime = Integer.parseInt(editTextBreakTime.getHint().toString());
                 Job selectedJob = getJobByName(jobName);
                 // Lag event
                 if(!editTextBreakTime.getText().toString().equals("")){
+                    SharedPreferences sharedPreferences = getSharedPreferences("SHARED PREFERENCES",MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
                     breakTime = Integer.parseInt(editTextBreakTime.getText().toString());
+                    // Setter fremtidig default verdi
+                    editor.putInt("defaultBreakTime",breakTime);
+                    editor.apply();
                 }
                 eventToSave = new WorkdayEvent(eventDate.toString(),startTime.toString(),endTime.toString(),breakTime,selectedJob);
                 eventToSave.setDayOfWeek(eventDate.getDayOfWeek().name());
