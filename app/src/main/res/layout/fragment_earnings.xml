@@ -71,7 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="8dp"
             android:background="@color/colorPrimary"
             android:elevation="8dp"
@@ -83,7 +83,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tabLayoutSalary"
-            tools:visibility="invisible">
+            tools:visibility="visible">
 
             <TextView
                 android:id="@+id/textView11"
@@ -252,7 +252,7 @@
                 android:layout_marginTop="32dp"
                 android:gravity="center"
                 android:text="@string/vactaion_pay_notice"
-                android:textColor="?attr/textColor"
+                android:textColor="#fff"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -271,12 +271,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/constraintLayoutSalaryCard"
-            tools:visibility="visible">
+            tools:visibility="gone">
 
             <com.jjoe64.graphview.GraphView
                 android:id="@+id/graph"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginBottom="24dp"
                 app:layout_constraintBottom_toTopOf="@+id/textView13"
                 app:layout_constraintEnd_toEndOf="parent" />
@@ -297,10 +298,12 @@
                 android:id="@+id/textView13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginBottom="64dp"
                 android:text="@string/total_yearly_salary_gross"
-                android:textColor="?attr/textColor"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/graph" />
 

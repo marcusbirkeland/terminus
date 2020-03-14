@@ -1,5 +1,7 @@
 package com.birkeland.terminus.ui.earnings;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -34,7 +36,10 @@ import com.jjoe64.graphview.GridLabelRenderer;
 import com.jjoe64.graphview.Viewport;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.DataPointInterface;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.jjoe64.graphview.series.OnDataPointTapListener;
+import com.jjoe64.graphview.series.Series;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
@@ -59,13 +64,58 @@ public class EarningsFragment extends Fragment {
     private String selectedTable = "";
     private static final double feriepengFaktor= 0.12;
 
+    private String monthToString(int date){
+        String currentDate = "";
+        switch(date){
+            case 1:
+                currentDate = getString(R.string.January);
+                break;
+            case 2:
+                currentDate = getString(R.string.February);
+                break;
+            case 3:
+                currentDate = getString(R.string.March);
+                break;
+            case 4:
+                currentDate = getString(R.string.April);
+                break;
+            case 5:
+                currentDate = getString(R.string.May);
+                break;
+            case 6:
+                currentDate = getString(R.string.June);
+                break;
+            case 7:
+                currentDate = getString(R.string.July);
+                break;
+            case 8:
+                currentDate = getString(R.string.August);
+                break;
+            case 9:
+                currentDate = getString(R.string.September);
+                break;
+            case 10:
+                currentDate = getString(R.string.October);
+                break;
+
+            case 11:
+                currentDate = getString(R.string.November);
+                break;
+
+            case 12:
+                currentDate = getString(R.string.December);
+                break;
+        }
+        return currentDate;
+    }
+
     private String loadCurrency(){
         SharedPreferences locale = getActivity().getSharedPreferences("LOCALE",MODE_PRIVATE);
         return locale.getString("CURRENCY",getString(R.string.currency));
     }
     PayCalculator payCalculator = new PayCalculator(workdayEvents,getContext());
 
-    private BarGraphSeries<DataPoint> getYearlyEarningsGraph (){
+    private LineGraphSeries<DataPoint> getYearlyEarningsGraph (){
         loadEvents();
         int currentMonth = LocalDate.now().getMonthValue();
         DataPoint [] dataPoints = new DataPoint[currentMonth];
@@ -75,7 +125,7 @@ public class EarningsFragment extends Fragment {
             Log.d("Insert data point: ", "x: " + (i+1) + " y: " + monthlySalary);
             dataPoints[i] = dataPoint;
         }
-        return new BarGraphSeries<>(dataPoints);
+        return new LineGraphSeries<>(dataPoints);
     }
 
     private void calculateMonthlyEarnings(int position){
@@ -228,12 +278,10 @@ public class EarningsFragment extends Fragment {
         final ConstraintLayout paycheckCard = getView().findViewById(R.id.constraintLayoutSalaryCard);
         final ConstraintLayout graphCard = getView().findViewById(R.id.constraintLayoutGraphCard);
         GraphView graph = getView().findViewById(R.id.graph);
-        BarGraphSeries<DataPoint> series = getYearlyEarningsGraph();
-        series.setSpacing(10);
+        LineGraphSeries<DataPoint> series = getYearlyEarningsGraph();
+        graph.addSeries(series);
         graph.getGridLabelRenderer().setGridStyle(GridLabelRenderer.GridStyle.HORIZONTAL);
         graph.getGridLabelRenderer().setTextSize(32);
-        graph.getGridLabelRenderer().setNumHorizontalLabels(14);
-        graph.addSeries(series);
         graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter() {
             @Override
             public String formatLabel(double value, boolean isValueX) {
@@ -247,11 +295,36 @@ public class EarningsFragment extends Fragment {
             }
         });
         graph.setTitle(getString(R.string.yearly_earnings));
+        series.setColor(getResources().getColor(R.color.colorPrimary));
         Viewport viewport = graph.getViewport();
         viewport.setXAxisBoundsManual(true);
-        viewport.setMinX(0);
-        viewport.setMaxX(13);
-        viewport.setScalableY(true);
+        viewport.setYAxisBoundsManual(true);
+        viewport.setMinX(1);
+        int currentMonth = LocalDate.now().getMonthValue();
+        viewport.setMaxX(currentMonth+1);
+        if(currentMonth == 12)
+            viewport.setMaxX(currentMonth);
+        viewport.setMinY(0);
+        graph.getGridLabelRenderer().setNumVerticalLabels(8);
+        series.setDrawDataPoints(true);
+        series.setOnDataPointTapListener(new OnDataPointTapListener() {
+            @Override
+            public void onTap(Series series, DataPointInterface dataPoint) {
+                Log.d("Data point tap", "KRONOR: " + dataPoint.getY());
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle(getString(R.string.salary_of_month) + " " + monthToString((int)dataPoint.getX()))
+                        .setMessage((int)dataPoint.getY() + " " + currency)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+        viewport.setMaxY(series.getHighestValueY()+series.getHighestValueY()*0.5);
+        graph.getGridLabelRenderer().setNumHorizontalLabels(currentMonth+1);
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
