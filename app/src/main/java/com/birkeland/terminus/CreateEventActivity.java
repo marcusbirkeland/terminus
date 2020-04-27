@@ -62,6 +62,10 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
     private WorkdayEvent eventToSave;
     private WorkdayEvent eventToEdit;
     private Job selectedJob;
+    private Boolean isOvertime = false;
+    private Boolean repeatEachWeek = false;
+    private Boolean repeatEveryOtherWeek = false;
+    private int overtimePercentage = 0;
 
     private void loadEvents() {
         // Laster listen med lagrede jobber.
@@ -109,13 +113,7 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
 
             // Skip event if the event is before selected date, or is unequal
             if((checkDate.isAfter(selectedDate) || checkDate.isEqual(selectedDate))&&
-                    e.getDayOfWeek().equals(event.getDayOfWeek()) &&
-                    e.getJob().getName().equals(event.getJob().getName()) &&
-                    e.getStartTime().equals(event.getStartTime()) &&
-                    e.getEndTime().equals(event.getEndTime()) &&
-                    e.isOvertime() == event.isOvertime() &&
-                    e.getOvertimePercentage() == event.getOvertimePercentage() &&
-                    e.getBreakTime() == event.getBreakTime()
+                    e.equals(event)
             ){
                 return i;
             }
@@ -294,8 +292,8 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
             }
         });
 
-        Button addWorkplace = findViewById(R.id.buttonChooseWorkplaceCreateEvent);
-        addWorkplace.setOnClickListener(new View.OnClickListener() {
+        final LinearLayout jobConatiner = findViewById(R.id.linearLayoutJobViewCreateEvent);
+        jobConatiner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadJobs();
@@ -303,55 +301,6 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
             }
         });
         Button submitWorkday = findViewById(R.id.buttonSubmitWorkday);
-
-        LinearLayout linearLayoutJobView = findViewById(R.id.linearLayoutJobViewCreateEvent);
-        linearLayoutJobView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startViewJob(selectedJob);
-
-            }
-        });
-        final Spinner jobSpinner = findViewById(R.id.spinnerRepeatPeriod);
-        // Gjør spinner scrollable
-        try {
-            Field popup = Spinner.class.getDeclaredField("mPopup");
-            popup.setAccessible(true);
-            // Get private mPopup member variable and try cast to ListPopupWindow
-            android.widget.ListPopupWindow popupWindow = (android.widget.ListPopupWindow) popup.get(jobSpinner);
-            // Set maxwidth for spinner window
-            popupWindow.setHeight(320);
-        }
-        catch (NoClassDefFoundError | ClassCastException | NoSuchFieldException | IllegalAccessException e) {
-        }
-        ArrayAdapter<String> spinnerAdapter= new ArrayAdapter<>(this,R.layout.spinner_item_small,repeatPeriods);
-        jobSpinner.setAdapter(spinnerAdapter);
-        jobSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                spinnerPosition = position;
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-
-        final CheckBox checkBoxIsOvertime = findViewById(R.id.checkBoxOvertime);
-        checkBoxIsOvertime.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                final EditText editTextOvertimePercentage = findViewById(R.id.editTextOvertimePercentage);
-                final TextView suffix = findViewById(R.id.textViewPercentageSuffix);
-                if(isChecked){
-                    editTextOvertimePercentage.setVisibility(View.VISIBLE);
-                    suffix.setVisibility(View.VISIBLE);
-                }else{
-                    editTextOvertimePercentage.setVisibility(View.GONE);
-                    suffix.setVisibility(View.GONE);
-                }
-            }
-        });
-
         if(editMode){
             eventToEdit = (WorkdayEvent) getIntent().getSerializableExtra("eventToEdit");
             if(eventToEdit!= null){
@@ -361,17 +310,8 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
                 editTextBreakTime.setText("" + eventToEdit.getBreakTime());
                 selectedJob = new Job(eventToEdit.getJob());
                 Log.d("SELECTED JOB", selectedJob.toString());
-                final CheckBox checkBoxIsNightShift = findViewById(R.id.checkBoxNightshift);
-                checkBoxIsNightShift.setChecked(eventToEdit.isNightShift());
-                checkBoxIsOvertime.setChecked(eventToEdit.isOvertime());
                 final Button buttonSubmitt = findViewById(R.id.buttonSubmitWorkday);
                 buttonSubmitt.setText(R.string.edit);
-                final ToggleRadioButton radioButtonRepeatEachWeek = findViewById(R.id.radioButtonRepeatEachWeek);
-                final ToggleRadioButton radioButtonRepeatEveryOtherWeek = findViewById(R.id.radioButtonRepeatEveryOtherWeek);
-                final EditText editTextOvertimePercentage = findViewById(R.id.editTextOvertimePercentage);
-                final TextView spinnerLabel = findViewById(R.id.textViewSpinnerLabelFor);
-                final TextView repeatText = findViewById(R.id.textViewRepeatText);
-                final LinearLayout jobConatiner = findViewById(R.id.linearLayoutJobViewCreateEvent);
                 jobConatiner.setVisibility(View.VISIBLE);
                 final TextView jobName = findViewById(R.id.textViewCreateEventJobName);
                 final ImageView imageView = findViewById(R.id.imageViewCreateEvent);
@@ -383,12 +323,6 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
                     imageView.setImageResource(R.drawable.contacts);
                 }
                 eventToSave.setJob(new Job(eventToEdit.getJob()));
-                repeatText.setVisibility(View.INVISIBLE);
-                spinnerLabel.setVisibility(View.INVISIBLE);
-                editTextOvertimePercentage.setText((int) eventToEdit.getOvertimePercentage() + "");
-                radioButtonRepeatEachWeek.setVisibility(View.INVISIBLE);
-                radioButtonRepeatEveryOtherWeek.setVisibility(View.INVISIBLE);
-                jobSpinner.setVisibility(View.INVISIBLE);
             }
         }
 
@@ -398,15 +332,11 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
                 loadJobs();
                 DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_TIME;
                 final EditText editTextBreakTime = findViewById(R.id.editTextBreakTime);
-                final EditText editTextOvertimePercentage = findViewById(R.id.editTextOvertimePercentage);
                 final TextView timeInputFrom = findViewById(R.id.timeInputFromCreateEvent);
                 final TextView timeInputTo = findViewById(R.id.timeInputToCreateEvent);
                 final TextView textViewErrorMessage = findViewById(R.id.textViewCreateEventError);
-                final CheckBox checkBoxIsNightShift = findViewById(R.id.checkBoxNightshift);
-                final CheckBox checkBoxIsOvertime = findViewById(R.id.checkBoxOvertime);
-                final ToggleRadioButton radioButtonRepeatEachWeek = findViewById(R.id.radioButtonRepeatEachWeek);
-                final ToggleRadioButton radioButtonRepeatEveryOtherWeek = findViewById(R.id.radioButtonRepeatEveryOtherWeek);
                 textViewErrorMessage.setText("");
+                Boolean nightShift = false;
                 cancelSubmit = false;
                 errorMessage = "";
 
@@ -417,15 +347,10 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
                     Log.d("Create Event: ", "End time cannot be equal to start time");
                     cancelSubmit = true;
                 }
-                else if(startTime.isAfter(endTime) && !checkBoxIsNightShift.isChecked()){
-                    errorMessage = getString(R.string.error_check_nightshift);
-                    Log.d("Error", "Invalid time for regular shift");
-                    cancelSubmit = true;
-                } else if(startTime.isBefore(endTime) && checkBoxIsNightShift.isChecked()){
-                    errorMessage = getString(R.string.error_uncheck_nightshift);
-                    Log.d("Create Event: ", "Invalid time for night shift");
-                    cancelSubmit = true;
+                else if(startTime.isAfter(endTime)){
+                    nightShift = true;
                 }
+
                 else if (selectedJob == null){
                     errorMessage = getString(R.string.error_pick_job);
                     Log.e("Error", "Please pick job");
@@ -459,20 +384,12 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
                 }
                 eventToSave = new WorkdayEvent(eventDate.toString(),startTime.toString(),endTime.toString(),breakTime,selectedJob);
                 eventToSave.setDayOfWeek(eventDate.getDayOfWeek().name());
-                eventToSave.setNightShift(checkBoxIsNightShift.isChecked());
-                eventToSave.setOvertime(checkBoxIsOvertime.isChecked());
-                if (editTextOvertimePercentage.getText().toString().equals("")){
-                    eventToSave.setOvertimePercentage(0);
-                }else{
-                    try {
-                        eventToSave.setOvertimePercentage(Integer.parseInt(editTextOvertimePercentage.getText().toString()));
-                    }catch (NumberFormatException n){
-                        eventToSave.setOvertimePercentage(0);
-                    }
-                }
-                int repeatPeriod = 0;
-                if(radioButtonRepeatEachWeek.isChecked() || radioButtonRepeatEveryOtherWeek.isChecked()){
+                eventToSave.setNightShift(nightShift);
+                eventToSave.setOvertime(isOvertime);
+                eventToSave.setOvertimePercentage(overtimePercentage);
 
+                int repeatPeriod = 0;
+                if(repeatEachWeek || repeatEveryOtherWeek){
                     switch (spinnerPosition){
                         case 0:
                             repeatPeriod = 1;
@@ -490,9 +407,9 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
                     }
                 }
                 // Lag event og lagre event
-                if(radioButtonRepeatEachWeek.isChecked()){
+                if(repeatEachWeek){
                     repeatEvent(eventToSave,eventDate,7, repeatPeriod);
-                }else if(radioButtonRepeatEveryOtherWeek.isChecked()){
+                }else if(repeatEveryOtherWeek){
                     repeatEvent(eventToSave,eventDate,14,repeatPeriod);
                 } else{
                     List<WorkdayEvent> eventList = new ArrayList<>();

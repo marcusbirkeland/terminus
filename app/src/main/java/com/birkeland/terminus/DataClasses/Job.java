@@ -95,5 +95,4 @@ public class Job implements Serializable {
         }
         return out;
     }
-
 }

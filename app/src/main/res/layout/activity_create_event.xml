@@ -1,275 +1,326 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.birkeland.terminus.CreateEventActivity">
+    android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="min"
-        app:layout_constraintBottom_toBottomOf="@+id/editTextBreakTime"
-        app:layout_constraintStart_toEndOf="@+id/editTextBreakTime" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/to"
-        app:layout_constraintStart_toStartOf="@+id/timeInputToCreateEvent"
-        app:layout_constraintTop_toTopOf="@+id/textView" />
-
-    <TextView
-        android:id="@+id/timeInputFromCreateEvent"
-        android:layout_width="110dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:ems="24"
-        android:maxLength="5"
-        android:text="16:00"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textColor="@color/colorAccent"
-        android:textSize="40dp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <TextView
-        android:id="@+id/timeInputToCreateEvent"
-        android:layout_width="110dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:ems="10"
-        android:inputType="time"
-        android:maxLength="5"
-        android:text="20:00"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:textColor="@color/colorAccent"
-        android:textSize="40dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayoutJobViewCreateEvent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/from"
-        app:layout_constraintStart_toStartOf="@+id/timeInputFromCreateEvent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewCreateEventDate" />
-
-    <Button
-        android:id="@+id/buttonChooseWorkplaceCreateEvent"
+    <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="@color/colorPrimary"
-        android:text="@string/choose_workplace"
-        android:textColor="#fff"
-        app:layout_constraintBottom_toBottomOf="@+id/textView5"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayoutJobViewCreateEvent"
-        app:layout_constraintStart_toStartOf="@+id/spinnerRepeatPeriod"
-        app:layout_constraintTop_toBottomOf="@+id/editTextOvertimePercentage" />
-
-    <EditText
-        android:id="@+id/editTextBreakTime"
-        android:layout_width="70dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="30"
-        android:inputType="number"
-        android:maxLength="2"
-        android:singleLine="true"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/checkBoxNightshift"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/break_time"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/editTextBreakTime"
-        app:layout_constraintTop_toBottomOf="@+id/checkBoxNightshift" />
-
-    <LinearLayout
-        android:id="@+id/linearLayoutJobViewCreateEvent"
-        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="32dp"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:backgroundTintMode="src_atop"
-        android:orientation="horizontal"
-        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonChooseWorkplaceCreateEvent"
-        tools:visibility="visible">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
-        <ImageView
-            android:id="@+id/imageViewCreateEvent"
-            android:layout_width="75dp"
-            android:layout_height="75dp" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context="com.birkeland.terminus.CreateEventActivity">
 
-        <TextView
-            android:id="@+id/textViewCreateEventJobName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="24dp"
-            android:textColor="?attr/textColor"
-            android:textSize="24dp" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayoutNote"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                app:layout_constraintEnd_toEndOf="@+id/timeInputToCreateEvent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/constraintLayoutOvertime"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayoutOvertime">
 
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/textViewNote"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/note"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+                    app:layout_constraintStart_toEndOf="@+id/imageView5"
+                    app:layout_constraintTop_toTopOf="@+id/imageView5" />
 
-    <Button
-        android:id="@+id/buttonSubmitWorkday"
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@android:drawable/ic_menu_edit" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayoutOvertime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                app:layout_constraintEnd_toEndOf="@+id/timeInputToCreateEvent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/constraintLayoutColor"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayoutColor">
+
+                <TextView
+                    android:id="@+id/textViewOvertime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/overtime"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+                    app:layout_constraintStart_toEndOf="@+id/imageView4"
+                    app:layout_constraintTop_toTopOf="@+id/imageView4" />
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/coin_icon" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayoutColor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                app:layout_constraintEnd_toEndOf="@+id/timeInputToCreateEvent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/constraintLayoutRepeat"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayoutRepeat">
+
+                <TextView
+                    android:id="@+id/textViewColor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/color"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageViewColor"
+                    app:layout_constraintStart_toEndOf="@+id/imageViewColor"
+                    app:layout_constraintTop_toTopOf="@+id/imageViewColor" />
+
+                <ImageView
+                    android:id="@+id/imageViewColor"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/colorAccent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="min"
+                app:layout_constraintBottom_toBottomOf="@+id/editTextBreakTime"
+                app:layout_constraintStart_toEndOf="@+id/editTextBreakTime" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/to"
+                app:layout_constraintStart_toStartOf="@+id/timeInputToCreateEvent"
+                app:layout_constraintTop_toTopOf="@+id/textView" />
+
+            <TextView
+                android:id="@+id/timeInputFromCreateEvent"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:ems="24"
+                android:maxLength="5"
+                android:text="16:00"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/colorAccent"
+                android:textSize="35dp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+            <TextView
+                android:id="@+id/timeInputToCreateEvent"
+                android:layout_width="110dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="32dp"
+                android:ems="10"
+                android:inputType="time"
+                android:maxLength="5"
+                android:text="20:00"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textColor="@color/colorAccent"
+                android:textSize="35dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/linearLayoutJobViewCreateEvent"
+                app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/from"
+                app:layout_constraintStart_toStartOf="@+id/timeInputFromCreateEvent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewCreateEventDate" />
+
+            <EditText
+                android:id="@+id/editTextBreakTime"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="30"
+                android:inputType="number"
+                android:maxLength="2"
+                android:singleLine="true"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@+id/timeInputFromCreateEvent"
+                app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/break_time"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/editTextBreakTime"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayoutJobViewCreateEvent" />
+
+            <LinearLayout
+                android:id="@+id/linearLayoutJobViewCreateEvent"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="32dp"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:backgroundTintMode="src_atop"
+                android:orientation="horizontal"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/timeInputFromCreateEvent"
+                tools:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/imageViewCreateEvent"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    app:srcCompat="@drawable/contacts" />
+
+                <TextView
+                    android:id="@+id/textViewCreateEventJobName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="24dp"
+                    android:text="@string/choose_workplace"
+                    android:textColor="?attr/textColor"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textViewCreateEventDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:textColor="?attr/textColor"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Mandag 21.01.2020" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayoutRepeat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:animateLayoutChanges="true"
+                android:clickable="true"
+                app:layout_constraintEnd_toEndOf="@+id/timeInputToCreateEvent"
+                app:layout_constraintStart_toStartOf="@+id/editTextBreakTime"
+                app:layout_constraintTop_toBottomOf="@+id/editTextBreakTime">
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.493"
+                    app:srcCompat="@android:drawable/ic_menu_agenda" />
+
+                <TextView
+                    android:id="@+id/textViewRepeat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/repeat"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                    app:layout_constraintStart_toEndOf="@+id/imageView"
+                    app:layout_constraintTop_toTopOf="@+id/imageView" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:backgroundTint="@color/colorAccent"
-        android:text="@string/add_workday"
-        android:textColor="#fff"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayoutJobViewCreateEvent"
-        app:layout_constraintStart_toStartOf="@+id/linearLayoutJobViewCreateEvent" />
-
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/workplace"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="?attr/textColor"
-        app:layout_constraintStart_toStartOf="@+id/editTextBreakTime"
-        app:layout_constraintTop_toBottomOf="@+id/editTextOvertimePercentage" />
-
-    <CheckBox
-        android:id="@+id/checkBoxNightshift"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/nightshift"
-        android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="@+id/timeInputFromCreateEvent"
-        app:layout_constraintTop_toBottomOf="@+id/timeInputFromCreateEvent" />
-
-    <RadioGroup
-        android:id="@+id/radioGroupRepeat"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@+id/timeInputToCreateEvent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewRepeatText">
-
-        <com.birkeland.terminus.customViews.ToggleRadioButton
-            android:id="@+id/radioButtonRepeatEachWeek"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/each_week"
-            android:textSize="12sp" />
-
-        <com.birkeland.terminus.customViews.ToggleRadioButton
-            android:id="@+id/radioButtonRepeatEveryOtherWeek"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/every_other_week"
-            android:textSize="12sp" />
-    </RadioGroup>
-
-    <TextView
-        android:id="@+id/textViewRepeatText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/repeat"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@+id/checkBoxNightshift"
-        app:layout_constraintStart_toStartOf="@+id/radioGroupRepeat"
-        app:layout_constraintTop_toTopOf="@+id/checkBoxNightshift" />
-
-    <TextView
-        android:id="@+id/textViewCreateEventError"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:textColor="@android:color/holo_red_light"
-        app:layout_constraintBottom_toTopOf="@+id/buttonSubmitWorkday"
-        app:layout_constraintStart_toStartOf="@+id/buttonSubmitWorkday"
-        tools:text="Error message" />
-
-    <Spinner
-        android:id="@+id/spinnerRepeatPeriod"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/textViewSpinnerLabelFor"
-        app:layout_constraintTop_toBottomOf="@+id/textViewSpinnerLabelFor" />
+        app:layout_constraintStart_toStartOf="parent">
 
-    <TextView
-        android:id="@+id/textViewSpinnerLabelFor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
-        android:text="@string/For"
-        app:layout_constraintStart_toStartOf="@+id/radioGroupRepeat"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroupRepeat" />
+        <Button
+            android:id="@+id/buttonSubmitWorkday"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="32dp"
+            android:backgroundTint="@color/colorAccent"
+            android:text="@string/add_workday"
+            android:textColor="#fff"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/textViewCreateEventDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:textColor="?attr/textColor"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Mandag 21.01.2020" />
-
-    <EditText
-        android:id="@+id/editTextOvertimePercentage"
-        android:layout_width="70dp"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="0"
-        android:inputType="number"
-        android:maxLength="3"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="@+id/checkBoxOvertime"
-        app:layout_constraintTop_toBottomOf="@+id/checkBoxOvertime"
-        tools:visibility="visible" />
-
-    <TextView
-        android:id="@+id/textViewPercentageSuffix"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="%"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/editTextOvertimePercentage"
-        app:layout_constraintStart_toEndOf="@+id/editTextOvertimePercentage"
-        app:layout_constraintTop_toTopOf="@+id/editTextOvertimePercentage"
-        app:layout_constraintVertical_bias="0.769" />
-
-    <CheckBox
-        android:id="@+id/checkBoxOvertime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/overtime"
-        app:layout_constraintStart_toStartOf="@+id/editTextBreakTime"
-        app:layout_constraintTop_toBottomOf="@+id/editTextBreakTime" />
-
+        <TextView
+            android:id="@+id/textViewCreateEventError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/holo_red_light"
+            app:layout_constraintBottom_toTopOf="@+id/buttonSubmitWorkday"
+            app:layout_constraintStart_toStartOf="@+id/buttonSubmitWorkday"
+            tools:text="Error message" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,7 +19,23 @@ public class WorkdayEvent implements Serializable {
     private int breakTime;
     private int salary;
     private float overtimePercentage;
+    private String color;
+    private String note;
     private Job job;
+
+    public Boolean equals(WorkdayEvent event){
+        if(this.getDate().equals(event.getDate()) &&
+                this.getJob().getName().equals(event.getJob().getName()) &&
+                this.getStartTime().equals(event.getStartTime()) &&
+                this.getEndTime().equals(event.getEndTime()) &&
+                this.isOvertime() == event.isOvertime() &&
+                this.getOvertimePercentage() == event.getOvertimePercentage() &&
+                this.getBreakTime() == event.getBreakTime()
+        ){
+            return true;
+        }
+        return false;
+    }
 
     public WorkdayEvent (String dateIn, String startTimeIn, String endTimeIn, int breakTimeIn, Job jobIn){
         date = dateIn;
