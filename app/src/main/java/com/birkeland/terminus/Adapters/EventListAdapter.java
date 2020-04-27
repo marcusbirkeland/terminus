@@ -117,7 +117,7 @@ public class EventListAdapter extends ArrayAdapter<WorkdayEvent> {
         textView3.setText(salary);
 
         ImageLoader imageLoader = ImageLoader.getInstance();
-        int defaultImage = mContext.getResources().getIdentifier("@drawable/contacts",null,mContext.getPackageName());
+        int defaultImage = mContext.getResources().getIdentifier("@drawable/default_job_icon",null,mContext.getPackageName());
         DisplayImageOptions options = new DisplayImageOptions.Builder().cacheInMemory(true)
                     .cacheOnDisc(true).resetViewBeforeLoading(true)
                     .showImageForEmptyUri(defaultImage)

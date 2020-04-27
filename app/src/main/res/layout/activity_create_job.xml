@@ -47,7 +47,7 @@
                 android:layout_weight="10"
                 app:layout_constraintStart_toStartOf="@+id/textViewCreateJobTitle"
                 app:layout_constraintTop_toBottomOf="@+id/textViewCreateJobTitle"
-                app:srcCompat="@drawable/contacts" />
+                app:srcCompat="@drawable/add_image_icon" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

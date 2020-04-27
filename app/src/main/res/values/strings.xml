@@ -96,6 +96,14 @@
     <string name="edit_shift_description">If you choose "Edit equal shifts", equal events in the future will be altered.</string>
     <string name="note">Note</string>
     <string name="color">Color</string>
+    <string name="repeat_for">Repeat for:</string>
+    <string name="months_repeat">month(s)</string>
+    <string name="set_overtime">Set pay increase in percentage:</string>
+    <string name="repeats">Repeats</string>
+    <string name="for_repeat"> for</string>
+    <string name="pick_color">Velg farge</string>
+    <string name="write_note">Write note here...</string>
+    <string name="week">Week</string>
     <!--DialogFragment pick job-->
     <string name="pick_job">Pick job</string>
     <string name="new_job">New job</string>

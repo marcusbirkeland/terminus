@@ -1,199 +1,230 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textViewViewEventBreak"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="30 min"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@+id/textView23"
-        app:layout_constraintTop_toTopOf="@+id/textViewViewEventSalary" />
-
-    <TextView
-        android:id="@+id/timeInputToViewEvent"
-        android:layout_width="130dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:ems="24"
-        android:text="20.00"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-        android:textColor="?attr/textColor"
-        android:textSize="40dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayoutJobViewCreateEvent"
-        app:layout_constraintTop_toBottomOf="@+id/textView38" />
-
-    <TextView
-        android:id="@+id/textView38"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/to"
-        app:layout_constraintStart_toStartOf="@+id/timeInputToViewEvent"
-        app:layout_constraintTop_toTopOf="@+id/textView37" />
-
-    <TextView
-        android:id="@+id/timeInputFromViewEvent"
-        android:layout_width="130dp"
-        android:layout_height="wrap_content"
-        android:ems="24"
-        android:text="16:00"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-        android:textColor="?attr/textColor"
-        android:textSize="40dp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/textView37"
-        app:layout_constraintTop_toBottomOf="@+id/textView37"
-        tools:text="16:00" />
-
-    <TextView
-        android:id="@+id/textView37"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/from"
-        app:layout_constraintStart_toStartOf="@+id/textViewViewEventDate"
-        app:layout_constraintTop_toBottomOf="@+id/textViewViewEventDate" />
-
-    <TextView
-        android:id="@+id/textViewViewEventDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="DATO" />
-
-    <LinearLayout
-        android:id="@+id/linearLayoutJobViewCreateEvent"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:backgroundTintMode="src_atop"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timeInputFromViewEvent">
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
-        <ImageView
-            android:id="@+id/imageViewViewEvent"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/contacts" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/textViewViewEventJobName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="24dp"
-            android:textColor="?attr/textColor"
-            android:textSize="24dp"
-            tools:text="job " />
+            <TextView
+                android:id="@+id/textViewViewEventBreak"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="30 min"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/textView23"
+                app:layout_constraintTop_toTopOf="@+id/textViewViewEventSalary" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/timeInputToViewEvent"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:ems="24"
+                android:text="20.00"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                android:textColor="@color/colorPrimary"
+                android:textSize="40dp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/linearLayoutJobViewCreateEvent"
+                app:layout_constraintTop_toBottomOf="@+id/textView38" />
 
-    <Button
-        android:id="@+id/buttonViewEventDelete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorAccent"
-        android:text="@string/delete"
-        android:textColor="#fff"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayoutJobViewCreateEvent"
-        app:layout_constraintTop_toTopOf="@+id/textViewViewEventDate" />
+            <TextView
+                android:id="@+id/textView38"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/to"
+                app:layout_constraintStart_toStartOf="@+id/timeInputToViewEvent"
+                app:layout_constraintTop_toTopOf="@+id/textView37" />
 
-    <TextView
-        android:id="@+id/textViewViewEventSalaryDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/pay"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/linearLayoutJobViewCreateEvent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayoutJobViewCreateEvent" />
+            <TextView
+                android:id="@+id/timeInputFromViewEvent"
+                android:layout_width="130dp"
+                android:layout_height="wrap_content"
+                android:ems="24"
+                android:text="16:00"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+                android:textColor="@color/colorPrimary"
+                android:textSize="40dp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/textView37"
+                app:layout_constraintTop_toBottomOf="@+id/textView37"
+                tools:text="16:00" />
 
-    <TextView
-        android:id="@+id/textViewViewEventSalary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@+id/textViewViewEventSalaryDescription"
-        app:layout_constraintTop_toBottomOf="@+id/textViewViewEventSalaryDescription"
-        tools:text="123456 kr" />
+            <TextView
+                android:id="@+id/textView37"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/from"
+                app:layout_constraintStart_toStartOf="@+id/textViewViewEventDate"
+                app:layout_constraintTop_toBottomOf="@+id/textViewViewEventDate" />
 
-    <TextView
-        android:id="@+id/textView23"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:text="@string/break_time"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/textViewViewEventSalary"
-        app:layout_constraintTop_toTopOf="@+id/textViewViewEventSalaryDescription" />
+            <TextView
+                android:id="@+id/textViewViewEventDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="@+id/textViewViewEventWeek"
+                app:layout_constraintTop_toBottomOf="@+id/textViewViewEventWeek"
+                tools:text="DATO" />
 
-    <TextView
-        android:id="@+id/textViewOvertimeLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/overtime"
-        android:textColor="?attr/textColor"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="@+id/textViewViewEventSalaryDescription"
-        app:layout_constraintTop_toBottomOf="@+id/textViewViewEventSalary" />
+            <LinearLayout
+                android:id="@+id/linearLayoutJobViewCreateEvent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="32dp"
+                android:backgroundTint="@color/colorPrimaryDark"
+                android:backgroundTintMode="src_atop"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/timeInputFromViewEvent">
 
-    <TextView
-        android:id="@+id/textViewViewEventOvertimePercentage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textColor="?attr/textColor"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="@+id/textViewOvertimeLabel"
-        app:layout_constraintTop_toBottomOf="@+id/textViewOvertimeLabel"
-        tools:text="100 %" />
+                <ImageView
+                    android:id="@+id/imageViewViewEvent"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/default_job_icon"
+                    app:srcCompat="@drawable/default_job_icon" />
 
-    <TextView
-        android:id="@+id/textViewOvertimeMessage"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="24dp"
-        android:text="@string/overtime_message"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewViewEventOvertimePercentage"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textViewViewEventOvertimePercentage"
-        tools:text="NB - tillegg og fradrag blir ikke regnet med" />
+                <TextView
+                    android:id="@+id/textViewViewEventJobName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="24dp"
+                    android:textColor="?attr/textColor"
+                    android:textSize="24dp"
+                    tools:text="job " />
 
-    <Button
-        android:id="@+id/buttonViewEventEdit"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginBottom="64dp"
-        android:backgroundTint="@color/colorAccent"
-        android:text="@string/edit"
-        android:textColor="#fff"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonViewEventEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorAccent"
+                android:text="@string/edit"
+                android:textColor="#fff"
+                app:layout_constraintBottom_toBottomOf="@+id/textViewViewEventDate"
+                app:layout_constraintEnd_toEndOf="@+id/linearLayoutJobViewCreateEvent"
+                app:layout_constraintTop_toTopOf="@+id/textViewViewEventWeek" />
+
+            <TextView
+                android:id="@+id/textViewViewEventSalaryDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/pay"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="@+id/linearLayoutJobViewCreateEvent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayoutJobViewCreateEvent" />
+
+            <TextView
+                android:id="@+id/textViewViewEventSalary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/textViewViewEventSalaryDescription"
+                app:layout_constraintTop_toBottomOf="@+id/textViewViewEventSalaryDescription"
+                tools:text="123456 kr" />
+
+            <TextView
+                android:id="@+id/textView23"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:text="@string/break_time"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="20sp"
+                app:layout_constraintStart_toEndOf="@+id/textViewViewEventSalary"
+                app:layout_constraintTop_toTopOf="@+id/textViewViewEventSalaryDescription" />
+
+            <TextView
+                android:id="@+id/textViewOvertimeLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/overtime"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="?attr/textColor"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="@+id/linearLayoutJobViewCreateEvent"
+                app:layout_constraintStart_toEndOf="@+id/textViewViewEventBreak"
+                app:layout_constraintTop_toTopOf="@+id/textView23" />
+
+            <TextView
+                android:id="@+id/textViewViewEventOvertimePercentage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="?attr/textColor"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@+id/textViewOvertimeLabel"
+                app:layout_constraintTop_toBottomOf="@+id/textViewOvertimeLabel"
+                tools:text="100 %" />
+
+            <TextView
+                android:id="@+id/textViewOvertimeMessage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:text="@string/overtime_message"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textViewOvertimeLabel"
+                app:layout_constraintTop_toBottomOf="@+id/textViewViewEventOvertimePercentage"
+                tools:text="NB - tillegg og fradrag blir ikke regnet med" />
+
+            <TextView
+                android:id="@+id/textView20"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:text="@string/note"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="@+id/textViewViewEventSalary"
+                app:layout_constraintTop_toBottomOf="@+id/textViewViewEventSalary" />
+
+            <TextView
+                android:id="@+id/textViewViewEventNote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/textView20"
+                app:layout_constraintTop_toBottomOf="@+id/textView20"
+                tools:text="Notat vises her" />
+
+            <TextView
+                android:id="@+id/textViewViewEventWeek"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:textSize="24sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Uke 42" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -31,10 +31,10 @@
                 app:layout_constraintEnd_toEndOf="@+id/timeInputToCreateEvent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/constraintLayoutOvertime"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayoutOvertime">
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayoutColor">
 
                 <TextView
-                    android:id="@+id/textViewNote"
+                    android:id="@+id/textViewViewEventNote"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
@@ -65,8 +65,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/timeInputToCreateEvent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/constraintLayoutColor"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayoutColor">
-
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayoutRepeat">
                 <TextView
                     android:id="@+id/textViewOvertime"
                     android:layout_width="wrap_content"
@@ -88,7 +87,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/coin_icon" />
+                    app:srcCompat="@android:drawable/ic_menu_recent_history" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -99,7 +98,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/timeInputToCreateEvent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/constraintLayoutRepeat"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayoutRepeat">
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayoutOvertime">
 
                 <TextView
                     android:id="@+id/textViewColor"
@@ -227,7 +226,7 @@
                     android:id="@+id/imageViewCreateEvent"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    app:srcCompat="@drawable/contacts" />
+                    app:srcCompat="@drawable/add_icon" />
 
                 <TextView
                     android:id="@+id/textViewCreateEventJobName"
@@ -245,12 +244,10 @@
                 android:id="@+id/textViewCreateEventDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="24dp"
                 android:textColor="?attr/textColor"
                 android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/textViewWeek"
+                app:layout_constraintTop_toBottomOf="@+id/textViewWeek"
                 tools:text="Mandag 21.01.2020" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -274,7 +271,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.493"
-                    app:srcCompat="@android:drawable/ic_menu_agenda" />
+                    app:srcCompat="@android:drawable/ic_menu_today" />
 
                 <TextView
                     android:id="@+id/textViewRepeat"
@@ -288,6 +285,18 @@
                     app:layout_constraintStart_toEndOf="@+id/imageView"
                     app:layout_constraintTop_toTopOf="@+id/imageView" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/textViewWeek"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Uke 33" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

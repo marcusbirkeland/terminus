@@ -29,9 +29,11 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ViewEventActivity extends AppCompatActivity {
 
@@ -99,7 +101,10 @@ public class ViewEventActivity extends AppCompatActivity {
                     e.getDayOfWeek().equals(event.getDayOfWeek()) &&
                     e.getJob().getName().equals(event.getJob().getName()) &&
                     e.getStartTime().equals(event.getStartTime()) &&
-                    e.getEndTime().equals(event.getEndTime())
+                    e.getEndTime().equals(event.getEndTime()) &&
+                        e.getColor() ==event.getColor() &&
+                        e.getNote().equals(event.getNote())
+
             ){
                 return i;
             }
@@ -183,6 +188,11 @@ public class ViewEventActivity extends AppCompatActivity {
             final TextView textViewOvertimeLabel = findViewById(R.id.textViewOvertimeLabel);
             final TextView textViewOvertimePercentage = findViewById(R.id.textViewViewEventOvertimePercentage);
             final TextView textViewOvertimeMessage = findViewById(R.id.textViewOvertimeMessage);
+            final TextView textViewNote = findViewById(R.id.textViewViewEventNote);
+
+            if(!event.getNote().isEmpty()){
+                textViewNote.setText(event.getNote());
+            }
 
             if(!event.isOvertime()){
                textViewOvertimeLabel.setVisibility(View.GONE);
@@ -212,14 +222,11 @@ public class ViewEventActivity extends AppCompatActivity {
                 Log.e("No image", "No image file to open");
             }
 
-            final Button deleteEvent = findViewById(R.id.buttonViewEventDelete);
-            deleteEvent.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Dialog deleteDialog = makeDeleteEventDialog(event);
-                    deleteDialog.show();
-                }
-            });
+            final TextView textViewWeek = findViewById(R.id.textViewViewEventWeek);
+            WeekFields weekFields = WeekFields.of(Locale.getDefault());
+            int weekNum = eventDate.get(weekFields.weekOfWeekBasedYear());
+            textViewWeek.setText(getString(R.string.week )+ " " + String.valueOf(weekNum));
+
             final Button editEvent = findViewById(R.id.buttonViewEventEdit);
             editEvent.setOnClickListener(new View.OnClickListener() {
                 @Override

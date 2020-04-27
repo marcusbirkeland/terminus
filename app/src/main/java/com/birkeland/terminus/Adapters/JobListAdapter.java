@@ -41,9 +41,8 @@ public class JobListAdapter extends ArrayAdapter<Job> {
             Uri uri = Uri.parse(jobs.get(position).getImage());
             imageView.setImageURI(uri);
         } catch (NullPointerException n){
-            imageView.setImageResource(R.drawable.contacts);
+            imageView.setImageResource(R.drawable.default_job_icon);
         }
-
         return convertView;
     }
 }

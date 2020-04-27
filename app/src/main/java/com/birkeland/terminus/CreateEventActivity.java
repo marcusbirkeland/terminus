@@ -2,6 +2,7 @@ package com.birkeland.terminus;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -13,26 +14,23 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.birkeland.terminus.DataClasses.Job;
 import com.birkeland.terminus.DataClasses.WorkdayEvent;
-import com.birkeland.terminus.customViews.ToggleRadioButton;
 import com.birkeland.terminus.dialogFragments.ChooseWorkplaceDialogFragment;
+import com.birkeland.terminus.dialogFragments.ColorPickerDialogFragment;
+import com.birkeland.terminus.dialogFragments.NoteDialogFragment;
+import com.birkeland.terminus.dialogFragments.OvertimeDialogFragment;
+import com.birkeland.terminus.dialogFragments.RepeatEventDialogFragment;
 import com.birkeland.terminus.dialogFragments.TimePickerDialogFragment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -42,20 +40,25 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
-public class CreateEventActivity extends AppCompatActivity implements TimePickerDialogFragment.OnInputListener, ChooseWorkplaceDialogFragment.OnInputListener {
+public class CreateEventActivity extends AppCompatActivity implements TimePickerDialogFragment.OnInputListener, ChooseWorkplaceDialogFragment.OnInputListener, RepeatEventDialogFragment.OnInputListener, OvertimeDialogFragment.OnInputListener, ColorPickerDialogFragment.OnInputListener, NoteDialogFragment.OnInputListener {
 
     public static  final int EDIT_SHIFT = 42069;
     int editTextToChange = 0;
     TimePickerDialogFragment timePickerDialogFragment = new TimePickerDialogFragment();
     ChooseWorkplaceDialogFragment chooseWorkplaceDialogFragment = new ChooseWorkplaceDialogFragment();
+    RepeatEventDialogFragment repeatEventDialogFragment = new RepeatEventDialogFragment();
+    OvertimeDialogFragment overtimeDialogFragment;
+    ColorPickerDialogFragment colorPickerDialogFragment;
+    NoteDialogFragment noteDialogFragment;
     List<Job> jobList = new ArrayList<>();
     private List<WorkdayEvent> workdayEvents = new ArrayList<>();
     String jobName = "";
-    private int spinnerPosition;
     private String errorMessage = "";
     private boolean cancelSubmit;
     private boolean editMode = false;
@@ -63,9 +66,16 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
     private WorkdayEvent eventToEdit;
     private Job selectedJob;
     private Boolean isOvertime = false;
+
+    private int repeatMonths;
     private Boolean repeatEachWeek = false;
     private Boolean repeatEveryOtherWeek = false;
+
     private int overtimePercentage = 0;
+
+    private int color = 0;
+
+    private String note = "";
 
     private void loadEvents() {
         // Laster listen med lagrede jobber.
@@ -113,14 +123,22 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
 
             // Skip event if the event is before selected date, or is unequal
             if((checkDate.isAfter(selectedDate) || checkDate.isEqual(selectedDate))&&
-                    e.equals(event)
+                    e.getDayOfWeek().equals(event.getDayOfWeek()) &&
+                    e.getJob().getName().equals(event.getJob().getName()) &&
+                    e.getStartTime().equals(event.getStartTime()) &&
+                    e.getEndTime().equals(event.getEndTime()) &&
+                    e.isOvertime() == event.isOvertime() &&
+                    e.getOvertimePercentage() == event.getOvertimePercentage() &&
+                    e.getBreakTime() == event.getBreakTime()&&
+                    e.getColor() == event.getColor()&&
+                    e.getNote().equals(event.getNote())
             ){
+                Log.d("waho",""+i);
                 return i;
             }
         }
         return -1;
     }
-
 
     private void saveSelectedTime(String timeFrom, String timeTo){
         SharedPreferences sharedPreferences = getSharedPreferences("SHARED PREFERENCES",MODE_PRIVATE);
@@ -139,15 +157,6 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
         //For dato
         DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT);
         return dayOfWeek + " " + df.format(date1) ;
-    }
-
-    private void startViewJob(Job job) {
-        Intent intent = new Intent(getApplicationContext(),CreateJobActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("JOB",job);
-        bundle.putBoolean("EDITMODE",true);
-        intent.putExtra("BUNDLE",bundle);
-        startActivityForResult(intent, 1);
     }
 
     private void saveEvent(List<WorkdayEvent> eventList){
@@ -190,6 +199,54 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
         }
         return null;
     }
+
+    @Override
+    public void sendRepeat(boolean isEachWeek, boolean isEveryOtherWeek, int numMonths){
+        Log.d("Set repeat:", "Each week: "+ isEachWeek + " | Every other week: " + isEveryOtherWeek + " | Repeat for: " + numMonths + " months" );
+        TextView textViewRepeat = findViewById(R.id.textViewRepeat);
+        String repeatMessage = getString(R.string.repeats) + " ";
+        if(isEachWeek)
+            repeatMessage+= getString(R.string.each_week).toLowerCase();
+        else if (isEveryOtherWeek)
+            repeatMessage+= getString(R.string.every_other_week).toLowerCase();
+        repeatMessage+= " " + getString(R.string.for_repeat) + " " + numMonths + " " + getString(R.string.months_repeat);
+        textViewRepeat.setText(repeatMessage);
+        repeatEachWeek = isEachWeek;
+        repeatEveryOtherWeek = isEveryOtherWeek;
+        repeatMonths = numMonths;
+    }
+    @Override
+    public void sendOvertime(double percentage) {
+        Log.d("Set overtime: ", percentage + "%");
+        TextView textViewOvertime = findViewById(R.id.textViewOvertime);
+        textViewOvertime.setText(getString(R.string.overtime) + ": " + percentage +"%");
+        overtimePercentage = (int) percentage;
+        if(overtimePercentage > 0)
+            isOvertime = true;
+    }
+    @Override
+    public void sendColor(int colorIn) {
+        this.color = colorIn;
+        ImageView imageViewColor = findViewById(R.id.imageViewColor);
+        imageViewColor.setBackgroundColor(color);
+    }
+
+    private String shortenString(String input, int maxLength){
+        if(input.length() < maxLength && !input.contains("\n")){
+            return input;
+        }else{
+            if(input.contains("\n"))
+                return (input.substring(0,input.indexOf("\n")));
+            else
+                return input.substring(0,maxLength-1) + "...";
+        }
+    }
+    @Override
+    public void sendNote(String noteOut) {
+        this.note = noteOut;
+        final TextView textViewNote = findViewById(R.id.textViewViewEventNote);
+        textViewNote.setText(shortenString(noteOut,35));
+    }
     @Override
     public void sendTime(String input) {
         // Denne metoden blir kalt på etter dialogvinduet til timepicker blir lukket.
@@ -217,10 +274,9 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
             Uri uri = Uri.parse(workplace.getImage());
             imageView.setImageURI(uri);
         }catch (Exception e){
-            imageView.setImageDrawable(getDrawable(R.drawable.contacts));
+            imageView.setImageDrawable(getDrawable(R.drawable.default_job_icon));
             Log.e("Invalid URI","Invalid or no image Uri");
         }
-
     }
 
     void showTimePickerDialog() {
@@ -234,19 +290,44 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
 
         if(chooseWorkplaceDialogFragment.isAdded())
             return; // Prevent illegal state
-        chooseWorkplaceDialogFragment.show(getSupportFragmentManager(), "Choose workplace: ");
+        chooseWorkplaceDialogFragment.show(getSupportFragmentManager(), "Choose workplace opened");
         Log.d("Dialog","Choose workplace opened");
     }
+    void showRepeatEventDialog(){
+        if(repeatEventDialogFragment.isAdded())
+            return;
+        repeatEventDialogFragment.show(getSupportFragmentManager(), "Repeat opened");
+        Log.d("Dialog", "Repeat event");
+    }
+    void showOvertimeDialog(double percentage){
+        overtimeDialogFragment = new OvertimeDialogFragment(percentage);
+        if(overtimeDialogFragment.isAdded())
+            return;
+        overtimeDialogFragment.show(getSupportFragmentManager(), "Overtime  opened");
+        Log.d("Dialog:", "Overtime");
+    }
+    void showColorPickerDialog(int color){
+        colorPickerDialogFragment = new ColorPickerDialogFragment(color);
+        if(colorPickerDialogFragment.isAdded())
+            return;
+        colorPickerDialogFragment.show(getSupportFragmentManager(), "Color Picker opened");
+        Log.d("Dialog: ", "Color picker");
+    }
+    void showNoteDialog(String note){
+        noteDialogFragment = new NoteDialogFragment(note);
+        if(noteDialogFragment.isAdded())
+            return;
+        noteDialogFragment.show(getSupportFragmentManager(), "Note dialog opened");
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+
+
+        color = getColor(R.color.colorAccent);
         editMode =  getIntent().getBooleanExtra("editMode",false);
-        final String [] repeatPeriods;
-        repeatPeriods = new String[]{"1 " + getString(R.string.month),
-                "3 " + getString(R.string.months),
-                "6 " + getString(R.string.months),
-                "12 " + getString(R.string.months)};
         SharedPreferences pref = this.getSharedPreferences("DARKMODE",MODE_PRIVATE);
         boolean isDarkMode = pref.getBoolean("isDarkMode",false);
         if(isDarkMode){
@@ -269,7 +350,10 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
             eventDate = LocalDate.parse(date,DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         }
         dateView.setText(formatDate(eventDate));
-
+        final TextView textViewWeek = findViewById(R.id.textViewWeek);
+        WeekFields weekFields = WeekFields.of(Locale.getDefault());
+        int weekNum =eventDate.get(weekFields.weekOfWeekBasedYear());
+        textViewWeek.setText(getString(R.string.week )+ " " + String.valueOf(weekNum));
         final TextView timeInputFrom = findViewById(R.id.timeInputFromCreateEvent);
         final TextView timeInputTo = findViewById(R.id.timeInputToCreateEvent);
         // Finner forige valgte tidspunkt
@@ -292,6 +376,36 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
             }
         });
 
+        final ConstraintLayout constraintLayoutRepeatEvent = findViewById(R.id.constraintLayoutRepeat);
+        constraintLayoutRepeatEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showRepeatEventDialog();
+            }
+        });
+        final ConstraintLayout constraintLayoutOvertime = findViewById(R.id.constraintLayoutOvertime);
+        constraintLayoutOvertime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                  showOvertimeDialog(overtimePercentage);
+            }
+        });
+
+        final ConstraintLayout constraintLayoutColor = findViewById(R.id.constraintLayoutColor);
+        constraintLayoutColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showColorPickerDialog(color);
+            }
+        });
+        final  ConstraintLayout constraintLayoutNote = findViewById(R.id.constraintLayoutNote);
+        constraintLayoutNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showNoteDialog(note);
+            }
+        });
+
         final LinearLayout jobConatiner = findViewById(R.id.linearLayoutJobViewCreateEvent);
         jobConatiner.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -300,6 +414,9 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
                 showChooseWorkplaceDialog();
             }
         });
+
+
+
         Button submitWorkday = findViewById(R.id.buttonSubmitWorkday);
         if(editMode){
             eventToEdit = (WorkdayEvent) getIntent().getSerializableExtra("eventToEdit");
@@ -310,9 +427,19 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
                 editTextBreakTime.setText("" + eventToEdit.getBreakTime());
                 selectedJob = new Job(eventToEdit.getJob());
                 Log.d("SELECTED JOB", selectedJob.toString());
+                note = eventToEdit.getNote();
                 final Button buttonSubmitt = findViewById(R.id.buttonSubmitWorkday);
                 buttonSubmitt.setText(R.string.edit);
                 jobConatiner.setVisibility(View.VISIBLE);
+                final ConstraintLayout constraintLayoutRepeat = findViewById(R.id.constraintLayoutRepeat);
+                constraintLayoutRepeat.setVisibility(View.INVISIBLE);
+                constraintLayoutRepeat.setMaxHeight(1);
+                final TextView textViewOvertime = findViewById(R.id.textViewOvertime);
+                textViewOvertime.setText(getString(R.string.overtime) +" :" + eventToEdit.getOvertimePercentage() + "%");
+                final TextView textViewNote = findViewById(R.id.textViewViewEventNote);
+                textViewNote.setText(getString(R.string.note )+ ": " + shortenString(eventToEdit.getNote(),35));
+                final ImageView imageViewColor = findViewById(R.id.imageViewColor);
+                imageViewColor.setBackgroundColor(eventToEdit.getColor());
                 final TextView jobName = findViewById(R.id.textViewCreateEventJobName);
                 final ImageView imageView = findViewById(R.id.imageViewCreateEvent);
                 jobName.setText(eventToEdit.getJob().getName());
@@ -320,7 +447,7 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
                     imageView.setImageURI(Uri.parse(eventToEdit.getJob().getImage()));
                 }catch (Exception e){
                     Log.e("Create event", "Failed to load image. Setting default" + e);
-                    imageView.setImageResource(R.drawable.contacts);
+                    imageView.setImageResource(R.drawable.default_job_icon);
                 }
                 eventToSave.setJob(new Job(eventToEdit.getJob()));
             }
@@ -342,20 +469,22 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
 
                 LocalTime startTime = LocalTime.parse(timeInputFrom.getText().toString(), dateTimeFormatter.ofPattern("HH:mm"));
                 LocalTime endTime = LocalTime.parse(timeInputTo.getText().toString(), dateTimeFormatter.ofPattern("HH:mm"));
+
+                if (selectedJob == null){
+                    errorMessage = getString(R.string.error_pick_job);
+                    Log.e("Error", "Please pick job");
+                    cancelSubmit = true;
+                }
+
                 if(startTime.equals(endTime)){
                     errorMessage = getString(R.string.error_pick_other_time);
                     Log.d("Create Event: ", "End time cannot be equal to start time");
                     cancelSubmit = true;
                 }
-                else if(startTime.isAfter(endTime)){
+                if(startTime.isAfter(endTime)){
                     nightShift = true;
                 }
 
-                else if (selectedJob == null){
-                    errorMessage = getString(R.string.error_pick_job);
-                    Log.e("Error", "Please pick job");
-                    cancelSubmit = true;
-                }
                 if(cancelSubmit){
                     textViewErrorMessage.setText(errorMessage);
                     return;
@@ -386,25 +515,13 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
                 eventToSave.setDayOfWeek(eventDate.getDayOfWeek().name());
                 eventToSave.setNightShift(nightShift);
                 eventToSave.setOvertime(isOvertime);
+                eventToSave.setColor(color);
+                eventToSave.setNote(note);
                 eventToSave.setOvertimePercentage(overtimePercentage);
 
                 int repeatPeriod = 0;
                 if(repeatEachWeek || repeatEveryOtherWeek){
-                    switch (spinnerPosition){
-                        case 0:
-                            repeatPeriod = 1;
-                            break;
-                        case 1:
-                            repeatPeriod = 3;
-                            break;
-                        case 2:
-                            repeatPeriod = 6;
-                            break;
-                        case 3:
-                            repeatPeriod = 12;
-                        default:
-                            Log.e("Create event", "Spinner position not recognized");
-                    }
+                    repeatPeriod = repeatMonths;
                 }
                 // Lag event og lagre event
                 if(repeatEachWeek){
@@ -529,6 +646,6 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
             Log.d("Equal event index", index + "");
         }
     }
-
 }
+
 

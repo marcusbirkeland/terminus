@@ -2,6 +2,8 @@ package com.birkeland.terminus.DataClasses;
 
 import android.util.Log;
 
+import com.birkeland.terminus.R;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,7 +21,7 @@ public class WorkdayEvent implements Serializable {
     private int breakTime;
     private int salary;
     private float overtimePercentage;
-    private String color;
+    private int color = Integer.parseInt("D81B60",16);
     private String note;
     private Job job;
 
@@ -28,13 +30,22 @@ public class WorkdayEvent implements Serializable {
                 this.getJob().getName().equals(event.getJob().getName()) &&
                 this.getStartTime().equals(event.getStartTime()) &&
                 this.getEndTime().equals(event.getEndTime()) &&
-                this.isOvertime() == event.isOvertime() &&
-                this.getOvertimePercentage() == event.getOvertimePercentage() &&
-                this.getBreakTime() == event.getBreakTime()
+                this.isOvertime() == (event.isOvertime()) &&
+                this.getOvertimePercentage() == (event.getOvertimePercentage()) &&
+                this.getBreakTime() == event.getBreakTime() &&
+                this.color == event.getColor()
         ){
             return true;
         }
         return false;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public WorkdayEvent (String dateIn, String startTimeIn, String endTimeIn, int breakTimeIn, Job jobIn){
@@ -68,7 +79,10 @@ public class WorkdayEvent implements Serializable {
         this.endTime = copyEvent.endTime;
         this.breakTime = copyEvent.breakTime;
         this.salary = copyEvent.salary;
+        this.note = copyEvent.getNote();
+        this.color = copyEvent.getColor();
         this.job = new Job(copyEvent.getJob());
+
     }
 
     public boolean isOvertime() {
@@ -163,5 +177,11 @@ public class WorkdayEvent implements Serializable {
     }
 
 
+    public void setColor(int colorIn) {
+        this.color = colorIn;
+    }
 
+    public int getColor() {
+        return this.color;
+    }
 }
