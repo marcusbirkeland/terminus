@@ -67,20 +67,33 @@
 
                 <EditText
                     android:id="@+id/editTextSalaryCreateJob"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:hint="@string/salary"
                     android:inputType="numberDecimal"
                     android:maxLength="8"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/textViewHourlyRate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/editTextSalaryCreateJob"
+                    app:layout_constraintStart_toEndOf="@+id/editTextSalaryCreateJob"
+                    app:layout_constraintTop_toTopOf="@+id/editTextSalaryCreateJob"
+                    tools:text="kr/time" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 
         <Button
             android:id="@+id/buttonAddSalaryRule"
+            style="@android:style/Widget.Material.Button.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimary"
+            android:backgroundTintMode="src_over"
             android:text="+"
             app:layout_constraintBottom_toBottomOf="@+id/checkBoxPaidBreak"
             app:layout_constraintEnd_toEndOf="@+id/listViewSalaryrules"

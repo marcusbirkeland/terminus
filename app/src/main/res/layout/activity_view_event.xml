@@ -73,7 +73,6 @@
                 android:id="@+id/textViewViewEventDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="@+id/textViewViewEventWeek"
@@ -85,19 +84,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
                 android:backgroundTint="@color/colorPrimaryDark"
                 android:backgroundTintMode="src_atop"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/timeInputFromViewEvent">
+                app:layout_constraintTop_toBottomOf="@+id/textView24">
 
                 <ImageView
                     android:id="@+id/imageViewViewEvent"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
                     android:src="@drawable/default_job_icon"
                     app:srcCompat="@drawable/default_job_icon" />
 
@@ -128,7 +127,7 @@
                 android:id="@+id/textViewViewEventSalaryDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/pay"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textSize="20sp"
@@ -150,7 +149,7 @@
                 android:id="@+id/textView23"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
+                android:layout_marginStart="48dp"
                 android:text="@string/break_time"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textSize="20sp"
@@ -161,11 +160,11 @@
                 android:id="@+id/textViewOvertimeLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="48dp"
                 android:text="@string/overtime"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textColor="?attr/textColor"
                 android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="@+id/linearLayoutJobViewCreateEvent"
                 app:layout_constraintStart_toEndOf="@+id/textViewViewEventBreak"
                 app:layout_constraintTop_toTopOf="@+id/textView23" />
 
@@ -184,33 +183,34 @@
                 android:id="@+id/textViewOvertimeMessage"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/overtime_message"
                 android:textSize="12sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/textViewOvertimeLabel"
-                app:layout_constraintTop_toBottomOf="@+id/textViewViewEventOvertimePercentage"
+                app:layout_constraintEnd_toEndOf="@+id/textViewOvertimeLabel"
+                app:layout_constraintStart_toStartOf="@+id/textViewViewEventSalary"
+                app:layout_constraintTop_toBottomOf="@+id/textViewViewEventBreak"
                 tools:text="NB - tillegg og fradrag blir ikke regnet med" />
 
             <TextView
                 android:id="@+id/textView20"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="48dp"
+                android:layout_marginTop="16dp"
                 android:text="@string/note"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="@+id/textViewViewEventSalary"
-                app:layout_constraintTop_toBottomOf="@+id/textViewViewEventSalary" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewOvertimeMessage" />
 
             <TextView
                 android:id="@+id/textViewViewEventNote"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/linearLayoutJobViewCreateEvent"
                 app:layout_constraintStart_toStartOf="@+id/textView20"
                 app:layout_constraintTop_toBottomOf="@+id/textView20"
                 tools:text="Notat vises her" />
@@ -225,6 +225,17 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Uke 42" />
+
+            <TextView
+                android:id="@+id/textView24"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/workplace"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="@+id/timeInputFromViewEvent"
+                app:layout_constraintTop_toBottomOf="@+id/timeInputFromViewEvent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

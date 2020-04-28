@@ -132,5 +132,16 @@
     <string name="delete_shift_description">Alle fremtidige, like vakter, vil bli slettet dersom du velger Slett alle like vakter</string>
     <string name="yearly_earnings">Lønn i år</string>
     <string name="salary_of_month">Lønn for</string>
+    <string name="note">Notat</string>
+    <string name="color">Farge</string>
+    <string name="repeat_for">Repeter i:</string>
+    <string name="months_repeat">månde(r)</string>
+    <string name="set_overtime">Angi økning i timelønn i prosent:</string>
+    <string name="repeats">Repeterer</string>
+    <string name="for_repeat">i</string>
+    <string name="pick_color">Velg farge</string>
+    <string name="write_note">Skriv notat her...</string>
+    <string name="week">Uke</string>
+    <string name="hour">time</string>
 
 </resources>

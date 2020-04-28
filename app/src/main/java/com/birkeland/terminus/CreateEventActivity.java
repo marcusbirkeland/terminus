@@ -46,6 +46,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static com.birkeland.terminus.MainActivity.DELETE_EVENT;
+
 public class CreateEventActivity extends AppCompatActivity implements TimePickerDialogFragment.OnInputListener, ChooseWorkplaceDialogFragment.OnInputListener, RepeatEventDialogFragment.OnInputListener, OvertimeDialogFragment.OnInputListener, ColorPickerDialogFragment.OnInputListener, NoteDialogFragment.OnInputListener {
 
     public static  final int EDIT_SHIFT = 42069;
@@ -71,7 +73,7 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
     private Boolean repeatEachWeek = false;
     private Boolean repeatEveryOtherWeek = false;
 
-    private int overtimePercentage = 0;
+    private int overtimePercentage = 100;
 
     private int color = 0;
 
@@ -219,7 +221,7 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
     public void sendOvertime(double percentage) {
         Log.d("Set overtime: ", percentage + "%");
         TextView textViewOvertime = findViewById(R.id.textViewOvertime);
-        textViewOvertime.setText(getString(R.string.overtime) + ": " + percentage +"%");
+        textViewOvertime.setText(getString(R.string.overtime) + ": " + (int)percentage +"%");
         overtimePercentage = (int) percentage;
         if(overtimePercentage > 0)
             isOvertime = true;
@@ -299,7 +301,7 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
         repeatEventDialogFragment.show(getSupportFragmentManager(), "Repeat opened");
         Log.d("Dialog", "Repeat event");
     }
-    void showOvertimeDialog(double percentage){
+    void showOvertimeDialog(int percentage){
         overtimeDialogFragment = new OvertimeDialogFragment(percentage);
         if(overtimeDialogFragment.isAdded())
             return;
@@ -435,7 +437,7 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
                 constraintLayoutRepeat.setVisibility(View.INVISIBLE);
                 constraintLayoutRepeat.setMaxHeight(1);
                 final TextView textViewOvertime = findViewById(R.id.textViewOvertime);
-                textViewOvertime.setText(getString(R.string.overtime) +" :" + eventToEdit.getOvertimePercentage() + "%");
+                textViewOvertime.setText(getString(R.string.overtime) +": " + (int)eventToEdit.getOvertimePercentage() + "%");
                 final TextView textViewNote = findViewById(R.id.textViewViewEventNote);
                 textViewNote.setText(getString(R.string.note )+ ": " + shortenString(eventToEdit.getNote(),35));
                 final ImageView imageViewColor = findViewById(R.id.imageViewColor);
@@ -450,6 +452,15 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
                     imageView.setImageResource(R.drawable.default_job_icon);
                 }
                 eventToSave.setJob(new Job(eventToEdit.getJob()));
+                final Button buttonDelete = findViewById(R.id.buttonDeleteEvent);
+                buttonDelete.setVisibility(View.VISIBLE);
+                buttonDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                      Dialog dialog =  makeDeleteEventDialog(eventToEdit);
+                      dialog.show();
+                    }
+                });
             }
         }
 
@@ -645,6 +656,51 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
             index = getEqualEventIndex(eventToEdit);
             Log.d("Equal event index", index + "");
         }
+    }
+    private void deleteEvent(WorkdayEvent event){
+        loadEvents();
+        int index = getEventIndex(event);
+        if(index > -1) {
+            workdayEvents.remove(index);
+        }
+        saveEvents();
+        setResult(DELETE_EVENT);
+        finish();
+    }
+
+    private void deleteEqualEvents (WorkdayEvent event){
+        loadEvents();
+        int index = getEqualEventIndex(event);
+        while (index != -1){
+            workdayEvents.remove(index);
+            index = getEqualEventIndex(event);
+        }
+        saveEvents();
+        setResult(DELETE_EVENT);
+        finish();
+    }
+
+    private Dialog makeDeleteEventDialog (final WorkdayEvent event){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getString(R.string.delete_shift) + "?")
+                .setNegativeButton(getString(R.string.delete_shift), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        deleteEvent(event);
+                        //Intent i=new Intent(getApplicationContext(), MainActivity.class);
+                        //i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        //startActivity(i);
+                    }
+                })
+                .setPositiveButton(getString(R.string.delete_equal_shifts), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteEqualEvents(event);
+                        //Intent i=new Intent(getApplicationContext(), MainActivity.class);
+                        //i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        //startActivity(i);
+                    }
+                });
+        return builder.create();
     }
 }
 

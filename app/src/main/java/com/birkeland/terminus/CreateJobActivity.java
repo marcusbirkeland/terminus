@@ -53,7 +53,7 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
     private Job jobIn;
     public static final int CREATE_SALARY_RULE = 1;
     public static final int PICK_IMAGE = 2;
-    public static final int DELETE_JOB = 420;
+    public static final int DELETE_JOB = 2321;
     private String selectedImagePath;
     private List<Job> savedJobs = new ArrayList<>();
     private List<Job> jobList = new ArrayList<>();
@@ -249,7 +249,7 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
         }
         setContentView(R.layout.activity_create_job);
         //Setter default bilde-path for editMode
-
+        final TextView textViewHourlyRate = findViewById(R.id.textViewHourlyRate);
         final Button buttonDelete = findViewById(R.id.buttonDeleteJob);
         final TextView editTextsetSalaryPeriod = findViewById(R.id.editTextSetSalaryPeriod);
         final EditText editTextJobName = findViewById(R.id.editTextNameJob);
@@ -260,6 +260,7 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
         final Bundle bundle = getIntent().getBundleExtra("BUNDLE");
         buttonDelete.setVisibility(View.INVISIBLE);
 
+        textViewHourlyRate.setText(getCurrency()+ "/" + getString(R.string.hour));
         if(bundle != null && bundle.getBoolean("EDITMODE")){
             TextView textViewTitle = findViewById(R.id.textViewCreateJobTitle);
             textViewTitle.setText(getString(R.string.edit_job_title));
@@ -290,6 +291,7 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
                 }
             });
         }
+
 
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,salaryRuleStrings);
         listViewSalaryRules.setAdapter(arrayAdapter);
@@ -503,5 +505,9 @@ public class CreateJobActivity extends AppCompatActivity implements NumberPicker
             setResult(Activity.RESULT_OK,intent);
         }
         finish();
+    }
+    private String getCurrency(){
+        SharedPreferences pref = this.getSharedPreferences("LOCALE",MODE_PRIVATE);
+        return pref.getString("CURRENCY","");
     }
 }

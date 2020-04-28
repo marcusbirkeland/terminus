@@ -132,5 +132,16 @@
     <string name="delete_shift_description">If you choose Delete equal shifts, all future, equal events will be altered.</string>
     <string name="yearly_earnings">Yearly salary</string>
     <string name="salary_of_month">Salary for</string>
+    <string name="note">Note</string>
+    <string name="color">Color</string>
+    <string name="repeat_for">Repeat for:</string>
+    <string name="months_repeat">månde(r)</string>
+    <string name="set_overtime">Set pay increase in percentage:</string>
+    <string name="repeats">Repeats</string>
+    <string name="for_repeat">for</string>
+    <string name="pick_color">Pick color</string>
+    <string name="write_note">Write note here...</string>
+    <string name="week">Week</string>
+    <string name="hour">hour</string>
 
 </resources>

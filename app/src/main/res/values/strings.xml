@@ -1,7 +1,7 @@
 <resources>
     <!-- App -->
     <string name="app_name" translatable="false">terminus</string>
-    <string name="version" translatable="false">v.1.2</string>
+    <string name="version" translatable="false">v.1.3</string>
     <string name="currency" translatable="false">$</string>
     <string name="english">English</string>
     <string name="norwegian">Norwegian</string>
@@ -101,9 +101,10 @@
     <string name="set_overtime">Set pay increase in percentage:</string>
     <string name="repeats">Repeats</string>
     <string name="for_repeat"> for</string>
-    <string name="pick_color">Velg farge</string>
+    <string name="pick_color">Pick color</string>
     <string name="write_note">Write note here...</string>
     <string name="week">Week</string>
+    <string name="hour">hour</string>
     <!--DialogFragment pick job-->
     <string name="pick_job">Pick job</string>
     <string name="new_job">New job</string>

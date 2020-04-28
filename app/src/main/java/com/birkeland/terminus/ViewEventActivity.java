@@ -123,39 +123,42 @@ public class ViewEventActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d("OnActivityResult:"," " + resultCode);
         if(resultCode == CreateJobActivity.DELETE_JOB || resultCode == CreateEventActivity.EDIT_SHIFT)
             finish();
-        loadEvents();
-        final WorkdayEvent event = workdayEvents.get(eventIndex);
-        final TextView textViewJobName = findViewById(R.id.textViewViewEventJobName);
-        final TextView textViewSalary = findViewById(R.id.textViewViewEventSalary);
-        final ImageView imageView = findViewById(R.id.imageViewViewEvent);
+        else {
+            loadEvents();
+            final WorkdayEvent event = workdayEvents.get(eventIndex);
+            final TextView textViewJobName = findViewById(R.id.textViewViewEventJobName);
+            final TextView textViewSalary = findViewById(R.id.textViewViewEventSalary);
+            final ImageView imageView = findViewById(R.id.imageViewViewEvent);
 
-        textViewJobName.setText(event.getJob().getName());
-        // Regn ut total lønn for arbeidsdag
-        textViewSalary.setText(getEventPay()+ currency);
-        // Finner bilde for imageView
-        try {
-            Uri uri = Uri.parse(event.getJob().getImage());
-            imageView.setImageURI(uri);
-        } catch (Exception e){
-            Log.e("No image", "No image file to open");
-        }
-
-        // Laster inn det nye "Job" objektet
-        LinearLayout linearLayoutJobView = findViewById(R.id.linearLayoutJobViewCreateEvent);
-        linearLayoutJobView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadEvents();
-                Intent intent = new Intent(getApplicationContext(),CreateJobActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("JOB",event.getJob());
-                bundle.putBoolean("EDITMODE",true);
-                intent.putExtra("BUNDLE",bundle);
-                startActivityForResult(intent, 1);
+            textViewJobName.setText(event.getJob().getName());
+            // Regn ut total lønn for arbeidsdag
+            textViewSalary.setText(getEventPay() + currency);
+            // Finner bilde for imageView
+            try {
+                Uri uri = Uri.parse(event.getJob().getImage());
+                imageView.setImageURI(uri);
+            } catch (Exception e) {
+                Log.e("No image", "No image file to open");
             }
-        });
+
+            // Laster inn det nye "Job" objektet
+            LinearLayout linearLayoutJobView = findViewById(R.id.linearLayoutJobViewCreateEvent);
+            linearLayoutJobView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    loadEvents();
+                    Intent intent = new Intent(getApplicationContext(), CreateJobActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("JOB", event.getJob());
+                    bundle.putBoolean("EDITMODE", true);
+                    intent.putExtra("BUNDLE", bundle);
+                    startActivityForResult(intent, 1);
+                }
+            });
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -253,44 +256,5 @@ public class ViewEventActivity extends AppCompatActivity {
                 }
             });
 
-        }
-        private void deleteEvent(WorkdayEvent event){
-            loadEvents();
-            int index = getEventIndex(event);
-            if(index > -1) {
-                workdayEvents.remove(index);
-            }
-            saveEvents();
-            setResult(RESULT_OK);
-            finish();
-        }
-
-        private void deleteEqualEvents (WorkdayEvent event){
-            loadEvents();
-            int index = getEqualEventIndex(event);
-            while (index != -1){
-                workdayEvents.remove(index);
-                index = getEqualEventIndex(event);
-            }
-            saveEvents();
-            setResult(RESULT_OK);
-            finish();
-        }
-
-        private Dialog makeDeleteEventDialog (final WorkdayEvent event){
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(getString(R.string.delete_shift) + "?")
-                    .setNegativeButton(getString(R.string.delete_shift), new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            deleteEvent(event);
-                        }
-                    })
-                    .setPositiveButton(getString(R.string.delete_equal_shifts), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        deleteEqualEvents(event);
-                    }
-                    });
-            return builder.create();
         }
     }

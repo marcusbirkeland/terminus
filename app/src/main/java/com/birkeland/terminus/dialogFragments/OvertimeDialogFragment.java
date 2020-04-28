@@ -21,8 +21,8 @@ import java.text.ParseException;
 
 public class OvertimeDialogFragment extends DialogFragment {
 
-    private double percentage;
-    public OvertimeDialogFragment(double overtimePercentage) {
+    private int percentage;
+    public OvertimeDialogFragment(int overtimePercentage) {
         this.percentage = overtimePercentage;
     }
 
@@ -44,7 +44,7 @@ public class OvertimeDialogFragment extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         closeKeyboard();
                         try {
-                            percentage = Double.parseDouble(editTextPercentage.getText().toString());
+                            percentage = Integer.parseInt(editTextPercentage.getText().toString());
                         }catch (NumberFormatException e){
                             Log.e("Overtime Dialog", e.toString());
                             return;
