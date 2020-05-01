@@ -131,10 +131,16 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
                     e.getEndTime().equals(event.getEndTime()) &&
                     e.isOvertime() == event.isOvertime() &&
                     e.getOvertimePercentage() == event.getOvertimePercentage() &&
-                    e.getBreakTime() == event.getBreakTime()&&
-                    e.getColor() == event.getColor()&&
-                    e.getNote().equals(event.getNote())
+                    e.getBreakTime() == event.getBreakTime()
             ){
+                try{
+                    if(
+                    e.getColor() == event.getColor()&&
+                            e.getNote().equals(event.getNote())){
+                        return -1;
+                    }
+                }catch (NullPointerException n){
+                }
                 Log.d("waho",""+i);
                 return i;
             }
@@ -429,7 +435,9 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
                 editTextBreakTime.setText("" + eventToEdit.getBreakTime());
                 selectedJob = new Job(eventToEdit.getJob());
                 Log.d("SELECTED JOB", selectedJob.toString());
-                note = eventToEdit.getNote();
+                try {
+                    note = eventToEdit.getNote();
+                } catch (NullPointerException n){}
                 final Button buttonSubmitt = findViewById(R.id.buttonSubmitWorkday);
                 buttonSubmitt.setText(R.string.edit);
                 jobConatiner.setVisibility(View.VISIBLE);
@@ -439,9 +447,14 @@ public class CreateEventActivity extends AppCompatActivity implements TimePicker
                 final TextView textViewOvertime = findViewById(R.id.textViewOvertime);
                 textViewOvertime.setText(getString(R.string.overtime) +": " + (int)eventToEdit.getOvertimePercentage() + "%");
                 final TextView textViewNote = findViewById(R.id.textViewViewEventNote);
-                textViewNote.setText(getString(R.string.note )+ ": " + shortenString(eventToEdit.getNote(),35));
+                try {
+                    textViewNote.setText(getString(R.string.note )+ ": " + shortenString(eventToEdit.getNote(),35));
+                } catch (NullPointerException n){}
+
                 final ImageView imageViewColor = findViewById(R.id.imageViewColor);
-                imageViewColor.setBackgroundColor(eventToEdit.getColor());
+                try {
+                    imageViewColor.setBackgroundColor(eventToEdit.getColor());
+                } catch (NullPointerException n){}
                 final TextView jobName = findViewById(R.id.textViewCreateEventJobName);
                 final ImageView imageView = findViewById(R.id.imageViewCreateEvent);
                 jobName.setText(eventToEdit.getJob().getName());

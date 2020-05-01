@@ -131,7 +131,12 @@ public class HomeFragment extends Fragment{
             for (WorkdayEvent event : workdayEvents) {
                 LocalDate eventDate = LocalDate.parse(event.getDate(), dateTimeFormatter.ofPattern("yyyy-MM-dd"));
                 Instant instant = eventDate.atStartOfDay(ZoneId.systemDefault()).toInstant();
-                int accent = event.getColor();
+                int accent = getActivity().getColor(R.color.colorAccent);
+                try{
+                    accent = event.getColor();
+                }catch (NullPointerException n){
+                    Log.e("No color", n.toString());
+                }
                 Event calendarEvent = new Event(accent, instant.toEpochMilli());
                 compactCalendarView.addEvent(calendarEvent);
                 if(event.isNightShift()){

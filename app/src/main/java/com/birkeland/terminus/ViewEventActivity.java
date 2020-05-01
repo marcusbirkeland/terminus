@@ -101,11 +101,15 @@ public class ViewEventActivity extends AppCompatActivity {
                     e.getDayOfWeek().equals(event.getDayOfWeek()) &&
                     e.getJob().getName().equals(event.getJob().getName()) &&
                     e.getStartTime().equals(event.getStartTime()) &&
-                    e.getEndTime().equals(event.getEndTime()) &&
-                        e.getColor() ==event.getColor() &&
-                        e.getNote().equals(event.getNote())
+                    e.getEndTime().equals(event.getEndTime())
+                ){
+                    try{
+                     if(e.getColor() ==event.getColor() && e.getNote().equals(event.getNote())){
+                         return -1;
+                     }
+                    } catch (NullPointerException n){
 
-            ){
+                    }
                 return i;
             }
         }
@@ -192,10 +196,12 @@ public class ViewEventActivity extends AppCompatActivity {
             final TextView textViewOvertimePercentage = findViewById(R.id.textViewViewEventOvertimePercentage);
             final TextView textViewOvertimeMessage = findViewById(R.id.textViewOvertimeMessage);
             final TextView textViewNote = findViewById(R.id.textViewViewEventNote);
-
-            if(!event.getNote().isEmpty()){
+            try {
                 textViewNote.setText(event.getNote());
+            } catch (NullPointerException n){
+                Log.e("No note", n.toString());
             }
+
 
             if(!event.isOvertime()){
                textViewOvertimeLabel.setVisibility(View.GONE);

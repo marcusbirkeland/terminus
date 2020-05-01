@@ -32,8 +32,7 @@ public class WorkdayEvent implements Serializable {
                 this.getEndTime().equals(event.getEndTime()) &&
                 this.isOvertime() == (event.isOvertime()) &&
                 this.getOvertimePercentage() == (event.getOvertimePercentage()) &&
-                this.getBreakTime() == event.getBreakTime() &&
-                this.color == event.getColor()
+                this.getBreakTime() == event.getBreakTime()
         ){
             return true;
         }
@@ -79,8 +78,12 @@ public class WorkdayEvent implements Serializable {
         this.endTime = copyEvent.endTime;
         this.breakTime = copyEvent.breakTime;
         this.salary = copyEvent.salary;
-        this.note = copyEvent.getNote();
-        this.color = copyEvent.getColor();
+        try {
+            this.note = copyEvent.getNote();
+        }catch (NullPointerException n){}
+        try {
+            this.color = copyEvent.getColor();
+        } catch (NullPointerException n){}
         this.job = new Job(copyEvent.getJob());
 
     }
