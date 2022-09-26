@@ -1,6 +1,8 @@
 # terminus
 Android calendar app for scheduling and calculating pay.
 # [Get it on Google Play](https://play.google.com/store/apps/details?id=com.birkeland.terminus&hl=no&gl=US)
+[![image](https://user-images.githubusercontent.com/36818485/192351108-5572330c-a1d8-40fd-ba32-91f8125de079.png)](https://play.google.com/store/apps/details?id=com.birkeland.terminus&hl=no&gl=US)
+
 
 # Features:
 
